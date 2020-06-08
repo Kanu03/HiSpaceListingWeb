@@ -30,7 +30,7 @@ function userCheck(check) {
 	}
 }
 $(document).ready(function () {
-
+	$('.v2,.v3').addClass('d-none');
 	$("#cartBtn-1, #cartBtn-2, #cartBtn-3").click(function () {
 		var sec = $(this).attr('cart-section');
 		console.log(sec);
@@ -58,6 +58,24 @@ $(document).ready(function () {
 	if ($('.hi-tab .active.show').attr('data-id')) {
 		$('.tab-back-btn, .tab-submit').css('display', 'none');
 	}
+
+	//filter selection
+	$('#filter-type').on('change', function () {
+		var value = $(this).val();
+		//alert(value)
+		if (value == "Commercial") {
+			$('.v2,.v3').addClass('d-none');
+			$('.v1,.price_range').removeClass('d-none');
+		}
+		else if (value == "Co-working") {
+			$('.v1,.v3').addClass('d-none');
+			$('.v2,.price_range').removeClass('d-none');
+		}
+		else if (value == "RE-Professionals") {
+			$('.v1,.v2,.price_range').addClass('d-none');
+			$('.v3').removeClass('d-none');
+		}
+	});
 
 	//type selection
 	$('#ListingType').on('change', function () {
@@ -346,7 +364,7 @@ function deleteRowImage(that) {
 function addProject() {
 	$('.project-upload').append(
 		'<div class="row project-upload__row">' +
-		'<div class=" col-md-3 col-sm-6  align-self-center">' +
+		'<div class=" col-md-2 col-sm-6  align-self-center">' +
 		'<div class="form-group">' +
 		'<input type="text" class="form-control" placeholder="project Name">' +
 		'<label for="input" class="control-label">project Name</label><i class="bar"></i>' +
@@ -355,16 +373,22 @@ function addProject() {
 		'<div class=" col-md-3 col-sm-6 align-self-center">' +
 		'<div class="form-group">' +
 		'<input type="file" class="form-control" accept="project/*">' +
-		'<label for="input" class="control-label">Upload project</label><i class="bar"></i>' +
+		'<label for="input" class="control-label">Upload project Image</label><i class="bar"></i>' +
 		'</div>' +
 		'</div>' +
 		'<div class=" col-md-3 col-sm-6 align-self-center">' +
+		'<div class="form-group">' +
+		'<input type="file" class="form-control" accept="project/*">' +
+		'<label for="input" class="control-label">Upload project Document</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class=" col-md-2 col-sm-6 align-self-center">' +
 		'<div class="form-group">' +
 		'<textarea type="text" class="form-control" rows="3" placeholder="Enter your text..."></textarea>' +
 		'<label for="input" class="control-label">Description</label><i class="bar"></i>' +
 		'</div>' +
 		'</div>' +
-		'<div class="col-md-2 col-sm-6 m-b--15 align-self-center">' +
+		'<div class="col-md-1 col-sm-6 m-b--15 align-self-center">' +
 		'<div class="checkbox m-0">' +
 		'<label>' +
 		'<input type="checkbox" /><i class="helper"></i> Active' +
@@ -638,6 +662,21 @@ $(function () {
 		$.get($(this).data("targeturl"), function (data) {
 
 			$('<div id="modal-container__facilities" class="modal facilities fade modal-sec" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">' +
+				'<div id="modalbody" class="modal-dialog modal-lg modal-content" role="document"' +
+				data + '</div></div>').modal();
+
+		});
+	});
+
+	//model open for the list filter section
+	$('body').on('click', '.modal-link__filter', function (e) {
+		e.preventDefault();
+
+		$("#modal-container__filter").remove();
+
+		$.get($(this).data("targeturl"), function (data) {
+
+			$('<div id="modal-container__filter" class="modal filter fade modal-sec" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">' +
 				'<div id="modalbody" class="modal-dialog modal-lg modal-content" role="document"' +
 				data + '</div></div>').modal();
 

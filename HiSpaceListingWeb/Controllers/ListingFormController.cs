@@ -102,7 +102,33 @@ namespace HiSpaceListingWeb.Controllers
 			return View();
 		}
 
-		public void SetSessionVariables()
+		public ActionResult Edit(int ListingID)
+		{
+			SetSessionVariables();
+			ViewBag.ListOfListType = Common.GetListingType();
+			ViewBag.ListOfCommercialCategory = Common.GetCommercialCategory();
+			ViewBag.ListOfCommercialInfa = Common.GetCommercialInfa();
+			ViewBag.ListOfCoworkingCategory = Common.GetCoworkingCategory();
+			ViewBag.ListOfProfessionalCategory = Common.GetProfessionalCategory();
+			Listing model = null;
+			using(var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiListingControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiListingGetListingByListingId + ListingID.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<Listing>();
+					readTask.Wait();
+					model = readTask.Result;
+				}
+			}
+			return View(model);
+		}
+
+			public void SetSessionVariables()
 		{
 			#region
 			User rs = HttpContext.Session.GetObjectFromJson<User>("_user");

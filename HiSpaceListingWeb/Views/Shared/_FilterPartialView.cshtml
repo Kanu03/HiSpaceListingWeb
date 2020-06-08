@@ -1,0 +1,68 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<!--=================================
+	 Modal filter -->
+@*<div class="modal filter fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">*@
+<div class="">
+	<div class="modal-body">
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="filter" role="tabpanel" aria-labelledby="filter-tab">
+				<section class="banner bg-holder bg-overlay-black-30" style="background-image: url(images/banner-01.jpg);">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h1 class="text-white text-center mb-2">Welocme To HiSpace</h1>
+								<p class="lead text-center text-white mb-4 font-weight-normal">Move Into Your Space With Us</p>
+								<div class="property-search-field bg-white">
+									<div class="property-search-item">
+										<form class="form-row basic-select-wrapper md-form">
+											<div class="col-lg col-md-4">
+												<div class="form-group ">
+													<select class="form-control basic-select" id="type">
+														<option>Commercial</option>
+														<option>Co-working</option>
+														<option>RE-Professionals</option>
+													</select>
+													<label for="select" class="control-label">Category</label><i class="bar"></i>
+												</div>
+											</div>
+											<div class="col-lg col-md-4">
+												<div class="form-group ">
+													<select class="form-control basic-select" id="location">
+														<option>Chennai</option>
+														<option>Banglore</option>
+														<option>Madurai</option>
+													</select>
+													<label for="select" class="control-label">Location</label><i class="bar"></i>
+												</div>
+											</div>
+											<div class="align-items-center d-flex col-lg col-md-4 justify-content-evenly no-border-right">
+												<span class="align-items-center d-none d-lg-block"><a href="@Url.Action( "PropertyList","Website")" class="btn btn-primary d-flex align-items-center" type="submit"><i class="fas fa-search mr-1"></i><span>Search</span></a></span>
+											</div>
+											@*<div class="d-lg-none btn-block btn-mobile m-3">
+						<button class="btn btn-primary btn-block align-items-center" type="submit"><i class="fas fa-search mr-1"></i><span>Search</span></button>
+					</div>*@
+										</form>
+
+									</div>
+								</div>
+								<div class="align-items-center d-flex col-lg col-md-4 justify-content-evenly no-border-right">
+									<span class="align-items-center d-none d-lg-block"><a href="@Url.Action( "PropertyList","Website")" class="btn btn-primary d-flex align-items-center mt-3" type="submit"><i class="fas fa-search mr-1"></i><span>Try Without Filter</span></a></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+@*</div>
+	</div>*@
+<!--=================================
+  Modal login -->

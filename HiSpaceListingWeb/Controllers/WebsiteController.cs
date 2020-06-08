@@ -29,6 +29,12 @@ namespace HiSpaceListingWeb.Controllers
 			SetSessionVariables();
 			return View();
 		}
+		
+		public ActionResult FilterPartialView()
+		{
+			SetSessionVariables();
+			return PartialView("_FilterPartialView");
+		}
 		public ActionResult PropertyList()
 		{
 			SetSessionVariables();

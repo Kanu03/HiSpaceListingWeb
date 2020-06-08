@@ -191,7 +191,8 @@
 						</ul>
 					</div>
 					<div class="property-btn">
-						<a class="property-link btn btn-sec" href="@Url.Action( "PropertyList","Website")">Click Here</a>
+						@*<a class="property-link btn btn-sec" href="@Url.Action( "PropertyList","Website")">Click Here</a>*@
+						<a class="property-link btn btn-sec modal-link__filter" data-targeturl="@Url.Action("FilterPartialView","Website")" href="javascript:function() { return false; }"> Click Here</a>
 					</div>
 				</div>
 			</div>

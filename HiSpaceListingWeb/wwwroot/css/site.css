@@ -2190,3 +2190,34 @@ form.md-form .checkbox.checbox-switch-small {
 		font-weight: 600;
 		font-size: 12px;
 	}
+
+.input_intrest .radio-group {
+	padding: 18px;
+	box-shadow: 5px 5px 15px 1px #777;
+}
+.input_intrest .radio-lable {
+	font-size: 16px;
+	color: var(--sec-color);
+}
+#modal-container__filter .banner {
+	padding: 55px 0;
+	position: relative;
+	border-radius: 10px;
+}
+.bg-overlay-black-30:before {
+	border-radius: 10px;
+}
+#modal-container__filter .modal-dialog {
+	border-radius: 20px;
+	margin-top: 8%;
+}
+	#modal-container__filter .modal-dialog .modal-content {
+		margin-top: 8%;
+	}
+
+#modal-container__filter button.close {
+	position: relative;
+	bottom: 40px;
+	color: #f90;
+	opacity: 1;
+}
