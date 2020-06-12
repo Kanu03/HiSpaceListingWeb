@@ -7,7 +7,7 @@
 	Layout = "~/Views/Shared/_WebLayout.cshtml";
 }
 
-<div class="listingform scroll-padding nav-padding">
+<div class="listingform_edit scroll-padding nav-padding">
 	<div class="bg-light">
 		<div class="container">
 			<div class="row">
@@ -33,9 +33,14 @@
 			</div>
 			<div class="">
 				@*<form class="form-row align-items-center md-form" action="account-profile.html">*@
-				@using (Html.BeginForm("EditForm", "ListingForm", FormMethod.Post, new { id = "", @class = "form-row align-items-center md-form", enctype = "multipart/form-data" }))
+				@using (Html.BeginForm("Update", "ListingForm", FormMethod.Post, new { id = "", @class = "form-row align-items-center md-form", enctype = "multipart/form-data" }))
 				{
 					@Html.AntiForgeryToken()
+					@Html.HiddenFor(m => m.UserId);
+					@Html.HiddenFor(m => m.ListingId);
+					@Html.HiddenFor(m => m.latitude_view);
+					@Html.HiddenFor(m => m.longitude_view);
+					@Html.HiddenFor(m => m.Status);
 					<div class="col-12 hi-tabform">
 						@*tab headers*@
 						<div class="card">

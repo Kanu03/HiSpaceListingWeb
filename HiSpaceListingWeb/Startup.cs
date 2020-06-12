@@ -113,7 +113,6 @@ namespace HiSpaceListingWeb
 
 			app.UseAuthorization();
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
 			app.UseCookiePolicy();
 			app.UseSession();
 			app.UseEndpoints(endpoints =>

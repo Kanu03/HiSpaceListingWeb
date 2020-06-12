@@ -96,7 +96,6 @@ namespace HiSpaceListingWeb.Controllers
 
 				ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
 
-
 			}
 
 			return View();
@@ -128,7 +127,81 @@ namespace HiSpaceListingWeb.Controllers
 			return View(model);
 		}
 
-			public void SetSessionVariables()
+		public ActionResult Update(Listing model)
+		{
+			SetSessionVariables();
+			Listing listing = null;
+			if (model != null)
+			{
+				model.CreatedDateTime = DateTime.Now;
+				model.ModifyDateTime = DateTime.Now;
+				model.ModifyBy = model.ModifyBy;
+				model.UserId = model.UserId;
+				if (model.ListingType == "Commercial")
+				{
+					model.CoworkingType = null;
+					model.CW_Coworking = null;
+					model.CW_CoworkingSeats = null;
+					model.CW_PrivateOffice = null;
+					model.CW_PrivateOfficeSeats = null;
+					model.CW_MeetingRoom = null;
+					model.CW_MeetingRoomSeats = null;
+					model.CW_VirtualOffice = false;
+					model.REprofessionalsType = null;
+					model.RE_Warehouse = false;
+					model.RE_Office = false;
+					model.RE_Retail = false;
+					model.RE_Coworking = false;
+					model.RE_PropertyManagement = false;
+				}
+				else if (model.ListingType == "Co-Working")
+				{
+					model.CommercialType = null;
+					model.CommercialInfraType = null;
+					model.CM_IntrestedCoworking = false;
+					model.REprofessionalsType = null;
+					model.RE_Warehouse = false;
+					model.RE_Office = false;
+					model.RE_Retail = false;
+					model.RE_Coworking = false;
+					model.RE_PropertyManagement = false;
+				}
+				else if (model.ListingType == "RE-Professional")
+				{
+					model.CommercialType = null;
+					model.CommercialInfraType = null;
+					model.CM_IntrestedCoworking = false;
+					model.CoworkingType = null;
+					model.CW_Coworking = null;
+					model.CW_CoworkingSeats = null;
+					model.CW_PrivateOffice = null;
+					model.CW_PrivateOfficeSeats = null;
+					model.CW_MeetingRoom = null;
+					model.CW_MeetingRoomSeats = null;
+					model.CW_VirtualOffice = false;
+				}
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiListingControllerName);
+					//HTTP GET
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiListingUpdateListingByListingId + model.ListingId, model);
+					responseTask.Wait();
+
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<Listing>();
+						readTask.Wait();
+
+						listing = readTask.Result;
+					}
+				}
+			}
+			
+			return RedirectToAction("ListingTable", "Listing", new { UserID = model.UserId, UserType = GetSessionObject().UserType});
+		}
+
+		public void SetSessionVariables()
 		{
 			#region
 			User rs = HttpContext.Session.GetObjectFromJson<User>("_user");

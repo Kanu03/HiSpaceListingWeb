@@ -118,7 +118,7 @@ namespace HiSpaceListingWeb.Utilities
 		public string ApiListingGetListingByListingId = "GetListingByListingId/";
 		public string ApiListingsByUserId = "GetListingsByUserId/";
 		public string ApiListingAddListing = "AddListing/";
-		public string ApiListingUpdateListing = "UpdateListing/";
+		public string ApiListingUpdateListingByListingId = "UpdateListingByListingId/";
 		public string ApiListingDeleteListing = "DeleteListing/";
 		public string ApiListingGetPropertyList = "GetPropertyList/";
 		public string ApiListingGetPropertyListByUserID = "GetPropertyListByUserID/";
@@ -139,6 +139,11 @@ namespace HiSpaceListingWeb.Utilities
 		public string ApiAddonsAddCreateHours = "AddCreateHours/";
 		public string ApiAddonsGetWoringHoursByListingID = "GetWoringHoursByListingID/";
 		public string ApiAddonsUpdateHours = "UpdateHours/";
+		public string ApiAddonsGetImageByListingImagesID = "GetImageByListingImagesID/";
+
+		public string ApiAddonsCreateImage = "CreateImage/";
+		public string ApiAddonsUpdateImage = "UpdateImage/";
+
 
 		#endregion Addons Controller
 

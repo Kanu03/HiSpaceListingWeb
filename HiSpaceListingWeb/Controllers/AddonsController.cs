@@ -5,11 +5,21 @@ using HiSpaceListingWeb.Utilities;
 using Microsoft.AspNetCore.Http;
 using HiSpaceListingWeb.ViewModel;
 using HiSpaceListingModels;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.Extensions.Hosting;
 
 namespace HiSpaceListingWeb.Controllers
 {
 	public class AddonsController : Controller
 	{
+		private readonly IHostEnvironment hostEnvironment;
+		public AddonsController(IHostEnvironment hostEnvironment)
+		{
+			this.hostEnvironment = hostEnvironment;
+		}
 		public ActionResult Index()
 		{
 			SetSessionVariables();
@@ -47,8 +57,8 @@ namespace HiSpaceListingWeb.Controllers
 						vModel.CustomCheck = false;
 					}
 					//else if ((vModel.WorkingHours.Is24 == false) && (vModel.WorkingHours.MonAvail == true) && (vModel.WorkingHours.TueAvail == true) && (vModel.WorkingHours.WedAvail == true) && (vModel.WorkingHours.ThuAvail == true) && (vModel.WorkingHours.FriAvail == true) && (vModel.WorkingHours.SatAvail == false) && (vModel.WorkingHours.SunAvail == false) && (new[] { vModel.WorkingHours.MonOpen, vModel.WorkingHours.TueOpen, vModel.WorkingHours.WedOpen, vModel.WorkingHours.ThuOpen, vModel.WorkingHours.FriOpen }.Contains(vModel.WorkingHours.MonOpen)) && (new[] { vModel.WorkingHours.MonClose, vModel.WorkingHours.TueClose, vModel.WorkingHours.WedClose, vModel.WorkingHours.ThuClose, vModel.WorkingHours.FriClose }.Contains(vModel.WorkingHours.MonClose)))	
-						else if ((vModel.WorkingHours.Is24 == false) && (vModel.WorkingHours.MonAvail == true) && (vModel.WorkingHours.TueAvail == true) && (vModel.WorkingHours.WedAvail == true) && (vModel.WorkingHours.ThuAvail == true) && (vModel.WorkingHours.FriAvail == true) && (vModel.WorkingHours.SatAvail == false) && (vModel.WorkingHours.SunAvail == false) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.TueOpen) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.WedOpen) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.ThuOpen) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.FriOpen)
-						 && (vModel.WorkingHours.MonClose == vModel.WorkingHours.TueClose) && (vModel.WorkingHours.MonClose == vModel.WorkingHours.WedClose) && (vModel.WorkingHours.MonClose == vModel.WorkingHours.ThuClose) && (vModel.WorkingHours.MonClose == vModel.WorkingHours.FriClose))
+					else if ((vModel.WorkingHours.Is24 == false) && (vModel.WorkingHours.MonAvail == true) && (vModel.WorkingHours.TueAvail == true) && (vModel.WorkingHours.WedAvail == true) && (vModel.WorkingHours.ThuAvail == true) && (vModel.WorkingHours.FriAvail == true) && (vModel.WorkingHours.SatAvail == false) && (vModel.WorkingHours.SunAvail == false) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.TueOpen) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.WedOpen) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.ThuOpen) && (vModel.WorkingHours.MonOpen == vModel.WorkingHours.FriOpen)
+					 && (vModel.WorkingHours.MonClose == vModel.WorkingHours.TueClose) && (vModel.WorkingHours.MonClose == vModel.WorkingHours.WedClose) && (vModel.WorkingHours.MonClose == vModel.WorkingHours.ThuClose) && (vModel.WorkingHours.MonClose == vModel.WorkingHours.FriClose))
 					{
 						vModel.AllTimeCheck = false;
 						vModel.MonToFriCheck = true;
@@ -82,7 +92,7 @@ namespace HiSpaceListingWeb.Controllers
 
 				}
 			}
-			
+
 
 			return PartialView("_AddHoursPartialView", vModel);
 		}
@@ -187,7 +197,7 @@ namespace HiSpaceListingWeb.Controllers
 				else if (model.CustomCheck == true)
 				{
 					model.WorkingHours.Is24 = false;
-					if(model.WorkingHours.MonAvail == null)
+					if (model.WorkingHours.MonAvail == null)
 					{
 						model.WorkingHours.MonAvail = false;
 					}
@@ -221,7 +231,7 @@ namespace HiSpaceListingWeb.Controllers
 				{
 					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
 					//HTTP POST
-					if(model.WorkingHours.WorkingHoursId == 0)
+					if (model.WorkingHours.WorkingHoursId == 0)
 					{
 						var postTask = client.PostAsJsonAsync<WorkingHours>(Common.Instance.ApiAddonsAddCreateHours, model.WorkingHours);
 						postTask.Wait();
@@ -233,7 +243,7 @@ namespace HiSpaceListingWeb.Controllers
 							worHours = rs.Result;
 						}
 					}
-					else if(model.WorkingHours.WorkingHoursId > 0)
+					else if (model.WorkingHours.WorkingHoursId > 0)
 					{
 						var postTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateHours + model.WorkingHours.ListingId, model.WorkingHours);
 						postTask.Wait();
@@ -260,10 +270,142 @@ namespace HiSpaceListingWeb.Controllers
 			AmenityViewModel vModel = new AmenityViewModel
 			{
 				AmenityMasterList = Common.GetAmenityMasterList()
-			}; 
+			};
 			return PartialView("_AddAmenitiesPartialView", vModel);
 		}
+		[HttpPost]
+		public ActionResult UploadImage(ListingImageViewModel listingImageViewModel)
+		{
+			ListingImages model = new ListingImages();
+			SetSessionVariables();
+			if (listingImageViewModel.ListingImagesId == 0)
+			{
+				model.CreatedDateTime = DateTime.Now;
+				model.ListingId = listingImageViewModel.ListingId;
+				model.ListingImagesId = listingImageViewModel.ListingImagesId;
+				model.Name = listingImageViewModel.Name;
+				model.Status = listingImageViewModel.Status;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				using(var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					//HTTP POST
+					var postTask = client.PostAsJsonAsync<ListingImages>(Common.Instance.ApiAddonsCreateImage, model);
+					postTask.Wait();
+					var result = postTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<ListingImages>();
+						readTask.Wait();
+						model = readTask.Result;
 
+						//upload image action
+						string DuplicateName = "";
+						string OriginalName = "";
+						string UploadRootPath = "wwwroot\\images\\Upload";
+						string UploadRootPath_removeRoot = "images\\Upload";
+						string uploadsFolder = "\\user\\" + GetSessionObject().UserId + "\\listing\\" + listingImageViewModel.ListingId;
+						string serverUploadsFolder = Path.Combine(hostEnvironment.ContentRootPath, UploadRootPath);
+						serverUploadsFolder += uploadsFolder;
+						if (!Directory.Exists(serverUploadsFolder))
+						{
+							Directory.CreateDirectory(serverUploadsFolder);
+						}
+						//image uploader
+						if (listingImageViewModel.File_Image != null)
+						{
+							OriginalName = listingImageViewModel.File_Image.FileName;
+							string extension = Path.GetExtension(OriginalName);
+							DuplicateName = model.ListingImagesId + extension;
+
+							string filePath = Path.Combine(serverUploadsFolder, DuplicateName);
+							listingImageViewModel.File_Image.CopyTo(new FileStream(filePath, FileMode.Create));
+							listingImageViewModel.ImageUrl = "\\" + UploadRootPath_removeRoot + uploadsFolder + "\\"+DuplicateName;
+						}
+						ListingImages model2 = new ListingImages();
+						model2.CreatedDateTime = model.CreatedDateTime;
+						model2.ImageUrl = listingImageViewModel.ImageUrl;
+						model2.ListingId = model.ListingId;
+						model2.ListingImagesId = model.ListingImagesId;
+						model2.ModifyBy = GetSessionObject().UserId;
+						model2.ModifyDateTime = DateTime.Now;
+						model2.Name = model.Name;
+						model2.Status = model.Status;
+
+						var nextresponseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateImage + model2.ListingImagesId, model2);
+						nextresponseTask.Wait();
+
+						var nextResult = nextresponseTask.Result;
+						if (nextResult.IsSuccessStatusCode)
+						{
+							var nextReadTask = nextResult.Content.ReadAsAsync<ListingImages>();
+							nextReadTask.Wait();
+							model2 = nextReadTask.Result;
+							return Json(model2);
+						}
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+					}
+					
+				}
+				return PartialView("_AddImagePartialView");
+			}
+			else if(listingImageViewModel.ListingImagesId != 0)
+			{
+				model.ListingId = listingImageViewModel.ListingId;
+				model.ListingImagesId = listingImageViewModel.ListingImagesId;
+				model.Name = listingImageViewModel.Name;
+				model.Status = listingImageViewModel.Status;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+
+				//upload image action
+				string DuplicateName = "";
+				string OriginalName = "";
+				string UploadRootPath = "wwwroot\\images\\Upload";
+				string UploadRootPath_removeRoot = "images\\Upload";
+				string uploadsFolder = "\\user\\" + GetSessionObject().UserId + "\\listing\\" + listingImageViewModel.ListingId;
+				string serverUploadsFolder = Path.Combine(hostEnvironment.ContentRootPath, UploadRootPath);
+				serverUploadsFolder += uploadsFolder;
+				if (!Directory.Exists(serverUploadsFolder))
+				{
+					Directory.CreateDirectory(serverUploadsFolder);
+				}
+				//image uploader
+				if (listingImageViewModel.File_Image != null)
+				{
+					OriginalName = listingImageViewModel.File_Image.FileName;
+					string extension = Path.GetExtension(OriginalName);
+					DuplicateName = model.ListingImagesId + extension;
+
+					string filePath = Path.Combine(serverUploadsFolder, DuplicateName);
+					listingImageViewModel.File_Image.CopyTo(new FileStream(filePath, FileMode.Create));
+					listingImageViewModel.ImageUrl = "\\" + UploadRootPath_removeRoot + uploadsFolder + "\\" + DuplicateName;
+				}
+				model.ImageUrl = listingImageViewModel.ImageUrl;
+
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateImage + model.ListingImagesId, model);
+					responseTask.Wait();
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<ListingImages>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+
+				return PartialView("_AddImagePartialView");
+			}
+			return PartialView("_AddImagePartialView");
+		}
 		public ActionResult AddImage(int id)
 		{
 			SetSessionVariables();
@@ -271,33 +413,28 @@ namespace HiSpaceListingWeb.Controllers
 			//{
 			//	ListingId = id
 			//};
-			//ListListingImageViewModel vModel = new ListListingImageViewModel();
-			//using (var client = new HttpClient())
-			//{
-			//	client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
-			//	//HTTP GET
-			//	var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetImagesByListingId + id);
-			//	responseTask.Wait();
+			ViewBag.ListingId = id;
+			IEnumerable<ListingImages> listOfImage = null;
+			using(var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responesTask = client.GetAsync(Common.Instance.ApiAddonsGetImagesByListingId + id.ToString());
+				responesTask.Wait();
+				var result = responesTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<IList<ListingImages>>();
+					readTask.Wait();
+					listOfImage = readTask.Result;
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+				}
+			}
 
-			//	var result = responseTask.Result;
-			//	if (result.IsSuccessStatusCode)
-			//	{
-			//		var readTask = result.Content.ReadAsAsync<IList<ListingImageViewModel>>();
-			//		readTask.Wait();
-
-			//		vModel.ListingImageViewModel = readTask.Result.ToList();
-			//	}
-			//	else //web api sent error response 
-			//	{
-			//		//log response status here..
-
-			//		//vModel = Enumerable.Empty<ListingImageViewModel>();
-
-			//		ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-			//	}
-			//}
-			//return View(clLocations);
-			return PartialView("_AddImagePartialView");
+			return PartialView("_AddImagePartialView", listOfImage);
 		}
 
 		public ActionResult AddFacilities(int id)

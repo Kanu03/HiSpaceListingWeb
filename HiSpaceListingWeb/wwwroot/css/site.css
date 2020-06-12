@@ -2221,3 +2221,34 @@ form.md-form .checkbox.checbox-switch-small {
 	color: #f90;
 	opacity: 1;
 }
+
+.listingform_edit #ListingType + .select2 .selection {
+	cursor: no-drop;
+	pointer-events: none;
+}
+	.listingform_edit #ListingType + .select2 .selection .select2-selection {
+		background: #e4e4e4;
+		cursor: no-drop;
+		pointer-events: none;
+	}
+
+.addons-row {
+	background: rgb(224, 224, 224);
+	margin-bottom: 20px;
+}
+.event-none{
+	pointer-events: none;
+	cursor: no-drop;
+}
+.display-none{
+	display: none;
+}
+.addon-image {
+	min-width: 100px;
+	max-width: 100px;
+	max-height: 100px;
+}
+.addons-row__edit {
+	background: rgb(255, 226, 184);
+	margin-bottom: 20px;
+}

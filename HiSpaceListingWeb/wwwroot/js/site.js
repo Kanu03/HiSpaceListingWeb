@@ -77,6 +77,52 @@ $(document).ready(function () {
 		}
 	});
 
+	//edit section on listing form 
+	if ($('#ListingType').val() == "Commercial") {
+		$('.form-type').removeClass('type-2');
+		$('.form-type').removeClass('type-3');
+		$('.form-type').addClass('type-1');
+		$('.type-2__input, .type-3, .type-style.type-2, .type-style.type-3, .type-2-sub__input').addClass('d-none');
+		$('.type-1__input, .type-style.type-1, .form-type.type-1, .input-occupancy').removeClass('d-none');
+	} else if ($('#ListingType').val() == "Co-Working") {
+		//alert($('#ListingType').val())
+		$('.form-type').removeClass('type-1');
+		$('.form-type').removeClass('type-3');
+		$('.form-type').addClass('type-2');
+		$('.type-1__input, .type-3, .type-style.type-1, .type-style.type-3').addClass('d-none');
+		$('.type-2__input, .type-style.type-2, .form-type.type-2, .type-2-sub__input, .input-occupancy').removeClass('d-none');
+
+		if ($('#CoworkingType').val() == "Office") {
+			//alert($('#CoworkingType').val())
+			$('.type-2-sub__input, .input-occupancy').removeClass('d-none');
+
+			if ($('#CW_Coworking').val() != "") {
+				//console.log($('#CW_Coworking').parents().closest('.check-view').html())
+				$('#CW_Coworking').parents().closest('.check-view').removeClass('d-none');
+				$('#CW_Coworking').parents().closest('.check-view').siblings('.checkbox').find('input').attr('checked', true);
+			}
+			if ($('#CW_PrivateOffice').val() != "") {
+				$('#CW_PrivateOffice').parents().closest('.check-view').removeClass('d-none');
+				$('#CW_PrivateOffice').parents().closest('.check-view').siblings('.checkbox').find('input').attr('checked', true);
+			}
+			if ($('#CW_MeetingRoom').val() != "") {
+				$('#CW_MeetingRoom').parents().closest('.check-view').removeClass('d-none');
+				$('#CW_MeetingRoom').parents().closest('.check-view').siblings('.checkbox').find('input').attr('checked', true);
+			}
+		} else if ($('#CoworkingType').val() == "Cafe") {
+			//alert($('#CoworkingType').val())
+			$('.type-2-sub__input, .input-occupancy').addClass('d-none');
+		}
+		
+		
+
+
+	} else if ($('#ListingType').val() == "RE-Professional") {
+		$('.type-3').removeClass('d-none');
+		$('.form-type.type-1, .form-type.type-2, .type-style.type-1, .type-style.type-2').addClass('d-none');
+	}
+
+
 	//type selection
 	$('#ListingType').on('change', function () {
 		var value = $(this).val();
@@ -106,8 +152,9 @@ $(document).ready(function () {
 			$('.type-3').removeClass('d-none');
 			$('.form-type.type-1, .form-type.type-2, .type-style.type-1, .type-style.type-2').addClass('d-none');
 		}
-
 	});
+
+
 	$('#CoworkingType').on('change', function () {
 		var value = $(this).val();
 		//alert(value)
@@ -327,16 +374,18 @@ $('body').on('click', '.sch-status', function () {
 });
 //schedular section end
 //image upload section start
-function addImage() {
+function addImage(obj) {
+	//debugger
+	var listingId = $(obj).attr('data-listingid');
 	$('.image-upload').append(
 		'<div class="row image-upload__row">' +
-		'<div class=" col-md-4 col-sm-6 ">' +
+		'<div class=" col-md-4 col-sm-6 align-self-center">' +
 		'<div class="form-group">' +
 		'<input type="text" class="form-control imageName" placeholder="Image Name">' +
 		'<label for="input" class="control-label">Image Name</label><i class="bar"></i>' +
 		'</div>	' +
 		'</div>' +
-		'<div class=" col-md-4 col-sm-6">' +
+		'<div class=" col-md-4 col-sm-6 align-self-center">' +
 		'<div class="form-group">' +
 		'<input type="file" class="form-control imageFilePath" accept="image/*">' +
 		'<label for="input" class="control-label">Upload Image</label><i class="bar"></i>' +
@@ -350,7 +399,10 @@ function addImage() {
 		'</div>' +
 		'</div>' +
 		'<div class="col-md-2 col-sm-6">' +
-		'<span class="delete-btn" onclick="deleteRowImage(this)"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>' +
+		'<span class="addon-add delete-btn tooltip-wrapper" onclick="AddImageForm(this);" data-listingid=' + listingId+' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i></span>'+
+		'<span class="addon-edit delete-btn tooltip-wrapper display-none" onclick="EditImageForm(this);" data-listingid=' + listingId+' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i></span>'+
+		'<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>'+
+		'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
 		'</div>' +
 		'</div>'
 	);
@@ -701,3 +753,135 @@ $(function () {
 		})
 	})
 });
+
+
+
+
+////adding image section on partial view
+//function AddImageForm() {
+//	//alert('a')
+//	var listingImageViewModels = [];
+//		var formData = new FormData();
+//	$(".image-upload__row").each(function () {
+//		//debugger
+//		var ListingImages = {};
+//		var ListingImageViewModel = {};
+//		var iStatus; 
+
+//		var iFileUpload = $(this).find('.imageFilePath').get(0);
+//		//debugger
+//		var iFormFile = iFileUpload.files;
+//		//iFormFile.append("image", $(this).find('.imageName').files);
+//		var iName = $(this).find('.imageName').val();
+//		var iImagePath = $(this).find('.imageFilePath').val();
+//		if ($(this).find('.imageCheck').is(':checked')) {
+//			iStatus = true;
+//		} else {
+//			iStatus = false;
+//		}
+
+//		ListingImages.Name = iName;
+//		ListingImages.ImageUrl = iImagePath;
+//		ListingImages.Status = iStatus;
+
+//		ListingImageViewModel.ListingImages = ListingImages;
+//		//ListingImageViewModel.File_ImageUrl = formData.append("File_ImageUrl",iFormFile);
+//		//ListingImageViewModel.File_ImageUrl = iFormFile;
+//		ListingImageViewModel.File_ImageUrl = null;
+
+//		listingImageViewModels.push(ListingImageViewModel);
+//		console.log(listingImageViewModels);
+//	});
+
+//	$.ajax({
+//		type: "POST",
+//		url: "/Addons/UploadImage",
+//		//data: JSON.stringify(listingImageViewModels),
+//		data: { ListingImageViewModels: listingImageViewModels },
+//		//dataType: "json",
+//		//cache: false,
+//		//processData: false,
+//		//contentType: false,
+//		//contentType: 'multipart/form-data',
+//		//processData: false,
+//		//contentType: "application/json; charset=utf-8",
+//		success: function (response) {
+//			alert('yes');
+//		},
+//		error: function (xhr, ajaxOptions, thrownError) {
+//			alert('no');
+//		}
+//	});
+//}
+
+//adding image section on partial view
+function AddImageForm(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	//console.log(listingId)
+	var formData = new FormData();
+	var row = $(obj).closest('.image-upload__row');
+	var iStatus;
+	var iImageId;
+	var files = $(row).find('.imageFilePath').get(0).files;
+	var iName = $(row).find('.imageName').val();
+	var iImagePath = $(row).find('.imageFilePath').val();
+	if ($(row).find('.imageCheck').is(':checked')) {
+			iStatus = true;
+		} else {
+			iStatus = false;
+	}
+	if ($(row).find('.imageId')) {
+		iImageId = $(row).find('.imageId').val();
+	} else {
+		iImageId = 0;
+	}
+	formData.append("File_Image", files[0]);
+	formData.append("Name", iName);
+	formData.append("ImageUrl", iImagePath);
+	formData.append("Status", iStatus);
+	formData.append("ListingId", listingId);
+	formData.append("ListingImagesId", iImageId);
+
+	//var url = '@Url.Action("UploadImage", "Addons")';
+	$.ajax({
+		type: "POST",
+		url: "/Addons/UploadImage",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			if (response != null) {
+				//console.log(response);
+				$(row).addClass("addons-row");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.imageName').addClass("event-none");
+				//$(row).find('.imageFilePath').parent().parent().find('.addon-image__div').remove();
+				$(row).find('.imageFilePath').parent().parent().append(
+					'<div class="addon-image__div"><img style="width: 100px" alt="name" src=' + response.imageUrl +' /></div>'
+				);
+				$(row).find('.imageFilePath').parent().addClass("display-none");
+				$(row).find('.imageCheck').prop("checked", response.status);
+				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+				$(obj).siblings('.addon-clear').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert(response);
+		}
+	});
+}
+
+//edit image section
+function EditImageForm(obj) {
+	var row = $(obj).closest('.image-upload__row');
+	$(row).removeClass("addons-row");
+	$(row).addClass("addons-row__edit");
+	$(row).find('.imageName').removeClass("event-none");
+	$(row).find('.imageFilePath').parent().removeClass("display-none");
+	$(row).find('.imageFilePath').parent().siblings(".addon-image__div").remove();
+	$(row).find('.imageFilePath').parent().css("margin-bottom","0");
+	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
+	$(obj).siblings('.addon-delete').addClass('display-none');
+	$(obj).addClass('display-none');
+}
