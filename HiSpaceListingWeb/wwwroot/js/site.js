@@ -380,6 +380,12 @@ function addImage(obj) {
 	$('.image-upload').append(
 		'<div class="row image-upload__row">' +
 		'<div class=" col-md-4 col-sm-6 align-self-center">' +
+		'<div class="display-none">'+
+		'<div class="form-group">'+
+		'<input type="text" class="form-control imageId event-none" placeholder="id" value="0">'+
+		'<label for="input" class="control-label">Image id</label><i class="bar"></i>'+
+		'</div>'+
+		'</div>'+
 		'<div class="form-group">' +
 		'<input type="text" class="form-control imageName" placeholder="Image Name">' +
 		'<label for="input" class="control-label">Image Name</label><i class="bar"></i>' +
@@ -402,7 +408,7 @@ function addImage(obj) {
 		'<span class="addon-add delete-btn tooltip-wrapper" onclick="AddImageForm(this);" data-listingid=' + listingId+' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i></span>'+
 		'<span class="addon-edit delete-btn tooltip-wrapper display-none" onclick="EditImageForm(this);" data-listingid=' + listingId+' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i></span>'+
 		'<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>'+
-		'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
+		//'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
 		'</div>' +
 		'</div>'
 	);
@@ -453,8 +459,8 @@ function addProject() {
 		'</div>'
 	);
 }
-function deleteRowProject(that) {
-	$(that).closest('.project-upload__row').remove();
+function deleteRowProject(obj) {
+	$(obj).closest('.project-upload__row').remove();
 };
 //project upload section end
 //amenities upload section start
@@ -830,7 +836,7 @@ function AddImageForm(obj) {
 		} else {
 			iStatus = false;
 	}
-	if ($(row).find('.imageId')) {
+	if ($(row).find('.imageId').length) {
 		iImageId = $(row).find('.imageId').val();
 	} else {
 		iImageId = 0;
@@ -855,19 +861,28 @@ function AddImageForm(obj) {
 				$(row).addClass("addons-row");
 				$(row).removeClass("addons-row__edit");
 				$(row).find('.imageName').addClass("event-none");
+				$(row).find('.imageId').val(response.listingId);
 				//$(row).find('.imageFilePath').parent().parent().find('.addon-image__div').remove();
 				$(row).find('.imageFilePath').parent().parent().append(
-					'<div class="addon-image__div"><img style="width: 100px" alt="name" src=' + response.imageUrl +' /></div>'
+					'<div class="addon-image__div"><a href=' + response.imageUrl +' target="_blank"><img class="addon-image" alt="name" src=' + response.imageUrl +' /></a></div>'
 				);
 				$(row).find('.imageFilePath').parent().addClass("display-none");
 				$(row).find('.imageCheck').prop("checked", response.status);
 				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
-				$(obj).siblings('.addon-clear').addClass('display-none');
+				$(obj).siblings('.addon-delete').attr('onclick', "deleteImage(this," + response.listingImagesId + ")");
+				//$(obj).siblings('.addon-clear').addClass('display-none');
+				if ($(obj).siblings('.addon-clear').length) {
+					$(obj).siblings('.addon-clear').addClass('display-none');
+				} else {
+					$(obj).parent().append(
+						'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this,' + response.listingImagesId + ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'
+					);
+				};
 				$(obj).addClass('display-none');
 			}
 		},
 		error: function (response) {
-			alert(response);
+			alert("server not ready please upload afterwards");
 		}
 	});
 }
@@ -884,4 +899,62 @@ function EditImageForm(obj) {
 	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
 	$(obj).siblings('.addon-delete').addClass('display-none');
 	$(obj).addClass('display-none');
+}
+
+//Reset image section
+function clearRowImage(obj, imageId) {
+	//console.log(imageId)
+	var row = $(obj).closest('.image-upload__row');
+	$.ajax({
+		type: "GET",
+		url: "/Addons/GetImage",
+		dataType: "json",
+		data: { id: imageId },
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				$(row).addClass("addons-row");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.imageId').val(response.listingId);
+				$(row).find('.imageName').addClass("event-none");
+				$(row).find('.imageName').val(response.name);
+				$(row).find('.imageFilePath').parent().parent().append(
+					'<div class="addon-image__div"><a href=' + response.imageUrl +' target="_blank"><img class="addon-image" alt="name" src=' + response.imageUrl + ' /></a></div>'
+				);
+				$(row).find('.imageFilePath').parent().addClass("display-none");
+				$(row).find('.imageCheck').prop("checked", response.status);
+				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+				$(obj).siblings('.addon-add').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert(response);
+		}
+	})
+}
+
+//Delete image section
+function deleteImage(obj, imageId) {
+	var row = $(obj).closest('.image-upload__row');
+	if (imageId != 0) {
+		$.ajax({
+			type: "GET",
+			url: "/Addons/DeleteImage",
+			dataType: "json",
+			data: { id: imageId },
+			success: function (response) {
+				if (response != null) {
+					console.log(response);
+					deleteRowImage(obj);
+				}
+			},
+			error: function (response) {
+				alert("server not ready please delete afterwards");
+			}
+		})
+	}
+	else {
+		deleteRowImage(obj);
+	}
 }

@@ -143,6 +143,7 @@ namespace HiSpaceListingWeb.Utilities
 
 		public string ApiAddonsCreateImage = "CreateImage/";
 		public string ApiAddonsUpdateImage = "UpdateImage/";
+		public string ApiAddonsDeleteImage = "DeleteImage/";
 
 
 		#endregion Addons Controller

@@ -24,6 +24,12 @@
 						@if (Model.Count() == 0)
 						{
 						<div class="row image-upload__row">
+							<div class="display-none">
+								<div class="form-group">
+									<input type="text" class="form-control imageId event-none" placeholder="id" value="0">
+									<label for="input" class="control-label">Image id</label><i class="bar"></i>
+								</div>
+							</div>
 							<div class=" col-md-4 col-sm-6 align-self-center">
 								<div class="form-group">
 									<input type="text" class="form-control imageName" placeholder="Image Name">
@@ -47,8 +53,8 @@
 							<div class="col-md-2 col-sm-6">
 								<span class="addon-add delete-btn tooltip-wrapper" onclick="AddImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle='tooltip' data-placement='top' title='' data-original-title='submit and upload the file'><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i></span>
 								<span class="addon-edit delete-btn tooltip-wrapper display-none" onclick="EditImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit the file'><i class="fas fa-edit btn-icon text-info"></i></span>
-								<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to delete the row'><i class="fas fa-trash-alt btn-icon text-danger"></i></span>
-								<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>
+								<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteImage(this, 0)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to delete the row'><i class="fas fa-trash-alt btn-icon text-danger"></i></span>
+								@*<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>*@
 							</div>
 						</div>
 						}
@@ -60,7 +66,7 @@
 						<div class="display-none">
 							<div class="form-group">
 								<input type="text" class="form-control imageId event-none" placeholder="id" value="@item.ListingImagesId">
-								<label for="input" class="control-label">Image Name</label><i class="bar"></i>
+								<label for="input" class="control-label">Image id</label><i class="bar"></i>
 							</div>
 						</div>
 						<div class=" col-md-4 col-sm-6 align-self-center">
@@ -74,7 +80,7 @@
 								<input type="file" class="form-control imageFilePath" accept="image/*" value="@item.ImageUrl">
 								<label for="input" class="control-label">Upload Image</label><i class="bar"></i>
 							</div>
-							<div class="addon-image__div"><img class="addon-image" alt="name" src="@Url.Content(item.ImageUrl)" /></div>
+							<div class="addon-image__div"><a href="@Url.Content(item.ImageUrl)" target="_blank"><img class="addon-image" alt="name" src="@Url.Content(item.ImageUrl)" /></a></div>
 						</div>
 						<div class="col-md-2 col-sm-6 m-b--15 align-self-center">
 							<div class="checkbox m-0">
@@ -87,8 +93,8 @@
 						<div class="col-md-2 col-sm-6">
 							<span class="addon-add delete-btn tooltip-wrapper display-none" onclick="AddImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle='tooltip' data-placement='top' title='' data-original-title='submit and upload the file'><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i></span>
 							<span class="addon-edit delete-btn tooltip-wrapper" onclick="EditImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit the file'><i class="fas fa-edit btn-icon text-info"></i></span>
-							<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to delete the row'><i class="fas fa-trash-alt btn-icon text-danger"></i></span>
-							<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>
+							<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteImage(this, @item.ListingImagesId)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to delete the row'><i class="fas fa-trash-alt btn-icon text-danger"></i></span>
+							<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this,@item.ListingImagesId)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>
 						</div>
 					</div>
 							}

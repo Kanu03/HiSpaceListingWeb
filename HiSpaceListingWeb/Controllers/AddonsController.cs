@@ -406,13 +406,68 @@ namespace HiSpaceListingWeb.Controllers
 			}
 			return PartialView("_AddImagePartialView");
 		}
+		public ActionResult GetImage(int id)
+		{
+			SetSessionVariables();
+			ListingImages model = new ListingImages();
+			using(var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetImageByListingImagesID + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<ListingImages>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddImagePartialView");
+		}
+		public ActionResult DeleteImage(int id)
+		{
+			SetSessionVariables();
+			ListingImages model = new ListingImages();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP DELETE
+				var responseTask = client.DeleteAsync(Common.Instance.ApiAddonsDeleteImage + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<ListingImages>();
+					readTask.Wait();
+					model = readTask.Result;
+					//delete section
+					string deteleImagePath = "wwwroot"+model.ImageUrl;
+					string deleteCompletePath = Path.Combine(hostEnvironment.ContentRootPath, deteleImagePath);
+					string filename = Path.GetFileName(deteleImagePath);
+					try
+					{
+						if (System.IO.File.Exists(deleteCompletePath))
+						{
+							System.IO.File.Delete(deleteCompletePath);
+						}
+					}
+					catch(Exception ex)
+					{
+						throw ex;
+					}
+
+					
+					return Json(model);
+				}
+			}
+			return PartialView("_AddImagePartialView");
+		}
 		public ActionResult AddImage(int id)
 		{
 			SetSessionVariables();
-			//ListingImages model = new ListingImages
-			//{
-			//	ListingId = id
-			//};
 			ViewBag.ListingId = id;
 			IEnumerable<ListingImages> listOfImage = null;
 			using(var client = new HttpClient())
@@ -436,6 +491,8 @@ namespace HiSpaceListingWeb.Controllers
 
 			return PartialView("_AddImagePartialView", listOfImage);
 		}
+
+		
 
 		public ActionResult AddFacilities(int id)
 		{
