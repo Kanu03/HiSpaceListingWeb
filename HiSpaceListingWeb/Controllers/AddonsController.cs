@@ -273,6 +273,8 @@ namespace HiSpaceListingWeb.Controllers
 			};
 			return PartialView("_AddAmenitiesPartialView", vModel);
 		}
+
+
 		[HttpPost]
 		public ActionResult UploadImage(ListingImageViewModel listingImageViewModel)
 		{
@@ -474,9 +476,9 @@ namespace HiSpaceListingWeb.Controllers
 			{
 				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
 				//HTTP GET
-				var responesTask = client.GetAsync(Common.Instance.ApiAddonsGetImagesByListingId + id.ToString());
-				responesTask.Wait();
-				var result = responesTask.Result;
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetImagesByListingId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
 				if (result.IsSuccessStatusCode)
 				{
 					var readTask = result.Content.ReadAsAsync<IList<ListingImages>>();
@@ -492,7 +494,256 @@ namespace HiSpaceListingWeb.Controllers
 			return PartialView("_AddImagePartialView", listOfImage);
 		}
 
-		
+		[HttpPost]
+		public ActionResult UploadProject(REProfessionalMasterViewModel rEProfessionalMasterViewModel)
+		{
+			REProfessionalMaster model = new REProfessionalMaster();
+			SetSessionVariables();
+			if(rEProfessionalMasterViewModel.REProfessionalMasterId == 0)
+			{
+				model.CreatedDateTime = DateTime.Now;
+				model.Description = rEProfessionalMasterViewModel.Description;
+				model.DocumentUrl = rEProfessionalMasterViewModel.DocumentUrl;
+				model.ImageUrl = rEProfessionalMasterViewModel.ImageUrl;
+				model.ListingId = rEProfessionalMasterViewModel.ListingId;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.ProjectName = rEProfessionalMasterViewModel.ProjectName;
+				model.Status = rEProfessionalMasterViewModel.Status;
+				using(var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					//HTTP POST
+					var postTask = client.PostAsJsonAsync<REProfessionalMaster>(Common.Instance.ApiAddonsCreateProject, model);
+					postTask.Wait();
+					var result = postTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<REProfessionalMaster>();
+						readTask.Wait();
+						model = readTask.Result;
+
+						//upload image action
+						string DuplicateName = "";
+						string OriginalName = "";
+						string UploadRootPath = "wwwroot\\images\\Upload";
+						string UploadRootPath_removeRoot = "images\\Upload";
+						string uploadsFolder = "\\user\\" + GetSessionObject().UserId + "\\listing\\" + rEProfessionalMasterViewModel.ListingId;
+						string serverUploadsFolder = Path.Combine(hostEnvironment.ContentRootPath, UploadRootPath);
+						serverUploadsFolder += uploadsFolder;
+						if (!Directory.Exists(serverUploadsFolder))
+						{
+							Directory.CreateDirectory(serverUploadsFolder);
+						}
+						//image uploader
+						if (rEProfessionalMasterViewModel.File_Image != null)
+						{
+							OriginalName = rEProfessionalMasterViewModel.File_Image.FileName;
+							string extension = Path.GetExtension(OriginalName);
+							DuplicateName = model.REProfessionalMasterId + extension;
+
+							string filePath = Path.Combine(serverUploadsFolder, DuplicateName);
+							rEProfessionalMasterViewModel.File_Image.CopyTo(new FileStream(filePath, FileMode.Create));
+							rEProfessionalMasterViewModel.ImageUrl = "\\" + UploadRootPath_removeRoot + uploadsFolder + "\\" + DuplicateName;
+						}
+						//document uploader
+						if (rEProfessionalMasterViewModel.File_Document != null)
+						{
+							OriginalName = rEProfessionalMasterViewModel.File_Document.FileName;
+							string extension = Path.GetExtension(OriginalName);
+							DuplicateName = model.REProfessionalMasterId+"_doc" + extension;
+
+							string filePath = Path.Combine(serverUploadsFolder, DuplicateName);
+							rEProfessionalMasterViewModel.File_Document.CopyTo(new FileStream(filePath, FileMode.Create));
+							rEProfessionalMasterViewModel.DocumentUrl = "\\" + UploadRootPath_removeRoot + uploadsFolder + "\\" + DuplicateName;
+						}
+						REProfessionalMaster model2 = new REProfessionalMaster();
+						model2.CreatedDateTime = model.CreatedDateTime;
+						model2.Description = model.Description;
+						model2.DocumentUrl = rEProfessionalMasterViewModel.DocumentUrl;
+						model2.ImageUrl = rEProfessionalMasterViewModel.ImageUrl;
+						model2.ModifyBy = GetSessionObject().UserId;
+						model2.ModifyDateTime = DateTime.Now;
+						model2.ProjectName = model.ProjectName;
+						model2.REProfessionalMasterId = model.REProfessionalMasterId;
+						model2.Status = model.Status;
+						model2.ListingId = model.ListingId;
+
+						var nextresponseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateProject + model2.REProfessionalMasterId, model2);
+						nextresponseTask.Wait();
+						var nextResult = nextresponseTask.Result;
+						if (nextResult.IsSuccessStatusCode)
+						{
+							var nextReadTask = nextResult.Content.ReadAsAsync<REProfessionalMaster>();
+							nextReadTask.Wait();
+							model2 = nextReadTask.Result;
+							return Json(model2);
+						}
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+					}
+				}
+				return PartialView("_AddFacilitiesPartialView");
+			}
+			else if (rEProfessionalMasterViewModel.REProfessionalMasterId != 0)
+			{
+				model.Description = rEProfessionalMasterViewModel.Description;
+				model.ListingId = rEProfessionalMasterViewModel.ListingId;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.ProjectName = rEProfessionalMasterViewModel.ProjectName;
+				model.REProfessionalMasterId = rEProfessionalMasterViewModel.REProfessionalMasterId;
+				model.Status = rEProfessionalMasterViewModel.Status;
+
+				//upload image action
+				string DuplicateName = "";
+				string OriginalName = "";
+				string UploadRootPath = "wwwroot\\images\\Upload";
+				string UploadRootPath_removeRoot = "images\\Upload";
+				string uploadsFolder = "\\user\\" + GetSessionObject().UserId + "\\listing\\" + rEProfessionalMasterViewModel.ListingId;
+				string serverUploadsFolder = Path.Combine(hostEnvironment.ContentRootPath, UploadRootPath);
+				serverUploadsFolder += uploadsFolder;
+				if (!Directory.Exists(serverUploadsFolder))
+				{
+					Directory.CreateDirectory(serverUploadsFolder);
+				}
+				//image uploader
+				if (rEProfessionalMasterViewModel.File_Image != null)
+				{
+					OriginalName = rEProfessionalMasterViewModel.File_Image.FileName;
+					string extension = Path.GetExtension(OriginalName);
+					DuplicateName = model.REProfessionalMasterId + extension;
+
+					string filePath = Path.Combine(serverUploadsFolder, DuplicateName);
+					rEProfessionalMasterViewModel.File_Image.CopyTo(new FileStream(filePath, FileMode.Create));
+					rEProfessionalMasterViewModel.ImageUrl = "\\" + UploadRootPath_removeRoot + uploadsFolder + "\\" + DuplicateName;
+				}
+				//document uploader
+				if (rEProfessionalMasterViewModel.File_Document != null)
+				{
+					OriginalName = rEProfessionalMasterViewModel.File_Document.FileName;
+					string extension = Path.GetExtension(OriginalName);
+					DuplicateName = model.REProfessionalMasterId + "_doc" + extension;
+
+					string filePath = Path.Combine(serverUploadsFolder, DuplicateName);
+					rEProfessionalMasterViewModel.File_Document.CopyTo(new FileStream(filePath, FileMode.Create));
+					rEProfessionalMasterViewModel.DocumentUrl = "\\" + UploadRootPath_removeRoot + uploadsFolder + "\\" + DuplicateName;
+				}
+				model.ImageUrl = rEProfessionalMasterViewModel.ImageUrl;
+				model.DocumentUrl = rEProfessionalMasterViewModel.DocumentUrl;
+
+				using(var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateProject + model.REProfessionalMasterId, model);
+					responseTask.Wait();
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<REProfessionalMaster>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+				return PartialView("_AddFacilitiesPartialView");
+			}
+			return PartialView("_AddFacilitiesPartialView");
+		}
+
+		public ActionResult DeleteProject(int id)
+		{
+			SetSessionVariables();
+			REProfessionalMaster model = new REProfessionalMaster();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP DELETE
+				var responseTask = client.DeleteAsync(Common.Instance.ApiAddonsDeleteProject + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<REProfessionalMaster>();
+					readTask.Wait();
+					model = readTask.Result;
+					//delete section
+					string deteleImagePath = "wwwroot" + model.ImageUrl;
+					string deteleDocumentPath = "wwwroot" + model.DocumentUrl;
+					string deleteCompleteImagePath = Path.Combine(hostEnvironment.ContentRootPath, deteleImagePath);
+					string deleteCompleteDocumentPath = Path.Combine(hostEnvironment.ContentRootPath, deteleDocumentPath);
+					string Imagefilename = Path.GetFileName(deteleImagePath);
+					string Documentfilename = Path.GetFileName(deteleDocumentPath);
+					try
+					{
+						if (System.IO.File.Exists(deleteCompleteImagePath))
+						{
+							System.IO.File.Delete(deleteCompleteImagePath);
+						}
+						if (System.IO.File.Exists(deleteCompleteDocumentPath))
+						{
+							System.IO.File.Delete(deleteCompleteDocumentPath);
+						}
+					}
+					catch (Exception ex)
+					{
+						throw ex;
+					}
+
+
+					return Json(model);
+				}
+			}
+			return PartialView("_AddImagePartialView");
+		}
+		public ActionResult AddProject(int id)
+		{
+			SetSessionVariables();
+			ViewBag.ListingId = id;
+			IEnumerable<REProfessionalMaster> listOfProjects = null;
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetProjectByListingId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<IList<REProfessionalMaster>>();
+					readTask.Wait();
+					listOfProjects = readTask.Result;
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+				}
+			}
+			return PartialView("_AddProjectPartialView", listOfProjects);
+		}
+		public ActionResult GetProject(int id)
+		{
+			SetSessionVariables();
+			REProfessionalMaster model = new REProfessionalMaster();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetProjectByREProfessionalMasterId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<REProfessionalMaster>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddFacilitiesPartialView");
+		}
 
 		public ActionResult AddFacilities(int id)
 		{
@@ -504,15 +755,7 @@ namespace HiSpaceListingWeb.Controllers
 			return PartialView("_AddFacilitiesPartialView", model);
 		}
 
-		public ActionResult AddProject(int id)
-		{
-			SetSessionVariables();
-			REProfessionalMaster model = new REProfessionalMaster
-			{
-				ListingId = id
-			};
-			return PartialView("_AddProjectPartialView", model);
-		}
+		
 
 		public void SetSessionVariables()
 		{

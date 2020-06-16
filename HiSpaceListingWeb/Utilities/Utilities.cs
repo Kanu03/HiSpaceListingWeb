@@ -135,15 +135,21 @@ namespace HiSpaceListingWeb.Utilities
 			}
 		}
 
-		public string ApiAddonsGetImagesByListingId = "GetImagesByListingId/";
 		public string ApiAddonsAddCreateHours = "AddCreateHours/";
 		public string ApiAddonsGetWoringHoursByListingID = "GetWoringHoursByListingID/";
 		public string ApiAddonsUpdateHours = "UpdateHours/";
-		public string ApiAddonsGetImageByListingImagesID = "GetImageByListingImagesID/";
 
+		public string ApiAddonsGetImagesByListingId = "GetImagesByListingId/";
+		public string ApiAddonsGetImageByListingImagesID = "GetImageByListingImagesID/";
 		public string ApiAddonsCreateImage = "CreateImage/";
 		public string ApiAddonsUpdateImage = "UpdateImage/";
 		public string ApiAddonsDeleteImage = "DeleteImage/";
+
+		public string ApiAddonsGetProjectByListingId = "GetProjectByListingId/";
+		public string ApiAddonsGetProjectByREProfessionalMasterId = "GetImageByREProfessionalMasterId/";
+		public string ApiAddonsCreateProject = "CreateProject/";
+		public string ApiAddonsUpdateProject = "UpdateProject/";
+		public string ApiAddonsDeleteProject = "DeleteProject/";
 
 
 		#endregion Addons Controller

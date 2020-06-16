@@ -223,7 +223,7 @@
 					@if (ViewBag.UserId != null)
 					{
 						<div class="property-btn">
-							<a class="property-link btn btn-info" href="@Url.Action("ListingTable","Listing",new { id = ViewBag.UserId, UserType = ViewBag.UserType })">Click Here</a>
+							<a class="property-link btn btn-info" href="@Url.Action("ListingTable","Listing",new { UserID = ViewBag.UserId, UserType = ViewBag.UserType })">Click Here</a>
 						</div>
 					}
 					else
@@ -264,7 +264,7 @@
 					@if (ViewBag.UserId != null)
 					{
 						<div class="property-btn">
-							<a class="property-link btn btn-primary" href="@Url.Action("ListingTable","Listing",new { id = ViewBag.UserId, UserType = ViewBag.UserType })">Click Here</a>
+							<a class="property-link btn btn-primary" href="@Url.Action("ListingTable","Listing",new { UserID = ViewBag.UserId, UserType = ViewBag.UserType })">Click Here</a>
 						</div>
 					}
 					else

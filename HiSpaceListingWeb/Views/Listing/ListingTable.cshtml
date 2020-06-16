@@ -338,7 +338,7 @@
 													{
 														ViewBag.TypeClass = "text-info";
 														ViewBag.TypeAddons = @Html.Raw("<div class='ml-auto d-flex align-items-center text-center md-crud-menu'>" +
-																			  "<span class='modal-link__project' data-targeturl=\'" + @Url.Action("AddProject", "Addons", new { ListingId = item.ListingId }) + "\' data-dismiss='modal'>" +
+																			  "<span class='modal-link__project' data-targeturl=\'" + @Url.Action("AddProject", "Addons", new { id = item.ListingId }) + "\' data-dismiss='modal'>" +
 																				  "<a href='javascript:function() { return false; }' class='tooltip-wrapper' data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to list the RE project'>" +
 																					  "<i class='fas fa-city btn-icon text-info'></i>" +
 																				  "</a>" +

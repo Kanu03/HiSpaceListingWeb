@@ -373,96 +373,8 @@ $('body').on('click', '.sch-status', function () {
 	}
 });
 //schedular section end
-//image upload section start
-function addImage(obj) {
-	//debugger
-	var listingId = $(obj).attr('data-listingid');
-	$('.image-upload').append(
-		'<div class="row image-upload__row">' +
-		'<div class=" col-md-4 col-sm-6 align-self-center">' +
-		'<div class="display-none">'+
-		'<div class="form-group">'+
-		'<input type="text" class="form-control imageId event-none" placeholder="id" value="0">'+
-		'<label for="input" class="control-label">Image id</label><i class="bar"></i>'+
-		'</div>'+
-		'</div>'+
-		'<div class="form-group">' +
-		'<input type="text" class="form-control imageName" placeholder="Image Name">' +
-		'<label for="input" class="control-label">Image Name</label><i class="bar"></i>' +
-		'</div>	' +
-		'</div>' +
-		'<div class=" col-md-4 col-sm-6 align-self-center">' +
-		'<div class="form-group">' +
-		'<input type="file" class="form-control imageFilePath" accept="image/*">' +
-		'<label for="input" class="control-label">Upload Image</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-2 col-sm-6 m-b--15 align-self-center">' +
-		'<div class="checkbox m-0">' +
-		'<label>' +
-		'<input type="checkbox" class="imageCheck" /><i class="helper"></i> Active' +
-		'</label>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-2 col-sm-6">' +
-		'<span class="addon-add delete-btn tooltip-wrapper" onclick="AddImageForm(this);" data-listingid=' + listingId+' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i></span>'+
-		'<span class="addon-edit delete-btn tooltip-wrapper display-none" onclick="EditImageForm(this);" data-listingid=' + listingId+' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i></span>'+
-		'<span class="addon-delete delete-btn tooltip-wrapper" onclick="deleteRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>'+
-		//'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
-		'</div>' +
-		'</div>'
-	);
-};
-function deleteRowImage(that) {
-	$(that).closest('.image-upload__row').remove();
-	//console.log($(that).parents().find('.image-upload__row').html());
-};
-//image upload section end
-//project upload section start
-function addProject() {
-	$('.project-upload').append(
-		'<div class="row project-upload__row">' +
-		'<div class=" col-md-2 col-sm-6  align-self-center">' +
-		'<div class="form-group">' +
-		'<input type="text" class="form-control" placeholder="project Name">' +
-		'<label for="input" class="control-label">project Name</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class=" col-md-3 col-sm-6 align-self-center">' +
-		'<div class="form-group">' +
-		'<input type="file" class="form-control" accept="project/*">' +
-		'<label for="input" class="control-label">Upload project Image</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class=" col-md-3 col-sm-6 align-self-center">' +
-		'<div class="form-group">' +
-		'<input type="file" class="form-control" accept="project/*">' +
-		'<label for="input" class="control-label">Upload project Document</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class=" col-md-2 col-sm-6 align-self-center">' +
-		'<div class="form-group">' +
-		'<textarea type="text" class="form-control" rows="3" placeholder="Enter your text..."></textarea>' +
-		'<label for="input" class="control-label">Description</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-1 col-sm-6 m-b--15 align-self-center">' +
-		'<div class="checkbox m-0">' +
-		'<label>' +
-		'<input type="checkbox" /><i class="helper"></i> Active' +
-		'</label>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-1 col-sm-6">' +
-		'<span class="delete-btn" onclick="deleteRowProject(this)"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>' +
-		'</div>' +
-		'</div>'
-	);
-}
-function deleteRowProject(obj) {
-	$(obj).closest('.project-upload__row').remove();
-};
-//project upload section end
+
+
 //amenities upload section start
 function addAmenities() {
 	$('.amenities-upload').append(
@@ -742,22 +654,22 @@ $(function () {
 	});
 
 
-	//ajax call section for image upload
-	$('body').on('click', '#SubmitImage', function (e) {
-		//alert('a');
-		var test = new Array();
-		$('.image-upload__row').each(function () {
-			var name = $(this).find('.imageName').val();
-			var path = $(this).find('.imageFilePath').val();
-			//var status = $(this).find('.imageCheck').val();
-			if ($(this).find('.imageCheck').is(':checked')) {
-				var status = true
-			} else {
-				var status = false
-			};
-			//alert(name + ' ,' + path +' , ' + status);
-		})
-	})
+	////ajax call section for image upload
+	//$('body').on('click', '#SubmitImage', function (e) {
+	//	//alert('a');
+	//	var test = new Array();
+	//	$('.image-upload__row').each(function () {
+	//		var name = $(this).find('.imageName').val();
+	//		var path = $(this).find('.imageFilePath').val();
+	//		//var status = $(this).find('.imageCheck').val();
+	//		if ($(this).find('.imageCheck').is(':checked')) {
+	//			var status = true
+	//		} else {
+	//			var status = false
+	//		};
+	//		//alert(name + ' ,' + path +' , ' + status);
+	//	})
+	//})
 });
 
 
@@ -819,23 +731,70 @@ $(function () {
 //		}
 //	});
 //}
-
-//adding image section on partial view
+//--------------------------------------------------------------------------------------------------//
+//************************************adding image section start************************************//
+//--------------------------------------------------------------------------------------------------//
+//image upload section start
+function addImage(obj) {
+	//debugger
+	var listingId = $(obj).attr('data-listingid');
+	$('.image-upload').append(
+		'<div class="row image-upload__row">' +
+		'<div class=" col-md-4 col-sm-6 align-self-center">' +
+		'<div class="display-none">' +
+		'<div class="form-group">' +
+		'<input type="text" class="form-control imageId event-none" placeholder="id" value="0">' +
+		'<label for="input" class="control-label">Image id</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class="form-group">' +
+		'<input type="text" class="form-control imageName" placeholder="Image Name">' +
+		'<label for="input" class="control-label">Image Name</label><i class="bar"></i>' +
+		'</div>	' +
+		'</div>' +
+		'<div class=" col-md-4 col-sm-6 align-self-center">' +
+		'<div class="form-group">' +
+		'<input type="file" class="form-control imageFilePath" accept="image/*">' +
+		'<label for="input" class="control-label">Upload Image</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		//'<div class="col-md-2 col-sm-6 m-b--15 align-self-center">' +
+		//'<div class="checkbox m-0">' +
+		//'<label>' +
+		//'<input type="checkbox" class="imageCheck" /><i class="helper"></i> Active' +
+		//'</label>' +
+		//'</div>' +
+		//'</div>' +
+		'<div class="col-md-4 col-sm-6 align-self-center">' +
+		'<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddImageForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i> Upload</span>' +
+		'<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditImageForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>' +
+		'<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>' +
+		//'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
+		'</div>' +
+		'</div>'
+	);
+};
+function deleteRowImage(that) {
+	$(that).closest('.image-upload__row').remove();
+	//console.log($(that).parents().find('.image-upload__row').html());
+};
+//image upload section end
 function AddImageForm(obj) {
+	//debugger
 	var listingId = $(obj).attr('data-listingid');
 	//console.log(listingId)
 	var formData = new FormData();
 	var row = $(obj).closest('.image-upload__row');
-	var iStatus;
+	var iStatus = true;
 	var iImageId;
 	var files = $(row).find('.imageFilePath').get(0).files;
 	var iName = $(row).find('.imageName').val();
 	var iImagePath = $(row).find('.imageFilePath').val();
-	if ($(row).find('.imageCheck').is(':checked')) {
-			iStatus = true;
-		} else {
-			iStatus = false;
-	}
+	//if ($(row).find('.imageCheck').is(':checked')) {
+	//		iStatus = true;
+	//	} else {
+	//		iStatus = false;
+	//}
 	if ($(row).find('.imageId').length) {
 		iImageId = $(row).find('.imageId').val();
 	} else {
@@ -861,13 +820,13 @@ function AddImageForm(obj) {
 				$(row).addClass("addons-row");
 				$(row).removeClass("addons-row__edit");
 				$(row).find('.imageName').addClass("event-none");
-				$(row).find('.imageId').val(response.listingId);
+				$(row).find('.imageId').attr("value",response.listingImagesId);
 				//$(row).find('.imageFilePath').parent().parent().find('.addon-image__div').remove();
 				$(row).find('.imageFilePath').parent().parent().append(
 					'<div class="addon-image__div"><a href=' + response.imageUrl +' target="_blank"><img class="addon-image" alt="name" src=' + response.imageUrl +' /></a></div>'
 				);
 				$(row).find('.imageFilePath').parent().addClass("display-none");
-				$(row).find('.imageCheck').prop("checked", response.status);
+				//$(row).find('.imageCheck').prop("checked", response.status);
 				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
 				$(obj).siblings('.addon-delete').attr('onclick', "deleteImage(this," + response.listingImagesId + ")");
 				//$(obj).siblings('.addon-clear').addClass('display-none');
@@ -875,7 +834,7 @@ function AddImageForm(obj) {
 					$(obj).siblings('.addon-clear').addClass('display-none');
 				} else {
 					$(obj).parent().append(
-						'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this,' + response.listingImagesId + ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'
+						'<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowImage(this,' + response.listingImagesId + ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>'
 					);
 				};
 				$(obj).addClass('display-none');
@@ -915,14 +874,14 @@ function clearRowImage(obj, imageId) {
 				console.log(response);
 				$(row).addClass("addons-row");
 				$(row).removeClass("addons-row__edit");
-				$(row).find('.imageId').val(response.listingId);
+				$(row).find('.imageId').attr("value",response.listingImagesId);
 				$(row).find('.imageName').addClass("event-none");
 				$(row).find('.imageName').val(response.name);
 				$(row).find('.imageFilePath').parent().parent().append(
 					'<div class="addon-image__div"><a href=' + response.imageUrl +' target="_blank"><img class="addon-image" alt="name" src=' + response.imageUrl + ' /></a></div>'
 				);
 				$(row).find('.imageFilePath').parent().addClass("display-none");
-				$(row).find('.imageCheck').prop("checked", response.status);
+				//$(row).find('.imageCheck').prop("checked", response.status);
 				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
 				$(obj).siblings('.addon-add').addClass('display-none');
 				$(obj).addClass('display-none');
@@ -958,3 +917,225 @@ function deleteImage(obj, imageId) {
 		deleteRowImage(obj);
 	}
 }
+//--------------------------------------------------------------------------------------------------//
+//************************************adding image section end**************************************//
+//--------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------//
+//************************************adding Project section start************************************//
+//--------------------------------------------------------------------------------------------------//
+//project upload section start
+function addProject(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	$('.project-upload').append(
+		'<div class="row project-upload__row">' +
+		'<div class="display-none">'+
+		'<div class="form-group">'+
+		'<input type="text" class="form-control projectId event-none" placeholder="id" value="0">'+
+		'<label for="input" class="control-label">Project id</label><i class="bar"></i>'+
+		'</div>'+
+		'</div>'+
+		'<div class=" col-md-2 col-sm-6  align-self-center">' +
+		'<div class="form-group">' +
+		'<input type="text" class="form-control projectName" placeholder="project Name">' +
+		'<label for="input" class="control-label">project Name</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class=" col-md-3 col-sm-6 align-self-center">' +
+		'<div class="form-group">' +
+		'<input type="file" class="form-control projectImage" accept="project/*">' +
+		'<label for="input" class="control-label">Upload project Image</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class=" col-md-3 col-sm-6 align-self-center">' +
+		'<div class="form-group">' +
+		'<input type="file" class="form-control projectDoucument" accept="project/*">' +
+		'<label for="input" class="control-label">Upload project Document</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class=" col-md-2 col-sm-6 align-self-center">' +
+		'<div class="form-group">' +
+		'<textarea type="text" class="form-control projectDesc" rows="3" placeholder="Enter your text..."></textarea>' +
+		'<label for="input" class="control-label">Description</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		//'<div class="col-md-1 col-sm-6 m-b--15 align-self-center">' +
+		//'<div class="checkbox m-0">' +
+		//'<label>' +
+		//'<input type="checkbox" /><i class="helper"></i> Active' +
+		//'</label>' +
+		//'</div>' +
+		//'</div>' +
+		'<div class="col-md-2 col-sm-6 align-self-center">' +
+		'<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddProjectForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i> Upload</span>' +
+		'<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditProjectForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>' +
+		'<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteRowProject(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>' +
+		//'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
+		'</div>' +
+		'</div>'
+	);
+}
+function deleteRowProject(obj) {
+	$(obj).closest('.project-upload__row').remove();
+};
+
+//project upload section end
+function AddProjectForm(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	//console.log(listingId)
+	var formData = new FormData();
+	var row = $(obj).closest('.project-upload__row');
+	var pStatus = true;
+	var pProjectId;
+	var Imagefiles = $(row).find('.projectImage').get(0).files;
+	var Documentfiles = $(row).find('.projectDoucument').get(0).files;
+	var pName = $(row).find('.projectName').val();
+	var pImagePath = $(row).find('.projectImage').val();
+	var pDocumentPath = $(row).find('.projectDoucument').val();
+	var pDesc = $(row).find('.projectDesc').val();
+	if ($(row).find('.projectId').length) {
+		pProjectId = $(row).find('.projectId').val();
+	} else {
+		pProjectId = 0;
+	}
+	formData.append("File_Image", Imagefiles[0]);
+	formData.append("File_Document", Documentfiles[0]);
+	formData.append("REProfessionalMasterId", pProjectId);
+	formData.append("ListingId", listingId);
+	formData.append("ProjectName", pName);
+	formData.append("ImageUrl", pImagePath);
+	formData.append("DocumentUrl", pDocumentPath);
+	formData.append("Status", pStatus);
+	formData.append("Description", pDesc);
+
+	//var url = '@Url.Action("UploadImage", "Addons")';
+	$.ajax({
+		type: "POST",
+		url: "/Addons/UploadProject",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				$(row).addClass("addons-row");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.projectName').addClass("event-none");
+				$(row).find('.projectDesc').addClass("event-none");
+				$(row).find('.projectId').val(response.reProfessionalMasterId);
+				console.log($(row).find('.projectId').val());
+				$(row).find('.projectDesc').html(response.description);
+				$(row).find('.projectImage').parent().parent().append(
+					'<div class="addon-image__div"><a href=' + response.imageUrl + ' target="_blank"><img class="addon-image" alt="name" src=' + response.imageUrl + ' /></a></div>'
+				);
+				$(row).find('.projectImage').parent().addClass("display-none");
+				$(row).find('.projectDoucument').parent().parent().append(
+					'<div class="addon-image__div"><a href=' + response.documentUrl + ' target="_blank"><img class="addon-image" alt="name" src="/images/doc_placeholder.png" />Click to view</a></div>'
+				);
+				$(row).find('.projectDoucument').parent().addClass("display-none");
+				//$(row).find('.imageCheck').prop("checked", response.status);
+				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+				$(obj).siblings('.addon-delete').attr('onclick', "deleteProject(this," + response.reProfessionalMasterId + ")");
+				//$(obj).siblings('.addon-clear').addClass('display-none');
+				if ($(obj).siblings('.addon-clear').length) {
+					$(obj).siblings('.addon-clear').addClass('display-none');
+				} else {
+					$(obj).parent().append(
+						'<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowProject(this,' + response.reProfessionalMasterId + ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>'
+					);
+				};
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert("server not ready please upload afterwards");
+		}
+	});
+}
+
+//edit project section
+function EditProjectForm(obj) {
+	var row = $(obj).closest('.project-upload__row');
+	$(row).removeClass("addons-row");
+	$(row).addClass("addons-row__edit");
+	$(row).find('.projectName').removeClass("event-none");
+	$(row).find('.projectDesc').removeClass("event-none");
+	$(row).find('.projectImage').parent().removeClass("display-none");
+	$(row).find('.projectDoucument').parent().removeClass("display-none");
+	$(row).find('.projectImage').parent().siblings(".addon-image__div").remove();
+	$(row).find('.projectDoucument').parent().siblings(".addon-image__div").remove();
+	$(row).find('.projectImage').parent().css("margin-bottom", "0");
+	$(row).find('.projectDoucument').parent().css("margin-bottom", "0");
+	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
+	$(obj).siblings('.addon-delete').addClass('display-none');
+	$(obj).addClass('display-none');
+}
+
+//Reset project section
+function clearRowProject(obj, projectId) {
+	//console.log(imageId)
+	var row = $(obj).closest('.project-upload__row');
+	$.ajax({
+		type: "GET",
+		url: "/Addons/GetProject",
+		dataType: "json",
+		data: { id: projectId },
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				$(row).addClass("addons-row");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.projectId').val(response.reProfessionalMasterId);
+				$(row).find('.projectName').addClass("event-none");
+				$(row).find('.projectDesc').addClass("event-none");
+				$(row).find('.projectName').val(response.projectName);
+				$(row).find('.projectDesc').html(response.description);
+				$(row).find('.projectImage').parent().parent().append(
+					'<div class="addon-image__div"><a href=' + response.imageUrl + ' target="_blank"><img class="addon-image" alt="name" src=' + response.imageUrl + ' /></a></div>'
+				);
+				$(row).find('.projectImage').parent().addClass("display-none");
+				$(row).find('.projectDoucument').parent().parent().append(
+					'<div class="addon-image__div"><a href=' + response.documentUrl + ' target="_blank"><img class="addon-image" alt="name" src="/images/doc_placeholder.png" />Click to view</a></div>'
+				);
+				$(row).find('.projectDoucument').parent().addClass("display-none");
+				//$(row).find('.imageCheck').prop("checked", response.status);
+				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+				$(obj).siblings('.addon-add').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert(response);
+		}
+	})
+}
+
+
+//Delete project section
+function deleteProject(obj, projectId) {
+	var row = $(obj).closest('.project-upload__row');
+	if (projectId != 0) {
+		$.ajax({
+			type: "GET",
+			url: "/Addons/DeleteProject",
+			dataType: "json",
+			data: { id: projectId },
+			success: function (response) {
+				if (response != null) {
+					console.log(response);
+					deleteRowProject(obj);
+				}
+			},
+			error: function (response) {
+				alert("server not ready please delete afterwards");
+			}
+		})
+	}
+	else {
+		deleteRowProject(obj);
+	}
+}
+//project upload section end
+//--------------------------------------------------------------------------------------------------//
+//************************************adding Project section end************************************//
+//--------------------------------------------------------------------------------------------------//
