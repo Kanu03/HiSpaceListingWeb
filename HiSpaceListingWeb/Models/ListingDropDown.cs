@@ -53,4 +53,11 @@ namespace HiSpaceListingWeb.Models
 		public string AmenitiesPaymentTypeListName { set; get; }
 		public string AmenitiesPaymentTypeListDisplay { set; get; }
 	}
+
+	public class FacilityDistance
+	{
+		public int FacilityDistanceID { set; get; }
+		public string FacilityDistanceName { set; get; }
+		public string FacilityDistanceDisplay { set; get; }
+	}
 }

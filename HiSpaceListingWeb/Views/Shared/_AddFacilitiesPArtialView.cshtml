@@ -3,7 +3,7 @@
 *@
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@model HiSpaceListingModels.Facility
+@model IEnumerable<HiSpaceListingModels.Facility>
 @*facilities section start*@
 @*<div class="modal facilities fade modal-sec" id="facilitiesModal" tabindex="-1" role="dialog" aria-labelledby="facilitiesModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">*@
@@ -15,252 +15,215 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		@*<p>@Html.DisplayFor(m => m.ListingId)</p>*@
 		<div class="tab-content" id="">
 			<div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab">
 
 				<form class=" mt-4 align-items-center md-form" action="account-profile.html">
-					@*@using (Html.BeginForm("signup", "User", FormMethod.Post, new { @class = "form-row mt-4 align-items-center md-form" }))*@
-					@*{*@
+					<h6 class="d-inline-block">Common Facilities </h6>
+					<div class="scroll-action_link" id="f-common">Go to Custom Facilities</div>
+					<div class="facilities-common" id="common-section__f">
+						@foreach (var item in Model)
+						{
+							if (item.FacilityMasterId != 0 && item.FacilityId == 0)
+							{
+								<div class="row facilities-upload__row">
+									<div class=" col-md-3 col-sm-4 ">
+										<div class="form-group">
+											<div class="checkbox m-0">
+												<label>
+													<input type="checkbox" class="facilityStatus" /><i class="helper"></i> @item.Name
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3 col-md-3 col-sm-4 col-6">
+										<div class="form-group">
+											<div class="form-group">
+												<select class="form-control basic-select fc-option facilityDistance"
+														asp-items="@(new SelectList(ViewBag.FacilityDistances, "FacilityDistanceName", "FacilityDistanceDisplay"))"></select>
+												<label for="select" class="control-label">Distance</label><i class="bar"></i>
+											</div>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control facilityName" placeholder="00" value="@item.Name">
+											<label for="input" class="control-label">Name</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control facilityMasterId" placeholder="00" value="@item.FacilityMasterId">
+											<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control facilityId" placeholder="00" value="0">
+											<label for="input" class="control-label">Facility Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-md-3 col-sm-6 align-self-center amenityAction">
+										<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+										<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+										@*<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowFacility(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>*@
+									</div>
+								</div>
+							}
+							else if (item.FacilityMasterId != 0 && item.FacilityId != 0)
+							{
+								<div class="row facilities-upload__row addons-row__light">
+									<div class=" col-md-3 col-sm-4 ">
+										<div class="form-group">
+											<div class="checkbox m-0">
+												<label>
+													<input type="checkbox" class="facilityStatus event-none" checked="@item.Status" /><i class="helper"></i> @item.Name
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3 col-md-3 col-sm-4 col-6">
+										<div class="form-group">
+											<div class="form-group">
+												<select class="form-control basic-select fc-option facilityDistance event-none"
+														asp-items="@(new SelectList(ViewBag.FacilityDistances, "FacilityDistanceName", "FacilityDistanceDisplay",@item.FacilityDistance))"></select>
+												<label for="select" class="control-label">Distance</label><i class="bar"></i>
+											</div>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control facilityName event-none" placeholder="00" value="@item.Name">
+											<label for="input" class="control-label">Name</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control facilityMasterId event-none" placeholder="00" value="@item.FacilityMasterId">
+											<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control facilityId event-none" placeholder="00" value="@item.FacilityId">
+											<label for="input" class="control-label">Facility Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-md-3 col-sm-6 align-self-center amenityAction">
+										<span class="addon-add delete-btn display-none tooltip-wrapper text-sec" onclick="AddFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+										<span class="addon-edit delete-btn tooltip-wrapper text-info" onclick="EditFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+										<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowFacility(this, @item.FacilityId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>
+									</div>
+								</div>
+							}
 
-					<h6>Common Facilities</h6>
-					<div class="facilities-common">
-						<div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" /><i class="helper"></i> Bus Terminal
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-						</div>
-						<div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" /><i class="helper"></i> Railway Station
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-						</div><div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" /><i class="helper"></i> Airport
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-						</div>
-						<div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" /><i class="helper"></i> Harbour
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-						</div>
-						<div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" /><i class="helper"></i> Internet Cafe
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-						</div>
-						<div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" /><i class="helper"></i> Hotels
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-						</div>
+						}
+
 					</div>
-					<div class="btn btn-sec add-btn" onclick="addFacilities()"> <i class="fa fa-plus-circle"></i>Custom Facilities</div>
-					<div class="facilities-upload">
-						<div class="row facilities-upload__row">
-							<div class=" col-md-3 col-sm-4 ">
-								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Name">
-									<label for="input" class="control-label">Facility</label><i class="bar"></i>
+					<div class="btn btn-sec add-btn d-inline-block" data-listingid="@ViewBag.ListingId" onclick="addFacilities(this)"> <i class="fa fa-plus-circle"></i>Custom Facilities</div>
+					<div class="scroll-action_link" id="f_custom">Go to Common Facilities</div>
+					<div class="facilities-upload" id="custom-section__f">
+						@if (Model.Count() == 11)
+						{
+							<div class="row facilities-upload__row">
+								<div class=" col-md-3 col-sm-4 ">
+									<div class="form-group">
+										<input type="text" class="form-control facilityName" placeholder="Name">
+										<label for="input" class="control-label">Facility</label><i class="bar"></i>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-4 col-6">
+									<div class="form-group">
+										<div class="form-group">
+											<select class="form-control basic-select fc-option facilityDistance"
+													asp-items="@(new SelectList(ViewBag.FacilityDistances, "FacilityDistanceName", "FacilityDistanceDisplay"))"></select>
+											<label for="select" class="control-label">Distance</label><i class="bar"></i>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-6 m-b--15 align-self-center">
+									<div class="checkbox m-0">
+										<label>
+											<input type="checkbox" class="facilityStatus" /><i class="helper"></i> Active
+										</label>
+									</div>
+								</div>
+								<div class="display-none">
+									<div class="form-group">
+										<input type="text" class="form-control facilityMasterId event-none" placeholder="00" value="0">
+										<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+									</div>
+								</div>
+								<div class="display-none">
+									<div class="form-group">
+										<input type="text" class="form-control facilityId event-none" placeholder="00" value="0">
+										<label for="input" class="control-label">Facility Id</label><i class="bar"></i>
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-6 align-self-center">
+									<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+									<span class="addon-edit delete-btn tooltip-wrapper text-info display-none" onclick="EditFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+									<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteFacility(this,0)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
+									@*<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowFacility(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>*@
 								</div>
 							</div>
-							<div class="col-lg-3 col-md-3 col-sm-4 col-6 ">
-								<div class="form-group">
-									<select class="form-control fc-option" id="">
-										<option value="1">0 to .5KM</option>
-										<option value="2">.5KM to 1KM</option>
-										<option value="3">1KM to 2KM</option>
-										<option value="4">2KM to 3KM</option>
-										<option value="5">3KM to 4KM</option>
-										<option value="6">4KM to 5KM</option>
-										<option value="7">5KM to 6KM</option>
-										<option value="8">6KM to 7KM</option>
-										<option value="9">7KM to 8KM</option>
-										<option value="10">8KM to 9KM</option>
-										<option value="11">9KM to 10KM</option>
-										<option value="12">Above 10KM</option>
-									</select>
-									<label for="" class="control-label">Distance</label>
-									<i class="bar"></i>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-6 m-b--15 align-self-center">
-								<div class="checkbox m-0">
-									<label>
-										<input type="checkbox" /><i class="helper"></i> Active
-									</label>
-								</div>
-							</div>
-							<div class="col-md-1 col-sm-6">
-								<span class="delete-btn" onclick="deleteRowFacilities(this)"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>
-							</div>
-						</div>
-					</div>
+						}
+						else
+						{
+							@foreach (var item in Model)
+							{
+								@if (item.FacilityMasterId == 0 || item.FacilityMasterId == null)
+								{
+									<div class="row facilities-upload__row addons-row__light">
+										<div class=" col-md-3 col-sm-4 ">
+											<div class="form-group">
+												<div class="checkbox m-0">
+													<label>
+														<input type="checkbox" class="facilityStatus event-none" checked="@item.Status" /><i class="helper"></i> @item.Name
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-3 col-md-3 col-sm-4 col-6">
+											<div class="form-group">
+												<div class="form-group">
+													<select class="form-control basic-select fc-option facilityDistance event-none"
+															asp-items="@(new SelectList(ViewBag.FacilityDistances, "FacilityDistanceName", "FacilityDistanceDisplay",@item.FacilityDistance))"></select>
+													<label for="select" class="control-label">Distance</label><i class="bar"></i>
+												</div>
+											</div>
+										</div>
+										<div class="display-none">
+											<div class="form-group">
+												<input type="text" class="form-control facilityName event-none" placeholder="00" value="@item.Name">
+												<label for="input" class="control-label">Name</label><i class="bar"></i>
+											</div>
+										</div>
+										<div class="display-none">
+											<div class="form-group">
+												<input type="text" class="form-control facilityMasterId event-none" placeholder="00" value="@item.FacilityMasterId">
+												<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+											</div>
+										</div>
+										<div class="display-none">
+											<div class="form-group">
+												<input type="text" class="form-control facilityId event-none" placeholder="00" value="@item.FacilityId">
+												<label for="input" class="control-label">Facility Id</label><i class="bar"></i>
+											</div>
+										</div>
+										<div class="col-md-3 col-sm-6 align-self-center amenityAction">
+											<span class="addon-add delete-btn tooltip-wrapper text-sec display-none" onclick="AddFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+											<span class="addon-edit delete-btn tooltip-wrapper text-info " onclick="EditFacilityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+											<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteFacility(this, @item.FacilityId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
+											<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowFacility(this, @item.FacilityId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>
+										</div>
+									</div>
+								}
+							}
+						}
 
-
-					<div class="row width-full justify-content-center">
-						<div class="col-sm-4">
-							<button type="submit" class="btn btn-sec btn-block">Submit Facilities</button>
-						</div>
 					</div>
 				</form>
-				@*}*@
 			</div>
 		</div>
 	</div>

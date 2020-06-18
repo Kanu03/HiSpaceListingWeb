@@ -152,10 +152,16 @@ namespace HiSpaceListingWeb.Utilities
 		public string ApiAddonsDeleteProject = "DeleteProject/";
 
 		public string ApiAddonsGetAmenityByListingId = "GetAmenityByListingId/";
-		public string ApiAddonsGetAmenityByAmenityId = "GetImageByAmenityId/";
+		public string ApiAddonsGetAmenityByAmenityId = "GetAmenityByAmenityId/";
 		public string ApiAddonsCreateAmenity = "CreateAmenity/";
 		public string ApiAddonsUpdateAmenity = "UpdateAmenity/";
 		public string ApiAddonsDeleteAmenity = "DeleteAmenity/";
+
+		public string ApiAddonsGetFacilityByListingId = "GetFacilityByListingId/";
+		public string ApiAddonsGetFacilityByFacilityId = "GetFacilityByFacilityId/";
+		public string ApiAddonsCreateFacility = "CreateFacility/";
+		public string ApiAddonsUpdateFacility = "UpdateFacility/";
+		public string ApiAddonsDeleteFacility = "DeleteFacility/";
 
 
 		#endregion Addons Controller
@@ -174,6 +180,8 @@ namespace HiSpaceListingWeb.Utilities
 		public string ApiCommonGetAllPropertyLevelSearch = "GetAllPropertyLevelSearch";
 		public string ApiCommonGetAllPropertyListerSearch = "GetAllPropertyListerSearch";
 		public string ApiCommonGetAmenityMasterList = "GetAmenityMasterList";
+		public string ApiCommonGetFacilityMasterList = "GetFacilityMasterList";
+
 		#endregion Common Controller
 
 		#endregion API Methods
@@ -231,6 +239,23 @@ namespace HiSpaceListingWeb.Utilities
 			types.Add(new AmenitiesPaymentTypeList() { AmenitiesPaymentTypeListID = 2, AmenitiesPaymentTypeListName = "Paid", AmenitiesPaymentTypeListDisplay = "Paid" });
 			types.Add(new AmenitiesPaymentTypeList() { AmenitiesPaymentTypeListID = 3, AmenitiesPaymentTypeListName = "PartiallyPaid", AmenitiesPaymentTypeListDisplay = "Partially Paid" });
 			return types;
+		}
+		public static List<FacilityDistance> GetFacilityDistances()
+		{
+			List<FacilityDistance> distance = new List<FacilityDistance>();
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 1, FacilityDistanceName = "0 to .5KM", FacilityDistanceDisplay = "0 to .5KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 2, FacilityDistanceName = ".5KM to 1KM", FacilityDistanceDisplay = ".5KM to 1KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 3, FacilityDistanceName = "1KM to 2KM", FacilityDistanceDisplay = "1KM to 2KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 4, FacilityDistanceName = "2KM to 3KM", FacilityDistanceDisplay = "2KM to 3KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 5, FacilityDistanceName = "3KM to 4KM", FacilityDistanceDisplay = "3KM to 4KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 6, FacilityDistanceName = "4KM to 5KM", FacilityDistanceDisplay = "4KM to 5KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 7, FacilityDistanceName = "5KM to 6KM", FacilityDistanceDisplay = "5KM to 6KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 8, FacilityDistanceName = "6KM to 7KM", FacilityDistanceDisplay = "6KM to 7KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 9, FacilityDistanceName = "7KM to 8KM", FacilityDistanceDisplay = "7KM to 8KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 10, FacilityDistanceName = "8KM to 9KM", FacilityDistanceDisplay = "8KM to 9KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 11, FacilityDistanceName = "9KM to 10KM", FacilityDistanceDisplay = "9KM to 10KM" });
+			distance.Add(new FacilityDistance() { FacilityDistanceID = 12, FacilityDistanceName = "Above 10KM", FacilityDistanceDisplay = "Above 10KM" });
+			return distance;
 		}
 
 		public static List<ScheduleTime> GetScheduleTime()
@@ -340,6 +365,31 @@ namespace HiSpaceListingWeb.Utilities
 				}
 			}
 			return amenities;
+		}
+
+		public static List<Facility> GetFacilityMasterList()
+		{
+			List<Facility> facility = new List<Facility>();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiCommonControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiCommonGetFacilityMasterList);
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<IList<Facility>>();
+					readTask.Wait();
+					foreach (var item in readTask.Result.ToList())
+						facility.Add(new Facility() { FacilityMasterId = item.FacilityMasterId, Name = item.Name, Status = item.Status });
+				}
+				else
+				{
+
+				}
+			}
+			return facility;
 		}
 
 		public class AmenityMasterVM

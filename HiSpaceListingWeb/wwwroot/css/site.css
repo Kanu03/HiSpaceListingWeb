@@ -2253,7 +2253,7 @@ form.md-form .checkbox.checbox-switch-small {
 	margin-bottom: 20px;
 }
 
-#ImageAddForm .delete-btn, #ProjectAddForm .delete-btn, #amenities .delete-btn {
+#ImageAddForm .delete-btn, #ProjectAddForm .delete-btn, #amenities .delete-btn, #facilities .delete-btn {
 	background: #ffffff;
 	width: 70px;
 	line-height: 30px;
@@ -2265,9 +2265,24 @@ form.md-form .checkbox.checbox-switch-small {
 	cursor: pointer;
 	font-weight: 600;
 }
-	#ImageAddForm .delete-btn i, #ProjectAddForm .delete-btn i, #amenities .delete-btn i {
+	#ImageAddForm .delete-btn i, #ProjectAddForm .delete-btn i, #amenities .delete-btn i, #facilities .delete-btn i {
 		font-size: 16px;
 	}
 .addons-row__light{
 	background: #eee;
 }
+.scroll-action_link {
+	display: inline-block;
+	margin-left: 25px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--info-color);
+	cursor: pointer;
+	display: inline-block;
+	border-bottom: 2px solid var(--info-color);
+	transition: all .5s;
+}
+	.scroll-action_link:hover {
+		border-bottom: 2px solid var(--sec-color);
+		color: var(--sec-color);
+	}

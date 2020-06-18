@@ -33,11 +33,31 @@ $(document).ready(function () {
 	$('.v2,.v3').addClass('d-none');
 	$("#cartBtn-1, #cartBtn-2, #cartBtn-3").click(function () {
 		var sec = $(this).attr('cart-section');
-		console.log(sec);
+		//console.log(sec);
 		$('html, body').animate({
 			scrollTop: $("#card-" + sec).offset().top - 50
 		}, 1000);
 	});
+	$('body').on('click', '#f-common', function () {
+		$('.modal').animate({
+			scrollTop: $("#custom-section__f").offset().top
+		}, 1000);
+	})
+	$('body').on('click', '#f_custom', function () {
+		$('.modal').animate({
+			scrollTop: '0px'
+		}, 1000);
+	})
+	$('body').on('click', '#a-common', function () {
+		$('.modal').animate({
+			scrollTop: $("#custom-section__a").offset().top
+		}, 1000);
+	})
+	$('body').on('click', '#a_custom', function () {
+		$('.modal').animate({
+			scrollTop: '0px'
+		}, 1000);
+	})
 
 
 
@@ -374,55 +394,6 @@ $('body').on('click', '.sch-status', function () {
 	}
 });
 //schedular section end
-
-
-//facilities upload section start
-function addFacilities() {
-	$('.facilities-upload').append(
-		'<div class="row facilities-upload__row">' +
-		'<div class=" col-md-3 col-sm-4 ">' +
-		'<div class="form-group">' +
-		'<input type="text" class="form-control" placeholder="Name">' +
-		'<label for="input" class="control-label">Facility</label><i class="bar"></i>' +
-		'	</div>' +
-		'</div>' +
-		'<div class="col-lg-3 col-md-3 col-sm-4 col-6 ">' +
-		'<div class="form-group">' +
-		'<select class="form-control am-option" id="">' +
-		'<option value="1">0 to .5KM</option>' +
-		'<option value="2">.5KM to 1KM</option>' +
-		'<option value="3">1KM to 2KM</option>' +
-		'<option value="4">2KM to 3KM</option>' +
-		'<option value="5">3KM to 4KM</option>' +
-		'<option value="6">4KM to 5KM</option>' +
-		'<option value="7">5KM to 6KM</option>' +
-		'<option value="8">6KM to 7KM</option>' +
-		'<option value="9">7KM to 8KM</option>' +
-		'<option value="10">8KM to 9KM</option>' +
-		'<option value="11">9KM to 10KM</option>' +
-		'<option value="12">Above 10KM</option>' +
-		'</select>' +
-		'<label for="" class="control-label">Distance</label>' +
-		'<i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-2 col-sm-6 m-b--15 align-self-center">' +
-		'<div class="checkbox m-0">' +
-		'<label>' +
-		'<input type="checkbox" /><i class="helper"></i> Active' +
-		'</label>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-1 col-sm-6">' +
-		'<span class="delete-btn" onclick="deleteRowFacilities(this)"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>' +
-		'</div>' +
-		'</div>'
-	);
-}
-function deleteRowFacilities(that) {
-	$(that).closest('.facilities-upload__row').remove();
-};
-//facilities upload section end
 
 $(function () {
 
@@ -1330,4 +1301,229 @@ function deleteAmenity(obj, amenityId) {
 //amenities upload section end
 //--------------------------------------------------------------------------------------------------//
 //************************************adding Amenity section end************************************//
+//--------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------//
+//************************************adding Facility section start************************************//
+//--------------------------------------------------------------------------------------------------//
+//facilities upload section start
+function addFacilities(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	$('.facilities-upload').append(
+		'<div class="row facilities-upload__row">' +
+		'<div class="display-none">'+
+		'<div class="form-group">'+
+		'<input type="text" class="form-control facilityMasterId" placeholder="00" value="0">'+
+		'<label for="input" class="control-label">Master Id</label><i class="bar"></i>'+
+		'</div>'+
+		'</div>'+
+		'<div class="display-none">'+
+		'<div class="form-group">'+
+		'<input type="text" class="form-control facilityId" placeholder="00" value="0">'+
+		'<label for="input" class="control-label">Facility Id</label><i class="bar"></i>'+
+		'</div>'+
+		'</div>'+
+		'<div class=" col-md-3 col-sm-4 ">' +
+		'<div class="form-group">' +
+		'<input type="text" class="form-control facilityName" placeholder="Name">' +
+		'<label for="input" class="control-label">Facility</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class="col-lg-3 col-md-3 col-sm-4 col-6 ">' +
+		'<div class="form-group">' +
+		'<select class="form-control am-option facilityDistance" id="">' +
+		'<option value="0 to .5KM">0 to .5KM</option>' +
+		'<option value=".5KM to 1KM">.5KM to 1KM</option>' +
+		'<option value="1KM to 2KM">1KM to 2KM</option>' +
+		'<option value="2KM to 3KM">2KM to 3KM</option>' +
+		'<option value="3KM to 4KM">3KM to 4KM</option>' +
+		'<option value="4KM to 5KM">4KM to 5KM</option>' +
+		'<option value="5KM to 6KM">5KM to 6KM</option>' +
+		'<option value="6KM to 7KM">6KM to 7KM</option>' +
+		'<option value="7KM to 8KM">7KM to 8KM</option>' +
+		'<option value="8KM to 9KM">8KM to 9KM</option>' +
+		'<option value="9KM to 10KM">9KM to 10KM</option>' +
+		'<option value="Above 10KM">Above 10KM</option>' +
+		'</select>' +
+		'<label for="" class="control-label">Distance</label>' +
+		'<i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class="col-md-2 col-sm-6 m-b--15 align-self-center">' +
+		'<div class="checkbox m-0">' +
+		'<label>' +
+		'<input type="checkbox" class="facilityStatus" /><i class="helper"></i> Active' +
+		'</label>' +
+		'</div>' +
+		'</div>' +
+		'<div class="col-md-3 col-sm-6 align-self-center">' +
+		'<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddFacilityForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>' +
+		'<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditFacilityForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>' +
+		'<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteRowFacilities(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>' +
+		//'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
+		'</div>' +
+		'</div>'
+	);
+}
+function deleteRowFacilities(that) {
+	$(that).closest('.facilities-upload__row').remove();
+};
+
+//Facility upload section end
+function AddFacilityForm(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	//console.log(listingId)
+	var formData = new FormData();
+	var row = $(obj).closest('.facilities-upload__row');
+	if ($(row).find('.facilityStatus').is(':checked')) {
+		facilityStatus = true;
+	} else {
+		facilityStatus = false;
+	}
+	var facilityName = $(row).find('.facilityName').val();
+	if ($(row).find('.facilityId').length) {
+		facilityId = $(row).find('.facilityId').val();
+	} else {
+		facilityId = 0;
+	}
+	if ($(row).find('.facilityMasterId').length) {
+		facilityMasterId = $(row).find('.facilityMasterId').val();
+	} else {
+		facilityMasterId = 0;
+	}
+	var facilityDistance = $(row).find('.facilityDistance').val();
+
+	formData.append("facilityId", facilityId);
+	formData.append("ListingId", listingId);
+	formData.append("facilityMasterId", facilityMasterId);
+	formData.append("Name", facilityName);
+	formData.append("facilityDistance", facilityDistance);
+	formData.append("Status", facilityStatus);
+	//console.log(formData);
+	// Display the key/value pairs
+	//for (var pair of formData.entries()) {
+	//	console.log(pair[0] + ', ' + pair[1]);
+	//}
+
+	$.ajax({
+		type: "POST",
+		url: "/Addons/UploadFacility",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				$(row).addClass("addons-row__light");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.facilityName, .facilityDistance, .facilityStatus').addClass("event-none");
+
+				$(row).find('.facilityId').val(response.facilityId);
+				$(row).find('.facilityMasterId').val(response.facilityMasterId);
+				$(row).find('.facilityName').val(response.name);
+				$(row).find('.facilityStatus').prop("checked", response.status);
+				$(row).find('.facilityDistance').val(response.facilityDistance);
+
+				if ($(obj).siblings('.addon-delete').length) {
+					$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+					$(obj).siblings('.addon-delete').attr('onclick', "deleteFacility(this," + response.facilityId + ")");
+				} else {
+					$(obj).siblings('.addon-edit').removeClass('display-none');
+				}
+
+				if ($(obj).siblings('.addon-clear').length) {
+					$(obj).siblings('.addon-clear').addClass('display-none');
+				} else {
+					$(obj).parent().append(
+						'<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowFacility(this,' + response.facilityId + ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>'
+					);
+				};
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert("server not ready please upload afterwards");
+		}
+	});
+}
+
+//edit facility section
+function EditFacilityForm(obj) {
+	var row = $(obj).closest('.facilities-upload__row');
+	$(row).removeClass("addons-row__light");
+	$(row).addClass("addons-row__edit");
+	$(row).find('.facilityName, .facilityDistance, .facilityStatus').removeClass("event-none");
+
+	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
+	$(obj).siblings('.addon-delete').addClass('display-none');
+	$(obj).addClass('display-none');
+}
+
+//Reset facility section
+function clearRowFacility(obj, facilityId) {
+	//console.log(imageId)
+	var row = $(obj).closest('.facilities-upload__row');
+	$.ajax({
+		type: "GET",
+		url: "/Addons/GetFacility",
+		dataType: "json",
+		data: { id: facilityId },
+		success: function (response) {
+			if (response != null) {
+				//console.log(response);
+				$(row).addClass("addons-row__light");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.facilityName, .facilityDistance, .facilityStatus').addClass("event-none");
+
+				$(row).find('.facilityId').val(response.facilityId);
+				$(row).find('.facilityMasterId').val(response.facilityMasterId);
+				$(row).find('.facilityName').val(response.name);
+				$(row).find('.facilityStatus').prop("checked", response.status);
+				$(row).find('.facilityDistance').val(response.facilityDistance);
+
+				if ($(obj).siblings('.addon-delete').length) {
+					$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+					$(obj).siblings('.addon-delete').attr('onclick', "deleteFacility(this," + response.facilityId + ")");
+				} else {
+					$(obj).siblings('.addon-edit').removeClass('display-none');
+				}
+
+				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+				$(obj).siblings('.addon-add').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert(response);
+		}
+	})
+}
+
+//Delete facility section
+function deleteFacility(obj, facilityId) {
+	var row = $(obj).closest('.facilities-upload__row');
+	if (facilityId != 0) {
+		$.ajax({
+			type: "GET",
+			url: "/Addons/DeleteFacility",
+			dataType: "json",
+			data: { id: facilityId },
+			success: function (response) {
+				if (response != null) {
+					console.log(response);
+					deleteRowFacilities(obj);
+				}
+			},
+			error: function (response) {
+				alert("server not ready please delete afterwards");
+			}
+		})
+	}
+	else {
+		deleteRowFacilities(obj);
+	}
+}
+//facilities upload section end
+//--------------------------------------------------------------------------------------------------//
+//************************************adding Facility section end************************************//
 //--------------------------------------------------------------------------------------------------//

@@ -936,14 +936,164 @@ namespace HiSpaceListingWeb.Controllers
 		public ActionResult AddFacilities(int id)
 		{
 			SetSessionVariables();
-			Facility model = new Facility
+			ViewBag.ListingId = id;
+			ViewBag.FacilityDistances = Common.GetFacilityDistances();
+
+			IEnumerable<Facility> listOfFacilityMater = Common.GetFacilityMasterList();
+			IEnumerable<Facility> listOfFacility = null;
+			IEnumerable<Facility> listCombine = null;
+			using (var client = new HttpClient())
 			{
-				ListingId = id
-			};
-			return PartialView("_AddFacilitiesPartialView", model);
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetFacilityByListingId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<IList<Facility>>();
+					readTask.Wait();
+					listOfFacility = readTask.Result;
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+				}
+				listCombine = listOfFacility.Union(listOfFacilityMater, new ListOfFacilityCompare()).ToList();
+			}
+
+			return PartialView("_AddFacilitiesPartialView", listCombine);
+		}
+		//list of Facility compare and update
+		public class ListOfFacilityCompare : IEqualityComparer<Facility>
+		{
+			public bool Equals([AllowNull] Facility listOfFacilityMater, [AllowNull] Facility listOfFacility)
+			{
+				//Check whether the objects are the same object. 
+				if (Object.ReferenceEquals(listOfFacility, listOfFacility)) { return true; }
+				//Check whether the products' properties are equal. 
+				return listOfFacilityMater.FacilityMasterId.Equals(listOfFacility.FacilityMasterId) && listOfFacilityMater.Name.Equals(listOfFacility.Name);
+			}
+
+			public int GetHashCode([DisallowNull] Facility obj)
+			{
+				return (obj.FacilityMasterId.GetHashCode() + obj.Name.GetHashCode());
+			}
+		}
+		[HttpPost]
+		public ActionResult UploadFacility(Facility facility)
+		{
+			Facility model = new Facility();
+			SetSessionVariables();
+			if (facility.FacilityId == 0)
+			{
+				model.CreatedDateTime = DateTime.Now;
+				model.Description = null;
+				model.FacilityDistance = facility.FacilityDistance;
+				model.FacilityMasterId = facility.FacilityMasterId;
+				model.ListingId = facility.ListingId;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.Name = facility.Name;
+				model.Status = facility.Status;
+
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					//HTTP POST
+					var postTask = client.PostAsJsonAsync<Facility>(Common.Instance.ApiAddonsCreateFacility, model);
+					postTask.Wait();
+					var result = postTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<Facility>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+					}
+
+				}
+				return PartialView("_AddFacilitiesPartialView");
+			}
+			else if (facility.FacilityId != 0)
+			{
+				model.FacilityId = facility.FacilityId;
+				model.CreatedDateTime = DateTime.Now;
+				model.Description = null;
+				model.FacilityDistance = facility.FacilityDistance;
+				model.FacilityMasterId = facility.FacilityMasterId;
+				model.ListingId = facility.ListingId;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.Name = facility.Name;
+				model.Status = facility.Status;
+
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateFacility + model.FacilityId, model);
+					responseTask.Wait();
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<Facility>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+
+				return PartialView("_AddFacilitiesPartialView");
+			}
+			return PartialView("_AddFacilitiesPartialView");
+		}
+		public ActionResult GetFacility(int id)
+		{
+			SetSessionVariables();
+			Facility model = new Facility();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetFacilityByFacilityId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<Facility>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddFacilitiesPartialView");
+		}
+		public ActionResult DeleteFacility(int id)
+		{
+			SetSessionVariables();
+			Facility model = new Facility();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP DELETE
+				var responseTask = client.DeleteAsync(Common.Instance.ApiAddonsDeleteFacility + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<Facility>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddFacilitiesPartialView");
 		}
 
-		
 
 		public void SetSessionVariables()
 		{
