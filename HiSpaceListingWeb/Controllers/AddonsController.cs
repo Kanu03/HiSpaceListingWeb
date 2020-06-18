@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
+using static HiSpaceListingWeb.Utilities.Common;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HiSpaceListingWeb.Controllers
 {
@@ -266,14 +270,199 @@ namespace HiSpaceListingWeb.Controllers
 		public ActionResult AddAmenities(int id)
 		{
 			SetSessionVariables();
+			ViewBag.ListingId = id;
 			ViewBag.AmenitiesPaymentTypeList = Common.GetAmenitiesPaymentTypeList();
-			AmenityViewModel vModel = new AmenityViewModel
+			//ViewBag.AmenityMasterList = Common.GetAmenityMasterList();
+			IEnumerable<Amenity> listOfAmenityMater = Common.GetAmenityMasterList();
+			IEnumerable<Amenity> listOfAmenity = null;
+			IEnumerable<Amenity> listCombine = null;
+			using (var client = new HttpClient())
 			{
-				AmenityMasterList = Common.GetAmenityMasterList()
-			};
-			return PartialView("_AddAmenitiesPartialView", vModel);
-		}
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetAmenityByListingId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<IList<Amenity>>();
+					readTask.Wait();
+					listOfAmenity = readTask.Result;
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+				}
+				//listCombine = listOfAmenityMater.Union(listOfAmenity);
+				listCombine = listOfAmenity.Union(listOfAmenityMater, new ListOfAmenityCompare()).ToList();
+			}
 
+			return PartialView("_AddAmenitiesPartialView", listCombine);
+		}
+		//list of amenity compare and update
+		public class ListOfAmenityCompare : IEqualityComparer<Amenity>
+		{
+			public bool Equals([AllowNull] Amenity listOfAmenityMater, [AllowNull] Amenity listOfAmenity)
+			{
+				//Check whether the objects are the same object. 
+				if (Object.ReferenceEquals(listOfAmenityMater, listOfAmenity)) { return true; }
+				//Check whether the products' properties are equal. 
+				return listOfAmenityMater.AmenityMasterId.Equals(listOfAmenity.AmenityMasterId) && listOfAmenityMater.Name.Equals(listOfAmenity.Name);
+			}
+
+			public int GetHashCode([DisallowNull] Amenity obj)
+			{
+				return (obj.AmenityMasterId.GetHashCode() + obj.Name.GetHashCode());
+			}
+		}
+		[HttpPost]
+		public ActionResult UploadAmenity(Amenity amenity)
+		{
+			Amenity model = new Amenity();
+			SetSessionVariables();
+			if (amenity.AmenityId == 0)
+			{
+				if(amenity.AmenitiesPayment == "Free")
+				{
+					model.AmenitiesPayment = amenity.AmenitiesPayment;
+					model.PartialCount = null;
+					model.Price = null;
+				}else if (amenity.AmenitiesPayment == "Paid")
+				{
+					model.AmenitiesPayment = amenity.AmenitiesPayment;
+					model.PartialCount = null;
+					model.Price = amenity.Price;
+				}else if (amenity.AmenitiesPayment == "PartiallyPaid")
+				{
+					model.AmenitiesPayment = amenity.AmenitiesPayment;
+					model.PartialCount = amenity.PartialCount;
+					model.Price = amenity.Price;
+				}
+				
+				model.AmenityMasterId = amenity.AmenityMasterId;
+				model.Description = null;
+				model.ListingId = amenity.ListingId;
+				model.CreatedDateTime = DateTime.Now;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.Name = amenity.Name;
+				
+				model.Status = amenity.Status;
+
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					//HTTP POST
+					var postTask = client.PostAsJsonAsync<Amenity>(Common.Instance.ApiAddonsCreateAmenity, model);
+					postTask.Wait();
+					var result = postTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<Amenity>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+					}
+
+				}
+				return PartialView("_AddAmenitiesPartialView");
+			}
+			else if (amenity.AmenityId != 0)
+			{
+				model.AmenityId = amenity.AmenityId;
+
+				if (amenity.AmenitiesPayment == "Free")
+				{
+					model.AmenitiesPayment = amenity.AmenitiesPayment;
+					model.PartialCount = null;
+					model.Price = null;
+				}
+				else if (amenity.AmenitiesPayment == "Paid")
+				{
+					model.AmenitiesPayment = amenity.AmenitiesPayment;
+					model.PartialCount = null;
+					model.Price = amenity.Price;
+				}
+				else if (amenity.AmenitiesPayment == "PartiallyPaid")
+				{
+					model.AmenitiesPayment = amenity.AmenitiesPayment;
+					model.PartialCount = amenity.PartialCount;
+					model.Price = amenity.Price;
+				}
+				model.AmenityMasterId = amenity.AmenityMasterId;
+				model.Description = null;
+				model.ListingId = amenity.ListingId;
+				model.CreatedDateTime = DateTime.Now;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.Name = amenity.Name;
+				model.Status = amenity.Status;
+
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateAmenity + model.AmenityId, model);
+					responseTask.Wait();
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<Amenity>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+
+				return PartialView("_AddAmenitiesPartialView");
+			}
+			return PartialView("_AddAmenitiesPartialView");
+		}
+		public ActionResult GetAmenity(int id)
+		{
+			SetSessionVariables();
+			Amenity model = new Amenity();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetAmenityByAmenityId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<Amenity>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddAmenitiesPartialView");
+		}
+		public ActionResult DeleteAmenity(int id)
+		{
+			SetSessionVariables();
+			Amenity model = new Amenity();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP DELETE
+				var responseTask = client.DeleteAsync(Common.Instance.ApiAddonsDeleteAmenity + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<Amenity>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddAmenitiesPartialView");
+		}
 
 		[HttpPost]
 		public ActionResult UploadImage(ListingImageViewModel listingImageViewModel)
@@ -652,7 +841,6 @@ namespace HiSpaceListingWeb.Controllers
 			}
 			return PartialView("_AddFacilitiesPartialView");
 		}
-
 		public ActionResult DeleteProject(int id)
 		{
 			SetSessionVariables();

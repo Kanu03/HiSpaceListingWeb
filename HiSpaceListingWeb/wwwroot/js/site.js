@@ -154,7 +154,6 @@ $(document).ready(function () {
 		}
 	});
 
-
 	$('#CoworkingType').on('change', function () {
 		var value = $(this).val();
 		//alert(value)
@@ -180,25 +179,27 @@ $(document).ready(function () {
 	$(document).on('change', '.am-option', function () {
 		var value = $(this).val();
 		//alert(value)
-		if (value == 1) {
+		if (value == "Free") {
 			$(this).closest('.amenities-upload__row').children('.am-price, .am-partial').addClass('d-none');
 		}
-		else if (value == 2) {
+		else if (value == "Paid") {
 			//$('.am-price').removeClass('d-none');
 			//$('.am-partial').addClass('d-none');
 			$(this).closest('.amenities-upload__row').children('.am-price').removeClass('d-none');
 			$(this).closest('.amenities-upload__row').children('.am-partial').addClass('d-none');
 		}
-		else if (value == 3) {
+		else if (value == "PartiallyPaid") {
 			//$('.am-partial').removeClass('d-none');
 			//$('.am-price, .am-price').addClass('d-none');
 			$(this).closest('.amenities-upload__row').children('.am-partial').removeClass('d-none');
 			$(this).closest('.amenities-upload__row').children('.am-price').removeClass('d-none');
 		}
 	});
-
+	
+	
 
 });
+
 ////map section
 //// Initialize and add the map
 //function initMapLatLon() {
@@ -375,58 +376,6 @@ $('body').on('click', '.sch-status', function () {
 //schedular section end
 
 
-//amenities upload section start
-function addAmenities() {
-	$('.amenities-upload').append(
-		'<div class="row amenities-upload__row ">' +
-		'<div class=" col-md-3 col-sm-4">' +
-		'<div class="form-group">' +
-		'<input type="text" class="form-control" placeholder="Name">' +
-		'<label for="input" class="control-label">Amenity</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-lg-3 col-md-3 col-sm-4 col-6 ">' +
-		'<div class="form-group">' +
-		'<select class="form-control basic-select am-option" id="">' +
-		'<option value="1">Free</option>' +
-		'<option value="2">Paid</option>' +
-		'<option value="3">Partially Paid</option>' +
-		'</select>' +
-		'<label for="" class="control-label">Cost</label>' +
-		'<i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class=" am-price col-md-2 col-sm-3  d-none">' +
-		'<div class="form-group">' +
-		'<input type="number" class="form-control" placeholder="00">' +
-		'<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>' +
-		'<div class=" am-partial col-md-2 col-sm-3  d-none">' +
-		'<div class="form-group">' +
-		'<input type="number" class="form-control" placeholder="00">' +
-		'<label for="input" class="control-label">Free Count</label><i class="bar"></i>' +
-		'</div>' +
-		'</div>	' +
-
-
-		'<div class="col-md-1 col-sm-6 m-b--15 align-self-center">' +
-		'<div class="checkbox m-0">' +
-		'<label>' +
-		'<input type="checkbox" /><i class="helper"></i> Active' +
-		'</label>' +
-		'</div>' +
-		'</div>' +
-		'<div class="col-md-1 col-sm-6">' +
-		'<span class="delete-btn" onclick="deleteRowAmenities(this)"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>' +
-		'</div>' +
-		'</div>'
-	);
-}
-function deleteRowAmenities(that) {
-	$(that).closest('.amenities-upload__row').remove();
-};
-//amenities upload section end
 //facilities upload section start
 function addFacilities() {
 	$('.facilities-upload').append(
@@ -621,6 +570,24 @@ $(function () {
 				data + '</div></div>').modal();
 
 		});
+
+	//select type on edit
+	setTimeout(function () {
+		$('.amenities-upload__row').each(function (e) {
+			var valueType = $(this).find('.amenityType').val();
+			if (valueType == "Free") {
+				$(this).children('.am-price, .am-partial').addClass('d-none');
+			}
+			else if (valueType == "Paid") {
+				$(this).children('.am-price').removeClass('d-none');
+				$(this).children('.am-partial').addClass('d-none');
+			}
+			else if (valueType == "PartiallyPaid") {
+				$(this).children('.am-partial').removeClass('d-none');
+				$(this).children('.am-price').removeClass('d-none');
+			}
+		});
+	}, 1000);
 	});
 
 	//model open for the list facilities section
@@ -653,23 +620,6 @@ $(function () {
 		});
 	});
 
-
-	////ajax call section for image upload
-	//$('body').on('click', '#SubmitImage', function (e) {
-	//	//alert('a');
-	//	var test = new Array();
-	//	$('.image-upload__row').each(function () {
-	//		var name = $(this).find('.imageName').val();
-	//		var path = $(this).find('.imageFilePath').val();
-	//		//var status = $(this).find('.imageCheck').val();
-	//		if ($(this).find('.imageCheck').is(':checked')) {
-	//			var status = true
-	//		} else {
-	//			var status = false
-	//		};
-	//		//alert(name + ' ,' + path +' , ' + status);
-	//	})
-	//})
 });
 
 
@@ -1138,4 +1088,246 @@ function deleteProject(obj, projectId) {
 //project upload section end
 //--------------------------------------------------------------------------------------------------//
 //************************************adding Project section end************************************//
+//--------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------//
+//************************************adding Amenity section start**********************************//
+//--------------------------------------------------------------------------------------------------//
+
+//amenities upload section start
+function addAmenities(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	$('.amenities-upload').append(
+		'<div class="row amenities-upload__row ">' +
+		'<div class="display-none">'+
+		'<div class="form-group">'+
+		'<input type="text" class="form-control amenityId" placeholder="00" value="0">'+
+		'<label for="input" class="control-label">Amenity Id</label><i class="bar"></i>'+
+		'</div>'+
+		'</div>' +
+		'<div class="display-none">'+
+		'<div class="form-group">'+
+		'<input type="text" class="form-control amenityMasterId" placeholder="00" value="0">'+
+		'<label for="input" class="control-label">Master Id</label><i class="bar"></i>'+
+		'</div>'+
+		'</div>'+
+		'<div class=" col-md-3 col-sm-4">' +
+		'<div class="form-group">' +
+		'<input type="text" class="form-control amenityName" placeholder="Name">' +
+		'<label for="input" class="control-label">Amenity</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class="col-md-2 col-sm-4 col-6 ">' +
+		'<div class="form-group">' +
+		'<select class="form-control basic-select am-option amenityType" id="">' +
+		'<option value="Free">Free</option>' +
+		'<option value="Paid">Paid</option>' +
+		'<option value="PartiallyPaid">Partially Paid</option>' +
+		'</select>' +
+		'<label for="" class="control-label">Cost</label>' +
+		'<i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class=" am-price col-md-2 col-sm-3 d-none">' +
+		'<div class="form-group">' +
+		'<input type="number" class="form-control amenityPrice" placeholder="00">' +
+		'<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>' +
+		'<div class=" am-partial col-md-2 col-sm-3 d-none">' +
+		'<div class="form-group">' +
+		'<input type="number" class="form-control amenityCount" placeholder="00">' +
+		'<label for="input" class="control-label">Free Count</label><i class="bar"></i>' +
+		'</div>' +
+		'</div>	' +
+
+
+		'<div class="col-md-1 col-sm-6 m-b--15 align-self-center">' +
+		'<div class="checkbox m-0">' +
+		'<label>' +
+		'<input type="checkbox" class="amenityStatus" /><i class="helper"></i> Active' +
+		'</label>' +
+		'</div>' +
+		'</div>' +
+		'<div class="col-md-2 col-sm-6 align-self-center">' +
+		'<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddAmenityForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>' +
+		'<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditAmenityForm(this);" data-listingid=' + listingId + ' data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>' +
+		'<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteRowAmenities(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>' +
+		//'<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i></span>'+
+		'</div>' +
+		'</div>'
+	);
+}
+function deleteRowAmenities(that) {
+	$(that).closest('.amenities-upload__row').remove();
+};
+
+//Amenity upload section end
+function AddAmenityForm(obj) {
+	var listingId = $(obj).attr('data-listingid');
+	//console.log(listingId)
+	var formData = new FormData();
+	var row = $(obj).closest('.amenities-upload__row');
+	if ($(row).find('.amenityStatus').is(':checked')) {
+		amenityStatus = true;
+	} else {
+		amenityStatus = false;
+	}
+	//console.log(amenityStatus)
+	var amenityName = $(row).find('.amenityName').val();
+	if ($(row).find('.amenityId').length) {
+		amenityId = $(row).find('.amenityId').val();
+	} else {
+		amenityId = 0;
+	}
+	if ($(row).find('.amenityMasterId').length) {
+		amenityMasterId = $(row).find('.amenityMasterId').val();
+	} else {
+		amenityMasterId = 0;
+	}
+	var amenityType = $(row).find('.amenityType').val();
+	var amenityPrice = $(row).find('.amenityPrice').val();
+	var amenityCount = $(row).find('.amenityCount').val();
+
+	formData.append("AmenityId", amenityId);
+	formData.append("ListingId", listingId);
+	formData.append("AmenityMasterId", amenityMasterId);
+	formData.append("Name", amenityName);
+	formData.append("AmenitiesPayment", amenityType);
+	formData.append("PartialCount", amenityCount);
+	formData.append("Price", amenityPrice);
+	formData.append("Status", amenityStatus);
+	//console.log(formData);
+	// Display the key/value pairs
+	//for (var pair of formData.entries()) {
+	//	console.log(pair[0] + ', ' + pair[1]);
+	//}
+
+	$.ajax({
+		type: "POST",
+		url: "/Addons/UploadAmenity",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				$(row).addClass("addons-row__light");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.amenityName, .amenityType, .amenityCount, .amenityPrice, .amenityStatus').addClass("event-none");
+
+				$(row).find('.amenityId').val(response.amenityId);
+				$(row).find('.amenityMasterId').val(response.amenityMasterId);
+				$(row).find('.amenityName').val(response.name);
+				$(row).find('.amenityStatus').prop("checked", response.status);
+				$(row).find('.amenityType').val(response.amenitiesPayment);
+				$(row).find('.amenityCount').val(response.partialCount);
+				$(row).find('.amenityPrice').val(response.price);
+
+				if ($(obj).siblings('.addon-delete').length) {
+					$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+					$(obj).siblings('.addon-delete').attr('onclick', "deleteAmenity(this," + response.amenityId + ")");
+				} else {
+					$(obj).siblings('.addon-edit').removeClass('display-none');
+				}
+
+				if ($(obj).siblings('.addon-clear').length) {
+					$(obj).siblings('.addon-clear').addClass('display-none');
+				} else {
+					$(obj).parent().append(
+						'<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowAmenity(this,' + response.amenityId + ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>'
+					);
+				};
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert("server not ready please upload afterwards");
+		}
+	});
+}
+
+
+//edit amenity section
+function EditAmenityForm(obj) {
+	var row = $(obj).closest('.amenities-upload__row');
+	$(row).removeClass("addons-row__light");
+	$(row).addClass("addons-row__edit");
+	$(row).find('.amenityName, .amenityType, .amenityCount, .amenityPrice, .amenityStatus').removeClass("event-none");
+
+	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
+	$(obj).siblings('.addon-delete').addClass('display-none');
+	$(obj).addClass('display-none');
+}
+
+//Reset amenity section
+function clearRowAmenity(obj, amenityId) {
+	//console.log(imageId)
+	var row = $(obj).closest('.amenities-upload__row');
+	$.ajax({
+		type: "GET",
+		url: "/Addons/GetAmenity",
+		dataType: "json",
+		data: { id: amenityId },
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				$(row).addClass("addons-row__light");
+				$(row).removeClass("addons-row__edit");
+				$(row).find('.amenityName, .amenityType, .amenityCount, .amenityPrice, .amenityStatus').addClass("event-none");
+
+				$(row).find('.amenityId').val(response.amenityId);
+				$(row).find('.amenityMasterId').val(response.amenityMasterId);
+				$(row).find('.amenityName').val(response.name);
+				$(row).find('.amenityStatus').prop("checked", response.status);
+				$(row).find('.amenityType').val(response.amenitiesPayment);
+				$(row).find('.amenityCount').val(response.partialCount);
+				$(row).find('.amenityPrice').val(response.price);
+
+				if ($(obj).siblings('.addon-delete').length) {
+					$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+					$(obj).siblings('.addon-delete').attr('onclick', "deleteAmenity(this," + response.amenityId + ")");
+				} else {
+					$(obj).siblings('.addon-edit').removeClass('display-none');
+				}
+
+				//$(row).find('.imageCheck').prop("checked", response.status);
+				$(obj).siblings('.addon-edit, .addon-delete').removeClass('display-none');
+				$(obj).siblings('.addon-add').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert(response);
+		}
+	})
+}
+
+//Delete amenity section
+function deleteAmenity(obj, amenityId) {
+	var row = $(obj).closest('.amenities-upload__row');
+	if (amenityId != 0) {
+		$.ajax({
+			type: "GET",
+			url: "/Addons/DeleteAmenity",
+			dataType: "json",
+			data: { id: amenityId },
+			success: function (response) {
+				if (response != null) {
+					console.log(response);
+					deleteRowAmenities(obj);
+				}
+			},
+			error: function (response) {
+				alert("server not ready please delete afterwards");
+			}
+		})
+	}
+	else {
+		deleteRowAmenities(obj);
+	}
+}
+//amenities upload section end
+//--------------------------------------------------------------------------------------------------//
+//************************************adding Amenity section end************************************//
 //--------------------------------------------------------------------------------------------------//

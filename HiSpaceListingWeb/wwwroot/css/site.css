@@ -2253,7 +2253,7 @@ form.md-form .checkbox.checbox-switch-small {
 	margin-bottom: 20px;
 }
 
-#ImageAddForm .delete-btn, #ProjectAddForm .delete-btn {
+#ImageAddForm .delete-btn, #ProjectAddForm .delete-btn, #amenities .delete-btn {
 	background: #ffffff;
 	width: 70px;
 	line-height: 30px;
@@ -2265,6 +2265,9 @@ form.md-form .checkbox.checbox-switch-small {
 	cursor: pointer;
 	font-weight: 600;
 }
-	#ImageAddForm .delete-btn i, #ProjectAddForm .delete-btn i {
+	#ImageAddForm .delete-btn i, #ProjectAddForm .delete-btn i, #amenities .delete-btn i {
 		font-size: 16px;
 	}
+.addons-row__light{
+	background: #eee;
+}

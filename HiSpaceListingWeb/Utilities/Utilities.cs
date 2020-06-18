@@ -151,6 +151,12 @@ namespace HiSpaceListingWeb.Utilities
 		public string ApiAddonsUpdateProject = "UpdateProject/";
 		public string ApiAddonsDeleteProject = "DeleteProject/";
 
+		public string ApiAddonsGetAmenityByListingId = "GetAmenityByListingId/";
+		public string ApiAddonsGetAmenityByAmenityId = "GetImageByAmenityId/";
+		public string ApiAddonsCreateAmenity = "CreateAmenity/";
+		public string ApiAddonsUpdateAmenity = "UpdateAmenity/";
+		public string ApiAddonsDeleteAmenity = "DeleteAmenity/";
+
 
 		#endregion Addons Controller
 
@@ -311,9 +317,9 @@ namespace HiSpaceListingWeb.Utilities
 
 		#endregion DropDown Methods
 
-		public static List<AmenityMasterVM> GetAmenityMasterList()
+		public static List<Amenity> GetAmenityMasterList()
 		{
-			List<AmenityMasterVM> amenities = new List<AmenityMasterVM>();
+			List<Amenity> amenities = new List<Amenity>();
 			using (var client = new HttpClient())
 			{
 				client.BaseAddress = new Uri(Common.Instance.ApiCommonControllerName);
@@ -326,7 +332,7 @@ namespace HiSpaceListingWeb.Utilities
 					var readTask = result.Content.ReadAsAsync<IList<AmenityMaster>>();
 					readTask.Wait();
 					foreach (var item in readTask.Result.ToList())
-						amenities.Add(new AmenityMasterVM() { AmenityMasterId = item.AmenityMasterId, Name = item.Name, Status = item.Status });
+						amenities.Add(new Amenity() { AmenityMasterId = item.AmenityMasterId, Name = item.Name, Status = item.Status });
 				}
 				else
 				{

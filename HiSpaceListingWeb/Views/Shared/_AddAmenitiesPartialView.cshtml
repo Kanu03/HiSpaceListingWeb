@@ -3,7 +3,8 @@
 *@
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@model HiSpaceListingWeb.ViewModel.AmenityViewModel
+@*@model HiSpaceListingWeb.ViewModel.AmenityViewModel*@
+@model IEnumerable<HiSpaceListingModels.Amenity>
 @*Amenities section start*@
 @*<div class="modal amenities fade modal-pry" id="amenitiesModal" tabindex="-1" role="dialog" aria-labelledby="amenitiesModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">*@
@@ -20,69 +21,149 @@
 			<div class="tab-pane fade show active" id="amenities" role="tabpanel" aria-labelledby="amenities-tab">
 
 				<form class=" mt-4 align-items-center md-form" action="account-profile.html">
-					@*@using (Html.BeginForm("signup", "User", FormMethod.Post, new { @class = "form-row mt-4 align-items-center md-form" }))*@
-					@*{*@
-
 					<h6>Common Aminities</h6>
 					<div class="amenities-common">
-						@foreach (var item in Model.AmenityMasterList)
+						@foreach (var item in Model)
 						{
-							<div class="row amenities-upload__row">
-								<div class=" col-md-3 col-sm-4 ">
-									<div class="form-group">
-										<div class="checkbox m-0">
-											<label>
-												<input type="checkbox" /><i class="helper"></i> @item.Name
-											</label>
+							@if (item.AmenityMasterId != 0 && item.AmenityId == 0)
+							{
+								<div class="row amenities-upload__row">
+									<div class=" col-md-2 col-sm-4 ">
+										<div class="form-group">
+											<div class="checkbox m-0">
+												<label>
+													<input type="checkbox" class="amenityStatus" /><i class="helper"></i> @item.Name
+												</label>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-md-3 col-sm-4 col-6">
-									@*<div class="form-group">
-						<select class="form-control am-option" id="">
-							<option value="1">Free</option>
-							<option value="2">Paid</option>
-							<option value="3">Partially Paid</option>
-						</select>
-						<label for="" class="control-label">Cost</label>
-						<i class="bar"></i>
-					</div>*@
-									<div class="form-group">
-										<select class="form-control basic-select am-option"
-												asp-items="@(new SelectList(ViewBag.AmenitiesPaymentTypeList, "AmenitiesPaymentTypeListID", "AmenitiesPaymentTypeListDisplay"))"></select>
-										<label for="select" class="control-label">Cost</label><i class="bar"></i>
+									<div class="col-lg-2 col-md-3 col-sm-4 col-6">
+										<div class="form-group">
+											<select class="form-control basic-select am-option amenityType"
+													asp-items="@(new SelectList(ViewBag.AmenitiesPaymentTypeList, "AmenitiesPaymentTypeListName", "AmenitiesPaymentTypeListDisplay"))"></select>
+											<label for="select" class="control-label">Cost</label><i class="bar"></i>
+										</div>
+									</div>
+									@*paid*@
+									<div class="am-price col-md-2 col-sm-3 d-none">
+										<div class="form-group">
+											<input type="number" class="form-control amenityPrice" placeholder="00">
+											<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>
+										</div>
+									</div>
+									@*partial*@
+									<div class="am-partial col-md-2 col-sm-3 d-none">
+										<div class="form-group">
+											<input type="number" class="form-control amenityCount" placeholder="00">
+											<label for="input" class="control-label">Free Count</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control amenityName" placeholder="00" value="@item.Name">
+											<label for="input" class="control-label">Name</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control amenityMasterId" placeholder="00" value="@item.AmenityMasterId">
+											<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control amenityId" placeholder="00" value="0">
+											<label for="input" class="control-label">Amenity Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-md-2 col-sm-6 align-self-center amenityAction">
+										<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+										<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+										@*<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowAmenity(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>*@
 									</div>
 								</div>
-								@*paid*@
-								<div class="am-price col-md-3 col-sm-3 d-none">
-									<div class="form-group">
-										<input type="number" class="form-control" placeholder="00">
-										<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>
+							}
+							else if (item.AmenityMasterId != 0 && item.AmenityId != 0)
+							{
+								<div class="row amenities-upload__row addons-row__light">
+									<div class=" col-md-2 col-sm-4 ">
+										<div class="form-group">
+											<div class="checkbox m-0">
+												<label>
+													<input type="checkbox" class="amenityStatus event-none" checked="@item.Status" /><i class="helper"></i> @item.Name
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-3 col-sm-4 col-6">
+										<div class="form-group">
+											<select class="form-control basic-select am-option amenityType event-none"
+													asp-items="@(new SelectList(ViewBag.AmenitiesPaymentTypeList, "AmenitiesPaymentTypeListName", "AmenitiesPaymentTypeListDisplay",@item.AmenitiesPayment))"></select>
+											<label for="select" class="control-label">Cost</label><i class="bar"></i>
+										</div>
+									</div>
+									@*paid*@
+									<div class="am-price col-md-2 col-sm-3 d-none">
+										<div class="form-group">
+											<input type="number" class="form-control amenityPrice event-none" placeholder="00" value="@item.Price">
+											<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>
+										</div>
+									</div>
+									@*partial*@
+									<div class="am-partial col-md-2 col-sm-3 d-none">
+										<div class="form-group">
+											<input type="number" class="form-control amenityCount event-none" placeholder="00" value="@item.PartialCount">
+											<label for="input" class="control-label">Free Count</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control amenityName" placeholder="00" value="@item.Name">
+											<label for="input" class="control-label">Name</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control amenityMasterId" placeholder="00" value="@item.AmenityMasterId">
+											<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="display-none">
+										<div class="form-group">
+											<input type="text" class="form-control amenityId" placeholder="00" value="@item.AmenityId">
+											<label for="input" class="control-label">Amenity Id</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-md-2 col-sm-6 align-self-center amenityAction">
+										<span class="addon-add delete-btn display-none tooltip-wrapper text-sec" onclick="AddAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+										<span class="addon-edit delete-btn tooltip-wrapper text-info" onclick="EditAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+										<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowAmenity(this, @item.AmenityId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>
 									</div>
 								</div>
-								@*partial*@
-								<div class="am-partial col-md-3 col-sm-3 d-none">
-									<div class="form-group">
-										<input type="number" class="form-control" placeholder="00">
-										<label for="input" class="control-label">Free Count</label><i class="bar"></i>
-									</div>
-								</div>
-							</div>
+							}
 						}
 					</div>
-					<div class="btn btn-primary add-btn" onclick="addAmenities()"> <i class="fa fa-plus-circle"></i>Custom Amenities</div>
+					<div class="btn btn-primary add-btn" data-listingid="@ViewBag.ListingId" onclick="addAmenities(this)"> <i class="fa fa-plus-circle"></i>Custom Amenities</div>
 					<div class="amenities-upload">
+						@if (Model.Count() == 27)
+						{
 						<div class="row amenities-upload__row">
 							<div class=" col-md-3 col-sm-4 ">
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Name">
+									<input type="text" class="form-control amenityName" placeholder="Name">
 									<label for="input" class="control-label">Amenity</label><i class="bar"></i>
 								</div>
 							</div>
-							<div class="col-md-3 col-sm-4 col-6 ">
+							<div class="display-none">
 								<div class="form-group">
-									<select class="form-control basic-select am-option"
-											asp-items="@(new SelectList(ViewBag.AmenitiesPaymentTypeList, "AmenitiesPaymentTypeListID", "AmenitiesPaymentTypeListDisplay"))"></select>
+									<input type="text" class="form-control amenityMasterId" placeholder="00" value="0">
+									<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+								</div>
+							</div>
+							<div class="col-md-2 col-sm-4 col-6 ">
+								<div class="form-group">
+									<select class="form-control basic-select am-option amenityType"
+											asp-items="@(new SelectList(ViewBag.AmenitiesPaymentTypeList, "AmenitiesPaymentTypeListName", "AmenitiesPaymentTypeListDisplay"))"></select>
 									<label for="select" class="control-label">Cost</label><i class="bar"></i>
 								</div>
 							</div>
@@ -90,14 +171,14 @@
 
 							<div class="am-price col-md-2 col-sm-2 d-none">
 								<div class="form-group">
-									<input type="number" class="form-control" placeholder="00">
+									<input type="number" class="form-control amenityPrice" placeholder="00">
 									<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>
 								</div>
 							</div>
 							@*partial*@
 							<div class="am-partial col-md-2 col-sm-2 d-none">
 								<div class="form-group">
-									<input type="number" class="form-control" placeholder="00">
+									<input type="text" class="form-control amenityCount" placeholder="00">
 									<label for="input" class="control-label">Free Count</label><i class="bar"></i>
 								</div>
 							</div>
@@ -105,24 +186,97 @@
 							<div class="col-md-1 col-sm-6 m-b--15 align-self-center">
 								<div class="checkbox m-0">
 									<label>
-										<input type="checkbox" /><i class="helper"></i> Active
+										<input type="checkbox" class="amenityStatus" /><i class="helper"></i> Active
 									</label>
 								</div>
 							</div>
-							<div class="col-md-1 col-sm-6">
-								<span class="delete-btn" onclick="deleteRowAmenities(this)"><i class="fas fa-trash-alt btn-icon text-danger"></i></span>
+							<div class="display-none">
+								<div class="form-group">
+									<input type="text" class="form-control amenityId" placeholder="00" value="0">
+									<label for="input" class="control-label">Amenity Id</label><i class="bar"></i>
+								</div>
+							</div>
+							<div class="col-md-2 col-sm-6 align-self-center">
+								<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+								<span class="addon-edit delete-btn tooltip-wrapper text-info display-none" onclick="EditAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+								<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteAmenity(this,0)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
+								@*<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowAmenity(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>*@
 							</div>
 						</div>
-					</div>
+						}
+						else
+						{
+							@foreach (var item in Model)
+							{
+								@if (item.AmenityMasterId == 0 || item.AmenityMasterId == null)
+								{
+					<div class="row amenities-upload__row addons-row__light">
+						<div class=" col-md-3 col-sm-4 ">
+							<div class="form-group">
+								<input type="text" class="form-control amenityName event-none" placeholder="Name" value="@item.Name">
+								<label for="input" class="control-label">Amenity</label><i class="bar"></i>
+							</div>
+						</div>
+						<div class="display-none">
+							<div class="form-group">
+								<input type="text" class="form-control amenityMasterId" placeholder="00" value="@item.AmenityMasterId">
+								<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-4 col-6 ">
+							<div class="form-group">
+								<select class="form-control basic-select am-option amenityType event-none"
+										asp-items="@(new SelectList(ViewBag.AmenitiesPaymentTypeList, "AmenitiesPaymentTypeListName", "AmenitiesPaymentTypeListDisplay",@item.AmenitiesPayment))"></select>
+								<label for="select" class="control-label">Cost</label><i class="bar"></i>
+							</div>
+						</div>
+						@*paid*@
 
+						<div class="am-price col-md-2 col-sm-2 d-none">
+							<div class="form-group">
+								<input type="number" class="form-control amenityPrice event-none" placeholder="00" value="@item.Price">
+								<label for="input" class="control-label">Price/Usage</label><i class="bar"></i>
+							</div>
+						</div>
+						@*partial*@
+						<div class="am-partial col-md-2 col-sm-2 d-none">
+							<div class="form-group">
+								<input type="text" class="form-control amenityCount event-none" placeholder="00" value="@item.PartialCount">
+								<label for="input" class="control-label">Free Count</label><i class="bar"></i>
+							</div>
+						</div>
 
-					<div class="row width-full justify-content-center">
-						<div class="col-sm-4">
-							<button type="submit" class="btn btn-primary btn-block">Submit Amenities</button>
+						<div class="col-md-1 col-sm-6 m-b--15 align-self-center">
+							<div class="checkbox m-0">
+								<label>
+									<input type="checkbox" class="amenityStatus event-none" checked="@item.Status" /><i class="helper"></i> Active
+								</label>
+							</div>
+						</div>
+						<div class="display-none">
+							<div class="form-group">
+								<input type="text" class="form-control amenityId" placeholder="00" value="@item.AmenityId">
+								<label for="input" class="control-label">Amenity Id</label><i class="bar"></i>
+							</div>
+						</div>
+						<div class="display-none">
+							<div class="form-group">
+								<input type="text" class="form-control amenityMasterId" placeholder="00" value="@item.AmenityMasterId">
+								<label for="input" class="control-label">Master Id</label><i class="bar"></i>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-6 align-self-center">
+							<span class="addon-add delete-btn tooltip-wrapper text-sec display-none" onclick="AddAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+							<span class="addon-edit delete-btn tooltip-wrapper text-info " onclick="EditAmenityForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+							<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteAmenity(this, @item.AmenityId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
+							<span class="addon-clear delete-btn tooltip-wrapper display-none text-pry" onclick="clearRowAmenity(this, @item.AmenityId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to clear"><i class="fas fa-times btn-icon text-pry"></i> Clear</span>
 						</div>
 					</div>
+								}
+							}
+						}
+					</div>
 				</form>
-				@*}*@
 			</div>
 		</div>
 	</div>
