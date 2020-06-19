@@ -97,16 +97,27 @@
 
 								<div class="owl-stage-outer">
 									<div class="owl-stage" style="transform: translate3d(-1220px, 0px, 0px); transition: all 1s ease 0s; width: 3660px;">
-										<div class="owl-item cloned" style="width: 610px;">
-											<div class="item">
-												<a class="portfolio-img" href="~/images/property/big-img-01.jpg"><img class="img-fluid" src="~/images/property/big-img-01.jpg" alt=""></a>
+										@if (Model.ListingImages != null || Model.ListingImages.Count() > 0)
+										{
+											@foreach (var item in Model.ListingImages)
+											{
+												<div class="owl-item" style="width: 610px;">
+													<div class="item">
+														<a class="portfolio-img" href="@item.ImageUrl"><img class="img-fluid" src="@item.ImageUrl" alt=""></a>
+													</div>
+												</div>
+											}
+										}
+										else
+										{
+											<div class="owl-item" style="width: 610px;">
+												<div class="item">
+													<a class="portfolio-img" href="~/images/property/list/01.jpg"><img class="img-fluid" src="~/images/property/list/01.jpg" alt=""></a>
+												</div>
 											</div>
-										</div>
-										<div class="owl-item cloned" style="width: 610px;">
-											<div class="item">
-												<a class="portfolio-img" href="~/images/property/big-img-02.jpg"><img class="img-fluid" src="~/images/property/big-img-02.jpg" alt=""></a>
-											</div>
-										</div>
+										}
+
+
 									</div>
 								</div>
 								<div class="owl-nav">
@@ -414,16 +425,18 @@
 																	<span>&#8377;@item.Price/Usage</span>
 																</li>
 															}
-															else if (item.AmenitiesPayment == "Partialy Paid")
+															else if (item.AmenitiesPayment == "PartiallyPaid")
 															{
-																<li class="col-sm-12">
-																	<i class="fas fa-check-circle text-pry"></i>
-																	@item.Name
-																	<span class="spliter">|</span>
-																	<span class="font-weight-bold">Free<span class="text-sufix">(@item.PartialCount)</span></span>
-																	<span class="spliter">|</span>
-																	<span>&#8377;@item.Price/Usage</span>
-																</li>
+													<li class="col-sm-12">
+														<i class="fas fa-check-circle text-pry"></i>
+														@item.Name
+														<span class="spliter">|</span>
+														<span class="font-weight-bold">Partially Paid</span>
+														<span class="spliter">|</span>
+														<span class="">Free Count<span class="text-sufix">(@item.PartialCount)</span></span>
+														<span class="spliter">|</span>
+														<span>&#8377;@item.Price/Usage</span>
+													</li>
 															}
 														}
 													</ul>
@@ -482,9 +495,27 @@
 											<ul class="property-list facilities-list list-unstyled row mb-3">
 												@foreach (var item in Model.REProfessionalMasters)
 												{
-													<li class="col-sm-6">
-														<i class="fab fa-gratipay text-info"></i>@item.ProjectName
-														<p>@item.Description</p>
+													<li class="col-sm-12">
+														<div class="row re-project">
+															<div class="col-sm-4">
+																<div class="re-project__name">@item.ProjectName</div>
+																<div class="re-project__image">
+																	<a href="@Url.Content(item.ImageUrl)" target="_blank">
+																	<img class="img-fluid" alt="name" src="@Url.Content(item.ImageUrl)" />
+																	</a>
+																</div>
+																<div class="re-project__doc">
+																	<a href="@Url.Content(item.DocumentUrl)" target="_blank">
+																		<span class="addon-add delete-btn tooltip-wrapper text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to view the project document"><i class="fas fa-file-alt btn-icon text-info"></i> Document</span>
+																	</a>
+																</div>
+															</div>
+															<div class="col-sm-8">
+																<div class="re-project__desc">
+																@item.Description
+																</div>
+															</div>
+														</div>
 													</li>
 												}
 											</ul>
@@ -502,37 +533,6 @@
 								<div class="col-sm-9">
 									<div class="mb-3">
 										<ul class="property-list available-list list-unstyled row mb-3">
-											@*<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>24/7</b>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Monday: </b>
-			<span>10:00AM</span> - <span>06:00PM</span>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Tuesday: </b>
-			<span>10:00AM</span> - <span>06:00PM</span>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Wednesday: </b>
-			<span>10:00AM</span> - <span>06:00PM</span>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Thursday: </b>
-			<span>10:00AM</span> - <span>06:00PM</span>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Friday: </b>
-			<span>10:00AM</span> - <span>06:00PM</span>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Saturday: </b>
-			<span>Closed</span>
-		</li>
-		<li class="col-sm-12">
-			<i class="fas fa-business-time"></i><b>Sunday: </b>
-			<span>Closed</span>
-		</li>*@
 											@if (Model.WorkingHours != null)
 											{
 												//Mon

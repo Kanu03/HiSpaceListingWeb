@@ -122,11 +122,11 @@ namespace HiSpaceListingWeb.Controllers
 				}
 				ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
 			}
-			if(GetSessionObject().UserId != 0)
+			if(model.UserId != 0)
 			{
 				return RedirectToAction("Index", "Website");
 			}
-			else if (GetSessionObject().UserId == 0)
+			else if (model.UserId == 0)
 			{
 				return RedirectToAction("AdminLister", "Admin");
 			}

@@ -113,17 +113,17 @@ $('[data-toggle="popover"]').popover()
         var $this = $(this),
           $items = ($this.data('items')) ? $this.data('items') : 1,
           $loop = ($this.attr('data-loop')) ? $this.data('loop') : true,
-          $navdots = ($this.data('nav-dots')) ? $this.data('nav-dots') : false,
-          $navarrow = ($this.data('nav-arrow')) ? $this.data('nav-arrow') : false,
+          $navdots = ($this.data('nav-dots')) ? $this.data('nav-dots') : true,
+          $navarrow = ($this.data('nav-arrow')) ? $this.data('nav-arrow') : true,
           $autoplay = ($this.attr('data-autoplay')) ? $this.data('autoplay') : true,
           $autospeed = ($this.attr('data-autospeed')) ? $this.data('autospeed') : 5000,
           $smartspeed = ($this.attr('data-smartspeed')) ? $this.data('smartspeed') : 1000,
           $autohgt = ($this.data('autoheight')) ? $this.data('autoheight') : false,
           $space = ($this.attr('data-space')) ? $this.data('space') : 30,
-          $animateOut = ($this.attr('data-animateOut')) ? $this.data('animateOut') : false;
+          $animateOut = ($this.attr('data-animateOut')) ? $this.data('animateOut') : true;
 
         $(this).owlCarousel({
-          loop: $loop,
+            loop: $loop,
           items: $items,
           responsive: {
             0: {
