@@ -101,6 +101,7 @@ namespace HiSpaceListingWeb.Controllers
 			}
 			return View(vModel);
 		}
+
 		public ActionResult PropertyLister(int UserID)
 		{
 			SetSessionVariables();

@@ -1,0 +1,274 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model HiSpaceListingModels.HealthCheck
+@*Adding image section start*@
+<div class="modal-content">
+	<div class="modal-header border-0">
+		<h5 class="modal-title" id="healthModalLabel"><i class="fas fa-temperature-low"> </i> Internal Health Check </h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body popup-btn">
+		<div class="tab-content" id="">
+			<div class="tab-pane fade show active" id="health" role="tabpanel" aria-labelledby="health-tab">
+				<form id="HealthAddForm" class="align-items-center md-form">
+					<div class="health-upload">
+						<div class="row">
+							<div class="form-table_head">
+								<span>Health Checklist </span>
+								<span> / </span>
+								<span> Your Data </span>
+								<span> / </span>
+								<span> Grade </span>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									Air Quality Index
+								</div>
+								<div class="check-desc">
+									The air quality index is composed of 8 pollutants (PM10, PM2.5, NO2, SO2, CO, O3, NH3, and Pb)
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="0-50">0 - 50 (Good)</option>
+										<option value="51-100">51 - 100 (Satisfactory)</option>
+										<option value="101-200">101 - 200 (Moderatey Polluted)</option>
+										<option value="201-300">201 - 300 (Poor)</option>
+										<option value="301-400">301 - 400 (Very Poor)</option>
+										<option value="401-500">401 - 500 (Severe)</option>
+									</select>
+									<label for="select" class="control-label">AQI Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									Temperature(˚F)
+								</div>
+								<div class="check-desc">
+									Calculating sensible and latent heat from persons, lights, electric equipment, machines, evaporation from water surfaces, polluting fluids and miscellaneous loads.
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="<95">&#60;95 (Cold - Action Required)</option>
+										<option value="95-99.9">95 - 99.9 (Excellent)</option>
+										<option value="100-104">100 - 104 (Good)</option>
+										<option value=">104">&#62;104 (Hot - Action Required)</option>
+									</select>
+									<label for="select" class="control-label">Temperature Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									Humidity(RH%)
+								</div>
+								<div class="check-desc">
+									Easily stated humidity is simply the amount of water vapor held in the air. Water vapor is the gaseous state of water.
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="<30">&#60;30 (Too Dry)</option>
+										<option value="30-50">30 - 50 (Moderate)</option>
+										<option value=">50">&#62;50 (Too High)</option>
+									</select>
+									<label for="select" class="control-label">Humidity Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									Co2(PPM)
+								</div>
+								<div class="check-desc">
+									For instance, CO2 and other emissions are caused when driving a car, heating a house, cooking, working, celebrating or flying.
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="<400">&#60;400 (Excellent)</option>
+										<option value="400-599">400 - 599 (Good)</option>
+										<option value="600-999">600 - 999 (Fair)</option>
+										<option value="1000-1499">1000 - 1499 (Moderate)</option>
+										<option value="1500-1999">1500 - 1999 (Unhealthy)</option>
+										<option value=">2000">&#62;2000 (Hazardous)</option>
+									</select>
+									<label for="select" class="control-label">Co2 Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									Co(PPM)
+								</div>
+								<div class="check-desc">
+									Carbon Monoxide is an odorless, tasteless, poisonous gas, CO, that results from the incomplete combustion of carbon. Inhalation causes central nervous system damage and asphyxiation.
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="<4.4">&#60;4.4 (Good)</option>
+										<option value="4.4-9.4">4.4 - 9.4 (Moderate)</option>
+										<option value="9.5-12.4">9.5 - 12.4 (Unhealthy for Sensitive)</option>
+										<option value="12.5-15.4">12.5 - 15.4 (Unhealthy)</option>
+										<option value="15.5-30.4">15.5 - 30.4 (Very Unhealthy)</option>
+										<option value="30.5-40.4">30.5 - 40.4 (Hazardous)</option>
+										<option value=">40.5">&#62;40.5 (Very Hazardous)</option>
+									</select>
+									<label for="select" class="control-label">Co Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									PM2.5(µg/m3)
+								</div>
+								<div class="check-desc">
+									To calculate PM 2.5 AQI, governments use a machine called a beta attenuation monitor that estimates the number of micrograms (the mass or weight) per cubic meter of air.
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="<15.4">&#60;15.4 (Good)</option>
+										<option value="15.4-40.4">15.4 - 40.4 (Moderate)</option>
+										<option value="40.5-65.4">40.5 - 65.4 (Unhealthy for Sensitive)</option>
+										<option value="65.5.150.4">65.5 - 150.4 (Unhealthy)</option>
+										<option value="150.5-250.4">150.5 - 250.4 (Very Unhealthy)</option>
+										<option value="250.5-350.4">250.5 - 350.4 (Hazardous)</option>
+										<option value=">350.5">&#62;350.5 (Very Hazardous)</option>
+									</select>
+									<label for="select" class="control-label">PM2.5 Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									PM10(µg/m3)
+								</div>
+								<div class="check-desc">
+									The coarse particles are between 2.5 and 10 micrometers (from about 25 to 100 times thinner than a human hair). These particles are called PM10 (we say "P M ten", which stands for Particulate Matter up to 10 micrometers in size).
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="<=54">&#60;=54 (Good)</option>
+										<option value="55-154">55 - 154 (Moderate)</option>
+										<option value="155-254">155 - 254 (Unhealthy for Sensitive)</option>
+										<option value="255-354">255 - 354 (Unhealthy)</option>
+										<option value="355-424">355 - 424 (Very Unhealthy)</option>
+										<option value="425-504">425 - 504 (Hazardous)</option>
+										<option value=">505">&#62;505 (Very Hazardous)</option>
+									</select>
+									<label for="select" class="control-label">PM10 Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+						<div class="row health-upload__row">
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-name">
+									Moisture(%)
+								</div>
+								<div class="check-desc">
+									The moisture quotient (% MQ) is the difference in percent age between the weight of water in damp material and the weight of the dried material.
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+								<div class="form-group">
+									<select class="form-control basic-select" id="list-type">
+										<option value="5%-12%">5% - 12% (Green)</option>
+										<option value="13%-17%">13% - 17% (Amber)</option>
+										<option value="<5% or >17%">&#60;5% or &#62;17% (Red)</option>
+									</select>
+									<label for="select" class="control-label">Moisture Value</label>
+									<i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="check-grade">
+									Good
+								</div>
+							</div>
+						</div>
+
+						<div class="row popup-btn__action text-center">
+							<div class="col-md-12 col-sm-12 align-self-center justify-content-center">
+								<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i> Upload</span>
+								<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+								<span class="addon-delete delete-btn tooltip-wrapper text-danger display-none" onclick="deleteImage(this, 0)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
+								@*<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>*@
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

@@ -2265,7 +2265,7 @@ form.md-form .checkbox.checbox-switch-small {
 	margin-bottom: 20px;
 }
 
-#ImageAddForm .delete-btn, #ProjectAddForm .delete-btn, #amenities .delete-btn, #facilities .delete-btn, .re-project .delete-btn {
+#ImageAddForm .delete-btn, #ProjectAddForm .delete-btn, #amenities .delete-btn, #facilities .delete-btn, .re-project .delete-btn, .popup-btn .delete-btn {
 	background: #ffffff;
 	width: 70px;
 	line-height: 30px;
@@ -2282,7 +2282,7 @@ form.md-form .checkbox.checbox-switch-small {
 	padding: 0 10px;
 	margin-top: 10px;
 }
-	#ImageAddForm .delete-btn i, #ProjectAddForm .delete-btn i, #amenities .delete-btn i, #facilities .delete-btn i, .re-project .delete-btn i {
+	#ImageAddForm .delete-btn i, #ProjectAddForm .delete-btn i, #amenities .delete-btn i, #facilities .delete-btn i, .re-project .delete-btn i, .popup-btn .delete-btn i {
 		font-size: 16px;
 	}
 	.re-project .delete-btn i {
@@ -2317,4 +2317,32 @@ form.md-form .checkbox.checbox-switch-small {
 .re-project {
 	border-left: 5px solid #2fcb71;
 	margin-bottom: 30px;
+}
+
+.form-table_head {
+	background: #f90;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	margin: 15px;
+	padding: 10px 15px;
+}
+.check-name{
+	font-weight: 700;
+	color: var(--info-color);
+}
+.health-upload__row {
+	/*border-bottom: 1px solid var(--text-color-light);
+	margin-bottom: 10px;*/
+	padding: 10px;
+}
+.popup-btn__action {
+	text-align: center;
+	margin: 25px 0 10px 0;
+}
+.health-upload__row:nth-of-type(odd) {
+	background-color: #efefef;
+}
+.check-desc{
+	font-size: 12px;
 }

@@ -1,0 +1,63 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model HiSpaceListingModels.GreenBuildingCheck
+@*Adding image section start*@
+<div class="modal-content">
+	<div class="modal-header border-0">
+		<h5 class="modal-title" id="greenBuildingModalLabel"><i class="fas fa-greenBuilding"> </i> Green Building Check </h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body popup-btn">
+		<div class="tab-content" id="">
+			<div class="tab-pane fade show active" id="greenBuilding" role="tabpanel" aria-labelledby="greenBuilding-tab">
+				<form id="GreenBuildingAddForm" class="mt-4 align-items-center md-form">
+					<div class="greenBuilding-upload">
+						<div class="row greenBuilding-upload__row">
+							<div class="display-none">
+								<div class="form-group">
+									<input type="text" class="form-control imageId event-none" placeholder="id" value="0">
+									<label for="input" class="control-label">Image id</label><i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="form-group">
+									<input type="text" class="form-control imageName" placeholder="Image Name">
+									<label for="input" class="control-label">Image Name</label><i class="bar"></i>
+								</div>
+							</div>
+							<div class=" col-md-4 col-sm-6 align-self-center">
+								<div class="form-group">
+									<input type="file" class="form-control imageFilePath" accept="image/*">
+									<label for="input" class="control-label">Upload Image</label><i class="bar"></i>
+								</div>
+							</div>
+							@*<div class="col-md-2 col-sm-6 m-b--15 align-self-center">
+									<div class="checkbox m-0">
+										<label>
+											<input type="checkbox" class="imageCheck" />
+											<i class="helper"></i> Active
+										</label>
+									</div>
+								</div>*@
+							<div class="col-md-4 col-sm-6 align-self-center">
+								<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i> Upload</span>
+								<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+								<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteImage(this, 0)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
+								@*<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>*@
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

@@ -281,11 +281,12 @@
 													<th>Type</th>
 													<th>Phone</th>
 													<th>City</th>
-													<th>Current occ.</th>
+													@*<th>Current occ.</th>*@
 													<th><i class="fas fa-business-time"></i> Hours</th>
 													<th><i class="fas fa-images"></i> Images</th>
 													<th><i class="fab fa-gratipay"></i> Addons</th>
 													<th>Status</th>
+													<th><i class="fas fa-leaf"></i> Eco-Friendly</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -317,6 +318,18 @@
 										"</a>" +
 									"</span>" +
 									"</div>");
+														ViewBag.Eco = @Html.Raw("<div class='ml-auto d-flex align-items-center text-center md-crud-menu'>" +
+												"<span span class='modal-link__healthCheck' data-targeturl=\'" + @Url.Action("AddHealthCheck", "Addons", new { id = item.ListingId }) + "\' data-dismiss='modal'>" +
+													"<a href='javascript:function() { return false; }' class='tooltip-wrapper' data-toggle='tooltip' data-placement='top' title='' data-original-title='Property Internal Health Check'>" +
+														"<i class='fas fa-temperature-low btn-icon text-sec'></i>" +
+													"</a>" +
+												"</span>" +
+									"<span span class='modal-link__greenBuildingData' data-targeturl=\'" + @Url.Action("AddGreenBuildingData", "Addons", new { id = item.ListingId }) + "\' data-dismiss='modal'>" +
+										"<a href='javascript:function() { return false; }' class='tooltip-wrapper' data-toggle='tooltip' data-placement='top' title='' data-original-title='Buildings Operation and Maintenance Checklist'>" +
+											"<i class='fas fa-tree btn-icon text-info'></i>" +
+										"</a>" +
+									"</span>" +
+									"</div>");
 													}
 													else if (item.ListingType == "Co-Working")
 													{
@@ -333,6 +346,18 @@
 																	  "</a>" +
 																  "</span>" +
 															  "</div>");
+														ViewBag.Eco = @Html.Raw("<div class='ml-auto d-flex align-items-center text-center md-crud-menu'>" +
+												"<span span class='modal-link__healthCheck' data-targeturl=\'" + @Url.Action("AddHealthCheck", "Addons", new { id = item.ListingId }) + "\' data-dismiss='modal'>" +
+													"<a href='javascript:function() { return false; }' class='tooltip-wrapper' data-toggle='tooltip' data-placement='top' title='' data-original-title='Property Internal Health Check'>" +
+														"<i class='fas fa-temperature-low btn-icon text-sec'></i>" +
+													"</a>" +
+												"</span>" +
+									"<span span class='modal-link__greenBuildingData' data-targeturl=\'" + @Url.Action("AddGreenBuildingData", "Addons", new { id = item.ListingId }) + "\' data-dismiss='modal'>" +
+										"<a href='javascript:function() { return false; }' class='tooltip-wrapper' data-toggle='tooltip' data-placement='top' title='' data-original-title='Buildings Operation and Maintenance Checklist'>" +
+											"<i class='fas fa-tree btn-icon text-info'></i>" +
+										"</a>" +
+									"</span>" +
+									"</div>");
 													}
 													else if (item.ListingType == "RE-Professional")
 													{
@@ -344,6 +369,7 @@
 																				  "</a>" +
 																			  "</span>" +
 															  "</div>");
+														ViewBag.Eco = @Html.Raw("---");
 													}
 													<tr>
 														<td>
@@ -358,9 +384,9 @@
 														<td>
 															@Html.DisplayFor(modelItem => item.locality)
 														</td>
-														<td>
+														@*<td>
 															@Html.DisplayFor(modelItem => item.CurrentOccupancy)
-														</td>
+														</td>*@
 														<td class="p-0">
 															<div class="ml-auto d-flex align-items-center text-center md-crud-menu">
 																<span class="modal-link__hours" data-targeturl="@Url.Action("AddHours", "Addons", new { id = item.ListingId })" data-dismiss="modal">
@@ -386,6 +412,9 @@
 															<div class="ml-auto d-flex align-items-center text-center md-crud-menu">
 																@ViewBag.ListStatus
 															</div>
+														</td>
+														<td class="p-0">
+															@ViewBag.Eco
 														</td>
 														<td class="p-0">
 															<div class="ml-auto d-flex align-items-center text-center md-crud-menu ">

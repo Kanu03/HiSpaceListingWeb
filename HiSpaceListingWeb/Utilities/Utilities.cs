@@ -184,6 +184,22 @@ namespace HiSpaceListingWeb.Utilities
 
 		#endregion Common Controller
 
+		#region Filter Controller
+		public string ApiFilterControllerName
+		{
+			get
+			{
+				return ApiAddress + "Filter/";
+			}
+		}
+
+		public string ApiFilterGetListingByLocation = "GetListingByLocation";
+		public string ApiFilterGetListingByType = "GetListingByType";
+		public string ApiFilterGetListingByLevel = "GetListingByLevel";
+		public string ApiFilterGetListingByAdvanceFilter = "GetListingByAdvanceFilter";
+
+		#endregion Filter Controller
+
 		#endregion API Methods
 
 		#region DropDown Methods

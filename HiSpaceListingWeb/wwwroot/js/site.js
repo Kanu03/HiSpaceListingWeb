@@ -591,67 +591,38 @@ $(function () {
 		});
 	});
 
+	//model open for the Health check section
+	$('body').on('click', '.modal-link__healthCheck', function (e) {
+		e.preventDefault();
+
+		$("#modal-container__healthCheck").remove();
+
+		$.get($(this).data("targeturl"), function (data) {
+
+			$('<div id="modal-container__healthCheck" class="modal filter fade modal-sec" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">' +
+				'<div id="modalbody" class="modal-dialog modal-lg modal-content" role="document"' +
+				data + '</div></div>').modal();
+
+		});
+	});
+
+	//model open for the GreenBuilding check section
+	$('body').on('click', '.modal-link__greenBuildingData', function (e) {
+		e.preventDefault();
+
+		$("#modal-container__greenBuildingData").remove();
+
+		$.get($(this).data("targeturl"), function (data) {
+
+			$('<div id="modal-container__greenBuildingData" class="modal filter fade modal-sec" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">' +
+				'<div id="modalbody" class="modal-dialog modal-lg modal-content" role="document"' +
+				data + '</div></div>').modal();
+
+		});
+	});
+
 });
 
-
-
-
-////adding image section on partial view
-//function AddImageForm() {
-//	//alert('a')
-//	var listingImageViewModels = [];
-//		var formData = new FormData();
-//	$(".image-upload__row").each(function () {
-//		//debugger
-//		var ListingImages = {};
-//		var ListingImageViewModel = {};
-//		var iStatus; 
-
-//		var iFileUpload = $(this).find('.imageFilePath').get(0);
-//		//debugger
-//		var iFormFile = iFileUpload.files;
-//		//iFormFile.append("image", $(this).find('.imageName').files);
-//		var iName = $(this).find('.imageName').val();
-//		var iImagePath = $(this).find('.imageFilePath').val();
-//		if ($(this).find('.imageCheck').is(':checked')) {
-//			iStatus = true;
-//		} else {
-//			iStatus = false;
-//		}
-
-//		ListingImages.Name = iName;
-//		ListingImages.ImageUrl = iImagePath;
-//		ListingImages.Status = iStatus;
-
-//		ListingImageViewModel.ListingImages = ListingImages;
-//		//ListingImageViewModel.File_ImageUrl = formData.append("File_ImageUrl",iFormFile);
-//		//ListingImageViewModel.File_ImageUrl = iFormFile;
-//		ListingImageViewModel.File_ImageUrl = null;
-
-//		listingImageViewModels.push(ListingImageViewModel);
-//		console.log(listingImageViewModels);
-//	});
-
-//	$.ajax({
-//		type: "POST",
-//		url: "/Addons/UploadImage",
-//		//data: JSON.stringify(listingImageViewModels),
-//		data: { ListingImageViewModels: listingImageViewModels },
-//		//dataType: "json",
-//		//cache: false,
-//		//processData: false,
-//		//contentType: false,
-//		//contentType: 'multipart/form-data',
-//		//processData: false,
-//		//contentType: "application/json; charset=utf-8",
-//		success: function (response) {
-//			alert('yes');
-//		},
-//		error: function (xhr, ajaxOptions, thrownError) {
-//			alert('no');
-//		}
-//	});
-//}
 //--------------------------------------------------------------------------------------------------//
 //************************************adding image section start************************************//
 //--------------------------------------------------------------------------------------------------//

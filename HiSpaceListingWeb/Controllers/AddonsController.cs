@@ -1094,6 +1094,20 @@ namespace HiSpaceListingWeb.Controllers
 			return PartialView("_AddFacilitiesPartialView");
 		}
 
+		public ActionResult AddHealthCheck(int id)
+		{
+			SetSessionVariables();
+			ViewBag.ListingId = id;
+			HealthCheck healthCheck = new HealthCheck();
+			return PartialView("_AddHealthCheckPartialView", healthCheck);
+		}
+		public ActionResult AddGreenBuildingData(int id)
+		{
+			SetSessionVariables();
+			ViewBag.ListingId = id;
+			GreenBuildingCheck greenBuildingCheck = new GreenBuildingCheck();
+			return PartialView("_AddGreenBuildingDataPartialView");
+		}
 
 		public void SetSessionVariables()
 		{
