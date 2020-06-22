@@ -604,6 +604,132 @@ $(function () {
 				data + '</div></div>').modal();
 
 		});
+		//select type on edit
+		setTimeout(function () {
+			if ($('.healthCheck-data').length) {
+				//AQI
+				var AQI_Data = $('#AQI_Data').attr('value');
+				$('#AQI_Data').val(AQI_Data).prop('selected', true);
+				if (AQI_Data == "0-50") {
+					$('#AQI_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (AQI_Data == "51-100") {
+					$('#AQI_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (AQI_Data == "101-200") {
+					$('#AQI_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (AQI_Data == "201-300") {
+					$('#AQI_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (AQI_Data == "301-400") {
+					$('#AQI_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (AQI_Data == "401-500") {
+					$('#AQI_Grade span').attr('class', 'text-danger font-weight-bold');
+				}
+				//Temperature
+				var Temperature_Data = $('#Temperature_Data').attr('value');
+				$('#Temperature_Data').val(Temperature_Data).prop('selected', true);
+				if (Temperature_Data == "<95") {
+					$('#Temperature_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (Temperature_Data == "95-99.9") {
+					$('#Temperature_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (Temperature_Data == "100-104") {
+					$('#Temperature_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (Temperature_Data == ">104") {
+					$('#Temperature_Grade span').attr('class', 'text-pry font-weight-bold');
+				}
+				//Humidity
+				var Humidity_Data = $('#Humidity_Data').attr('value');
+				$('#Humidity_Data').val(Humidity_Data).prop('selected', true);
+				if (Humidity_Data == "<30") {
+					$('#Humidity_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (Humidity_Data == "30-50") {
+					$('#Humidity_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (Humidity_Data == ">50") {
+					$('#Humidity_Grade span').attr('class', 'text-pry font-weight-bold');
+				} 
+				//CO2
+				var CO2_Data = $('#CO2_Data').attr('value');
+				$('#CO2_Data').val(CO2_Data).prop('selected', true);
+				if (CO2_Data == "<400") {
+					$('#CO2_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (CO2_Data == "400-599") {
+					$('#CO2_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (CO2_Data == "600-999") {
+					$('#CO2_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (CO2_Data == "1000-1499") {
+					$('#CO2_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (CO2_Data == "1500-1999") {
+					$('#CO2_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (CO2_Data == ">2000") {
+					$('#CO2_Grade span').attr('class', 'text-danger font-weight-bold');
+					}
+				//CO
+				var CO_Data = $('#CO_Data').attr('value');
+				$('#CO_Data').val(CO_Data).prop('selected', true);
+				if (CO_Data == "<4.4") {
+					$('#CO_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (CO_Data == "4.4-9.4") {
+					$('#CO_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (CO_Data == "9.5-12.4") {
+					$('#CO_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (CO_Data == "12.5-15.4") {
+					$('#CO_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (CO_Data == "15.5-30.4") {
+					$('#CO_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (CO_Data == "30.5-40.4") {
+					$('#CO_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (CO_Data == ">40.5") {
+					$('#CO_Grade span').attr('class', 'text-danger font-weight-bold');
+					} 
+				//PM2.5
+				var PM2Point5_Data = $('#PM2Point5_Data').attr('value');
+				$('#PM2Point5_Data').val(PM2Point5_Data).prop('selected', true);
+				if (PM2Point5_Data == "<15.4") {
+					$('#PM2Point5_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (PM2Point5_Data == "15.4-40.4") {
+					$('#PM2Point5_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (PM2Point5_Data == "40.5-65.4") {
+					$('#PM2Point5_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (PM2Point5_Data == "65.5-150.4") {
+					$('#PM2Point5_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (PM2Point5_Data == "150.5-250.4") {
+					$('#PM2Point5_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (PM2Point5_Data == "250.5-350.4") {
+					$('#PM2Point5_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (PM2Point5_Data == ">350.5") {
+					$('#PM2Point5_Grade span').attr('class', 'text-danger font-weight-bold');
+					} 
+				//PM10
+				var PM10_Data = $('#PM10_Data').attr('value');
+				$('#PM10_Data').val(PM10_Data).prop('selected', true);
+				if (PM10_Data == "<=54") {
+					$('#PM10_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (PM10_Data == "55-154") {
+					$('#PM10_Grade span').attr('class', 'text-sec font-weight-bold');
+				} else if (PM10_Data == "155-254") {
+					$('#PM10_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (PM10_Data == "255-354") {
+					$('#PM10_Grade span').attr('class', 'text-pry font-weight-bold');
+				} else if (PM10_Data == "355-424") {
+					$('#PM10_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (PM10_Data == "425-504") {
+					$('#PM10_Grade span').attr('class', 'text-danger font-weight-bold');
+				} else if (PM10_Data == ">505") {
+					$('#PM10_Grade span').attr('class', 'text-danger font-weight-bold');
+					} 
+				//Moisture
+				var Moisture_Data = $('#Moisture_Data').attr('value');
+				$('#Moisture_Data').val(Moisture_Data).prop('selected', true);
+				if (Moisture_Data == "5%-12%") {
+					$('#Moisture_Grade span').html('<i class="fab fa-pagelines"></i>');
+					$('#Moisture_Grade span').attr('class', 'text-sec');
+				} else if (Moisture_Data == "13%-17%") {
+					$('#Moisture_Grade span').html('<i class="fab fa-pagelines"></i>');
+					$('#Moisture_Grade span').attr('class', 'text-pry');
+				} else if (Moisture_Data == "<5% or >17%") {
+					$('#Moisture_Grade span').html('<i class="fab fa-pagelines"></i>');
+					$('#Moisture_Grade span').attr('class', 'text-danger');
+					}
+			}
+		}, 1000);
 	});
 
 	//model open for the GreenBuilding check section
@@ -619,6 +745,8 @@ $(function () {
 				data + '</div></div>').modal();
 
 		});
+
+		
 	});
 
 });
@@ -1189,7 +1317,6 @@ function AddAmenityForm(obj) {
 	});
 }
 
-
 //edit amenity section
 function EditAmenityForm(obj) {
 	var row = $(obj).closest('.amenities-upload__row');
@@ -1497,4 +1624,358 @@ function deleteFacility(obj, facilityId) {
 //facilities upload section end
 //--------------------------------------------------------------------------------------------------//
 //************************************adding Facility section end************************************//
+//--------------------------------------------------------------------------------------------------//
+
+
+//--------------------------------------------------------------------------------------------------//
+//**********************************adding Healthcheck section start********************************//
+//--------------------------------------------------------------------------------------------------//
+//$('body').on('click', '.health-upload__row .basic-select', function () {
+//	if ($(this).val() == 0) {
+//		$(this).closest('.health-upload__row').find('.check-grade span').html('Select the value');
+//	} else {
+//	}
+//})
+//AQI
+$('body').on('click', '#AQI_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	console.log($(this).val());
+	if ($(this).val() == "0-50") {
+		console.log('a')
+		grade.html('Good');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "51-100") {
+		grade.html('Moderate');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "101-200") {
+		grade.html('Unhealthy for Sensitive Groups');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "201-300") {
+		grade.html('Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "301-400") {
+		grade.html('Very Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == "401-500") {
+		grade.html('Hazardous');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//Temperature
+$('body').on('click', '#Temperature_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "<95") {
+		grade.html('Cold - Action Required');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "95-99.9") {
+		grade.html('Excellent');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "100-104") {
+		grade.html('Good');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == ">104") {
+		grade.html('Hot - Action Required');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//Humidity
+$('body').on('click', '#Humidity_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "<30") {
+		grade.html('Too Dry');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "30-50") {
+		grade.html('Moderate');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == ">50") {
+		grade.html('Too High');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//CO2
+$('body').on('click', '#CO2_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "<400") {
+		grade.html('Excellent');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "400-599") {
+		grade.html('Good');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "600-999") {
+		grade.html('Fair');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "1000-1499") {
+		grade.html('Moderate');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "1500-1999") {
+		grade.html('Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == ">2000") {
+		grade.html('Hazardous');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//CO
+$('body').on('click', '#CO_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "<4.4") {
+		grade.html('Good');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "4.4-9.4") {
+		grade.html('Moderate');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "9.5-12.4") {
+		grade.html('Unhealthy for Sensitive Groups');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "12.5-15.4") {
+		grade.html('Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "15.5-30.4") {
+		grade.html('Very Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == "30.5-40.4") {
+		grade.html('Hazardous');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == ">40.5") {
+		grade.html('Very Hazardous');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//PM2.5
+$('body').on('click', '#PM2Point5_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "<15.4") {
+		grade.html('Good');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "15.4-40.4") {
+		grade.html('Moderate');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "40.5-65.4") {
+		grade.html('Unhealthy for Sensitive Groups');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "65.5-150.4") {
+		grade.html('Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "150.5-250.4") {
+		grade.html('Very Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == "250.5-350.4") {
+		grade.html('Hazardous');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == ">350.5") {
+		grade.html('Very Hazardous');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//PM10
+$('body').on('click', '#PM10_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "<=54") {
+		grade.html('Good');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "55-154") {
+		grade.html('Moderate');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec font-weight-bold');
+	} else if ($(this).val() == "155-254") {
+		grade.html('Unhealthy for Sensitive Groups');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "255-354") {
+		grade.html('Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry font-weight-bold');
+	} else if ($(this).val() == "355-424") {
+		grade.html('Very Unhealthy');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == "425-504") {
+		grade.html('Hazardous');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == ">505") {
+		grade.html('Very Hazardous');
+		grade.attr('class', 'text-danger font-weight-bold');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+//Moisture
+$('body').on('click', '#Moisture_Data', function () {
+	var grade = $(this).closest('.health-upload__row').find('.check-grade span');
+	if ($(this).val() == "5%-12%") {
+		grade.html('<i class="fab fa-pagelines"></i>');
+		grade.attr('class', '');
+		grade.attr('class', 'text-sec');
+	} else if ($(this).val() == "13%-17%") {
+		grade.html('<i class="fab fa-pagelines"></i>');
+		grade.attr('class', '');
+		grade.attr('class', 'text-pry');
+	} else if ($(this).val() == "<5% or >17%") {
+		grade.html('<i class="fab fa-pagelines"></i>');
+		grade.attr('class', '');
+		grade.attr('class', 'text-danger');
+	} else if ($(this).val() == 0) {
+		grade.html('Select the value');
+		grade.attr('class', '');
+	}
+});
+
+//Health check upload section end
+function AddHealthCheckForm(obj) {
+	//debugger
+	var listingId = $(obj).attr('data-listingid');
+	//console.log(listingId)
+	var formData = new FormData();
+	var row = $(obj).closest('.modal-body');
+	var AQI_Data = $('#AQI_Data').val();
+	var AQI_Grade = $('#AQI_Grade span').html();
+	var Temperature_Data = $('#Temperature_Data').val();
+	var Temperature_Grade = $('#Temperature_Grade span').html();
+	var Humidity_Data = $('#Humidity_Data').val();
+	var Humidity_Grade = $('#Humidity_Grade span').html();
+	var CO2_Data = $('#CO2_Data').val();
+	var CO2_Grade = $('#CO2_Grade span').html();
+	var CO_Data = $('#CO_Data').val();
+	var CO_Grade = $('#CO_Grade span').html();
+	var PM2Point5_Data = $('#PM2Point5_Data').val();
+	var PM2Point5_Grade = $('#PM2Point5_Grade span').html();
+	var PM10_Data = $('#PM10_Data').val();
+	var PM10_Grade = $('#PM10_Grade span').html();
+	var Moisture_Data = $('#Moisture_Data').val();
+	var Moisture_Grade;
+	if (Moisture_Data == "5%-12%") {
+		Moisture_Grade = "Green";
+	} else if (Moisture_Data == "13%-17%") {
+		Moisture_Grade = "Amber";
+	} else if (Moisture_Data == "<5% or >17%") {
+		Moisture_Grade = "Red";
+	}
+	var Status = true;
+	var CreatedDateTime;
+	var HealthCheckId;
+	if ($('#CreatedDateTime').length) {
+		CreatedDateTime = $('#CreatedDateTime').html();
+	}
+	else {
+		CreatedDateTime = "";
+	}
+	if ($('#HealthCheckId').length) {
+		HealthCheckId = $('#HealthCheckId').html();
+	}
+	else {
+		HealthCheckId = 0;
+	}
+
+	formData.append("AQI_Data", AQI_Data);
+	formData.append("AQI_Grade", AQI_Grade);
+	formData.append("Temperature_Data", Temperature_Data);
+	formData.append("Temperature_Grade", Temperature_Grade);
+	formData.append("Humidity_Data", Humidity_Data);
+	formData.append("Humidity_Grade", Humidity_Grade);
+	formData.append("CO2_Data", CO2_Data);
+	formData.append("CO2_Grade", CO2_Grade);
+	formData.append("CO_Data", CO_Data);
+	formData.append("CO_Grade", CO_Grade);
+	formData.append("PM2Point5_Data", PM2Point5_Data);
+	formData.append("PM2Point5_Grade", PM2Point5_Grade);
+	formData.append("PM10_Data", PM10_Data);
+	formData.append("PM10_Grade", PM10_Grade);
+	formData.append("Moisture_Data", Moisture_Data);
+	formData.append("Moisture_Grade", Moisture_Grade);
+	formData.append("Status", Status);
+	formData.append("ListingId", listingId);
+	formData.append("HealthCheckId", HealthCheckId);
+	formData.append("CreatedDateTime", CreatedDateTime);
+
+	//var url = '@Url.Action("UploadImage", "Addons")';
+	$.ajax({
+		type: "POST",
+		url: "/Addons/UploadHealthCheck",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				//$(row).addClass("addons-row");
+				$('#ListingId').html(response.listingId);
+				$('#HealthCheckId').html(response.healthCheckId);
+				$('#CreatedDateTime').html(response.createdDateTime);
+				$(row).removeClass("addons-row__edit");
+				$('#AQI_Data, #AQI_Grade, #Temperature_Data, #Temperature_Grade, #Humidity_Data, #Humidity_Grade, #CO2_Data, #CO2_Grade, #CO_Data, #CO_Grade, #PM2Point5_Data, #PM2Point5_Grade, #PM10_Data, #PM10_Grade, #Moisture_Data, #Moisture_Grade ').addClass("event-none");
+
+				$(obj).siblings('.addon-edit').removeClass('display-none');
+				$(obj).siblings('.addon-clear').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert("server not ready please upload afterwards");
+		}
+	});
+}
+
+//edit facility section
+function EditHealthCheckForm(obj) {
+	var row = $(obj).closest('.modal-body');
+	//$(row).removeClass("addons-row__light");
+	$(row).addClass("addons-row__edit");
+	$('#AQI_Data, #AQI_Grade, #Temperature_Data, #Temperature_Grade, #Humidity_Data, #Humidity_Grade, #CO2_Data, #CO2_Grade, #CO_Data, #CO_Grade, #PM2Point5_Data, #PM2Point5_Grade, #PM10_Data, #PM10_Grade, #Moisture_Data, #Moisture_Grade ').removeClass("event-none");
+
+	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
+	$(obj).addClass('display-none');
+}
+
+//--------------------------------------------------------------------------------------------------//
+//**********************************adding Healthcheck section end********************************//
 //--------------------------------------------------------------------------------------------------//

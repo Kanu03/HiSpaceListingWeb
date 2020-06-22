@@ -1098,9 +1098,138 @@ namespace HiSpaceListingWeb.Controllers
 		{
 			SetSessionVariables();
 			ViewBag.ListingId = id;
-			HealthCheck healthCheck = new HealthCheck();
+			HealthCheck healthCheck = null;
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetHealthCheckByListingId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<HealthCheck>();
+					readTask.Wait();
+					healthCheck = readTask.Result;
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+				}
+			}
 			return PartialView("_AddHealthCheckPartialView", healthCheck);
 		}
+		public ActionResult GetHealthCheck(int id)
+		{
+			SetSessionVariables();
+			HealthCheck model = new HealthCheck();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetHealthCheckByHealthCheckId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<HealthCheck>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
+			return PartialView("_AddHealthCheckPartialView");
+		}
+		[HttpPost]
+		public ActionResult UploadHealthCheck(HealthCheck healthCheck)
+		{
+			HealthCheck model = new HealthCheck();
+			SetSessionVariables();
+			if (healthCheck.HealthCheckId == 0)
+			{
+				model.CreatedDateTime = DateTime.Now;
+				model.AQI_Data = healthCheck.AQI_Data;
+				model.AQI_Grade = healthCheck.AQI_Grade;
+				model.CO2_Data = healthCheck.CO2_Data;
+				model.CO2_Grade = healthCheck.CO2_Grade;
+				model.CO_Data = healthCheck.CO_Data;
+				model.CO_Grade = healthCheck.CO_Grade;
+				model.Humidity_Data = healthCheck.Humidity_Data;
+				model.Humidity_Grade = healthCheck.Humidity_Grade;
+				model.ListingId = healthCheck.ListingId;
+				model.Moisture_Data = healthCheck.Moisture_Data;
+				model.Moisture_Grade = healthCheck.Moisture_Grade;
+				model.PM10_Data = healthCheck.PM10_Data;
+				model.PM10_Grade = healthCheck.PM10_Grade;
+				model.PM2Point5_Data = healthCheck.PM2Point5_Data;
+				model.PM2Point5_Grade = healthCheck.PM2Point5_Grade;
+				model.Temperature_Data = healthCheck.Temperature_Data;
+				model.Temperature_Grade = healthCheck.Temperature_Grade;
+				model.Status = true;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					//HTTP POST
+					var postTask = client.PostAsJsonAsync<HealthCheck>(Common.Instance.ApiAddonsCreateHealthCheck, model);
+					postTask.Wait();
+					var result = postTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<HealthCheck>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+				return PartialView("_AddHealthCheckPartialView");
+			}
+			else if (healthCheck.HealthCheckId != 0)
+			{
+				model.HealthCheckId = healthCheck.HealthCheckId;
+				model.CreatedDateTime = healthCheck.CreatedDateTime;
+				model.AQI_Data = healthCheck.AQI_Data;
+				model.AQI_Grade = healthCheck.AQI_Grade;
+				model.CO2_Data = healthCheck.CO2_Data;
+				model.CO2_Grade = healthCheck.CO2_Grade;
+				model.CO_Data = healthCheck.CO_Data;
+				model.CO_Grade = healthCheck.CO_Grade;
+				model.Humidity_Data = healthCheck.Humidity_Data;
+				model.Humidity_Grade = healthCheck.Humidity_Grade;
+				model.ListingId = healthCheck.ListingId;
+				model.Moisture_Data = healthCheck.Moisture_Data;
+				model.Moisture_Grade = healthCheck.Moisture_Grade;
+				model.PM10_Data = healthCheck.PM10_Data;
+				model.PM10_Grade = healthCheck.PM10_Grade;
+				model.PM2Point5_Data = healthCheck.PM2Point5_Data;
+				model.PM2Point5_Grade = healthCheck.PM2Point5_Grade;
+				model.Temperature_Data = healthCheck.Temperature_Data;
+				model.Temperature_Grade = healthCheck.Temperature_Grade;
+				model.Status = true;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateHealthCheck + model.HealthCheckId, model);
+					responseTask.Wait();
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<HealthCheck>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+
+				return PartialView("_AddHealthCheckPartialView");
+			}
+			return PartialView("_AddHealthCheckPartialView");
+		}
+
 		public ActionResult AddGreenBuildingData(int id)
 		{
 			SetSessionVariables();

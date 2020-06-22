@@ -163,6 +163,15 @@ namespace HiSpaceListingWeb.Utilities
 		public string ApiAddonsUpdateFacility = "UpdateFacility/";
 		public string ApiAddonsDeleteFacility = "DeleteFacility/";
 
+		public string ApiAddonsGetHealthCheckByListingId = "GetHealthCheckByListingId/";
+		public string ApiAddonsGetHealthCheckByHealthCheckId = "GetHealthCheckByHealthCheckId/";
+		public string ApiAddonsCreateHealthCheck = "CreateHealthCheck/";
+		public string ApiAddonsUpdateHealthCheck = "UpdateHealthCheck/";
+
+		public string ApiAddonsGetGreenBuildingCheckByListingId = "GetGreenBuildingCheckByListingId/";
+		public string ApiAddonsGetGreenBuildingCheckByGreenBuildingCheckId = "GetGreenBuildingCheckByGreenBuildingCheckId/";
+		public string ApiAddonsCreateGreenBuildingCheck = "CreateGreenBuildingCheck/";
+		public string ApiAddonsUpdateGreenBuildingCheck = "UpdateGreenBuildingCheck/";
 
 		#endregion Addons Controller
 

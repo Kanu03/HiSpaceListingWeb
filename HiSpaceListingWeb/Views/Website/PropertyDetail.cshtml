@@ -161,7 +161,7 @@
 											<ul class="property-list list-unstyled row mb-3">
 												@if (Model.Listing.PriceMin != null && Model.Listing.PriceMax != null)
 												{
-												<li class="col-sm-6"><b>Price Range:</b> &#8377;@Model.Listing.PriceMin - &#8377;@Model.Listing.PriceMax</li>
+													<li class="col-sm-6"><b>Price Range:</b> &#8377;@Model.Listing.PriceMin - &#8377;@Model.Listing.PriceMax</li>
 												}
 
 												<li class="col-sm-6">
@@ -283,7 +283,7 @@
 											<ul class="property-list list-unstyled row mb-3">
 												@if (Model.Listing.PriceMin != null && Model.Listing.PriceMax != null)
 												{
-												<li class="col-sm-6"><b>Price Range:</b> &#8377;@Model.Listing.PriceMin - &#8377;@Model.Listing.PriceMax</li>
+													<li class="col-sm-6"><b>Price Range:</b> &#8377;@Model.Listing.PriceMin - &#8377;@Model.Listing.PriceMax</li>
 												}
 
 												<li class="col-sm-6">
@@ -427,16 +427,16 @@
 															}
 															else if (item.AmenitiesPayment == "PartiallyPaid")
 															{
-													<li class="col-sm-12">
-														<i class="fas fa-check-circle text-pry"></i>
-														@item.Name
-														<span class="spliter">|</span>
-														<span class="font-weight-bold">Partially Paid</span>
-														<span class="spliter">|</span>
-														<span class="">Free Count<span class="text-sufix">(@item.PartialCount)</span></span>
-														<span class="spliter">|</span>
-														<span>&#8377;@item.Price/Usage</span>
-													</li>
+																<li class="col-sm-12">
+																	<i class="fas fa-check-circle text-pry"></i>
+																	@item.Name
+																	<span class="spliter">|</span>
+																	<span class="font-weight-bold">Partially Paid</span>
+																	<span class="spliter">|</span>
+																	<span class="">Free Count<span class="text-sufix">(@item.PartialCount)</span></span>
+																	<span class="spliter">|</span>
+																	<span>&#8377;@item.Price/Usage</span>
+																</li>
 															}
 														}
 													</ul>
@@ -501,7 +501,7 @@
 																<div class="re-project__name">@item.ProjectName</div>
 																<div class="re-project__image">
 																	<a href="@Url.Content(item.ImageUrl)" target="_blank">
-																	<img class="img-fluid" alt="name" src="@Url.Content(item.ImageUrl)" />
+																		<img class="img-fluid" alt="name" src="@Url.Content(item.ImageUrl)" />
 																	</a>
 																</div>
 																<div class="re-project__doc">
@@ -512,7 +512,7 @@
 															</div>
 															<div class="col-sm-8">
 																<div class="re-project__desc">
-																@item.Description
+																	@item.Description
 																</div>
 															</div>
 														</div>
@@ -946,6 +946,268 @@
 							</div>
 						</div>
 						<hr class="mt-3 mb-3 mb-sm-3 mt-sm-3">
+
+						@if (Model.HealthCheck != null)
+						{
+							<div class="property-healthcheck">
+								<div class="row">
+									<div class="col-sm-3 mb-3 mb-sm-0">
+										<h5>Health Check</h5>
+									</div>
+									<div class="col-sm-9 property-healthcheck__table">
+										<div class="row font-weight-bold">
+											<div class="col-sm-4 font-weight-bold ">
+												Health Checker
+											</div>
+											<div class="col-sm-3">
+												Health Data
+											</div>
+											<div class="col-sm-5">
+												<span>Grade</span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												Air Quality Index
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.AQI_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.AQI_Data == "0-50") {
+												<span class="text-sec font-weight-bold">@Model.HealthCheck.AQI_Grade</span>
+												} else if (Model.HealthCheck.AQI_Data == "51-100") {
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.AQI_Grade</span>
+												} else if (Model.HealthCheck.AQI_Data == "101-200") {
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.AQI_Grade</span>
+												} else if (Model.HealthCheck.AQI_Data == "201-300") {
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.AQI_Grade</span>
+												} else if (Model.HealthCheck.AQI_Data == "301-400") {
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.AQI_Grade</span>
+												} else if (Model.HealthCheck.AQI_Data == "401-500") {
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.AQI_Grade</span>
+												}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												Temperature(˚F)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.Temperature_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.Temperature_Data == "<95") {
+												<span class="text-pry font-weight-bold">@Model.HealthCheck.Temperature_Grade</span>
+												} else if (Model.HealthCheck.Temperature_Data == "95-99.9" ) {
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.Temperature_Grade</span>
+												} else if (Model.HealthCheck.Temperature_Data == "100-104" ) {
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.Temperature_Grade</span>
+												} else if (Model.HealthCheck.Temperature_Data == ">104" ) {
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.Temperature_Grade</span>
+												}
+												
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												Humidity(RH%)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.Humidity_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.Humidity_Data == "<30")
+												{
+												<span class="text-pry font-weight-bold">@Model.HealthCheck.Humidity_Grade</span>
+												}
+												else if (Model.HealthCheck.Humidity_Data == "30-50")
+												{
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.Humidity_Grade</span>
+												}
+												else if (Model.HealthCheck.Humidity_Data == ">50")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.Humidity_Grade</span>
+												}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												Co2(PPM)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.CO2_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.CO2_Data == "<400")
+												{
+												<span class="text-sec font-weight-bold">@Model.HealthCheck.CO2_Grade</span>
+												}
+												else if (Model.HealthCheck.CO2_Data == "400-599")
+												{
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.CO2_Grade</span>
+												}
+												else if (Model.HealthCheck.CO2_Data == "600-999")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.CO2_Grade</span>
+												}
+												else if (Model.HealthCheck.CO2_Data == "1000-1499")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.CO2_Grade</span>
+												}
+												else if (Model.HealthCheck.CO2_Data == "1500-1999")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.CO2_Grade</span>
+												}
+												else if (Model.HealthCheck.CO2_Data == ">2000")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.CO2_Grade</span>
+												}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												Co(PPM)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.CO_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.CO_Data == "<4.4")
+												{
+												<span class="text-sec font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+												else if (Model.HealthCheck.CO_Data == "4.4-9.4")
+												{
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+												else if (Model.HealthCheck.CO_Data == "9.5-12.4")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+												else if (Model.HealthCheck.CO_Data == "12.5-15.4")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+												else if (Model.HealthCheck.CO_Data == "15.5-30.4")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+												else if (Model.HealthCheck.CO_Data == "30.5-40.4")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+												else if (Model.HealthCheck.CO_Data == ">40.5")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.CO_Grade</span>
+												}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												PM2.5(µg/m3)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.PM2Point5_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.PM2Point5_Data == "<15.4")
+												{
+												<span class="text-sec font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												else if (Model.HealthCheck.PM2Point5_Data == "15.4-40.4")
+												{
+											<span class="text-sec font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												else if (Model.HealthCheck.PM2Point5_Data == "40.5-65.4")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												else if (Model.HealthCheck.PM2Point5_Data == "65.5-150.4")
+												{
+											<span class="text-pry font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												else if (Model.HealthCheck.PM2Point5_Data == "150.5-250.4")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												else if (Model.HealthCheck.PM2Point5_Data == "250.5-350.4")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												else if (Model.HealthCheck.PM2Point5_Data == ">350.5")
+												{
+											<span class="text-danger font-weight-bold">@Model.HealthCheck.PM2Point5_Grade</span>
+												}
+												
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												PM10(µg/m3)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.PM10_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.PM10_Data == "<=54")
+												{
+												<span class="text-sec font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+												else if (Model.HealthCheck.PM10_Data == "55-154")
+												{
+												<span class="text-sec font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+												else if (Model.HealthCheck.PM10_Data == "155-254")
+												{
+												<span class="text-pry font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+												else if (Model.HealthCheck.PM10_Data == "255-354")
+												{
+												<span class="text-pry font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+												else if (Model.HealthCheck.PM10_Data == "355-424")
+												{
+												<span class="text-danger font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+												else if (Model.HealthCheck.PM10_Data == "425-504")
+												{
+												<span class="text-danger font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+												else if (Model.HealthCheck.PM10_Data == ">505")
+												{
+												<span class="text-danger font-weight-bold">@Model.HealthCheck.PM10_Grade</span>
+												}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 font-weight-bold">
+												Moisture(%)
+											</div>
+											<div class="col-sm-3">
+												@Model.HealthCheck.Moisture_Data
+											</div>
+											<div class="col-sm-5">
+												@if (Model.HealthCheck.Moisture_Data == "5%-12%")
+												{
+												<span class="text-sec"><i class="fab fa-pagelines"></i></span>
+												}
+												else if (Model.HealthCheck.Moisture_Data == "13%-17%")
+												{
+											<span class="text-pry"><i class="fab fa-pagelines"></i></span>
+												}
+												else if (Model.HealthCheck.Moisture_Data == "<5% or >17%")
+												{
+											<span class="text-danger"><i class="fas fa-lead"></i></span>
+												}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr class="mt-3 mb-3 mb-sm-3 mt-sm-3">
+						}
+
 						@*<div class="property-schedule">
 			<div class="row">
 				<div class="col-sm-3 mb-3 mb-sm-0">

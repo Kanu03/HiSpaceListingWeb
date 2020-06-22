@@ -218,6 +218,21 @@
 
 										</div>
 									</div>
+									@if (item.SpaceListing.ListingType == "Commercial" || item.SpaceListing.ListingType == "Co-Working")
+									{
+										@if (item.AvailableHealthCheck != 0 || item.AvailableGreenBuildingCheck != 0)
+										{
+											<div class="list-data">
+												<div class="list-health">
+													<span class="tooltip-wrapper" data-toggle="tooltip" data-placement="top" title="" data-original-title="Health verified space click to see details"><i class="fas fa-temperature-low btn-icon text-sec"></i></span>
+												</div>
+												<div class="list-green">
+													<span class="tooltip-wrapper" data-toggle="tooltip" data-placement="top" title="" data-original-title="Green Building verified space click to see details"><i class="fas fa-tree btn-icon text-sec"></i></span>
+												</div>
+											</div>
+										}
+									}
+
 									@*<div class="property-agent-popup">
 			<a href="#"><i class="fas fa-camera"></i> 03</a>
 		</div>*@
@@ -364,6 +379,14 @@
 									<div class="property-btn">
 										<a class="property-link btn btn-primary btn-block" href="@Url.Action("PropertyDetail", "Website", new {ListingID = item.SpaceListing.ListingId })">See Details</a>
 									</div>
+								@if (item.SpaceListing.ListingType == "Commercial" || item.SpaceListing.ListingType == "Co-Working")
+								{
+									@if (item.AvailableHealthCheck != 0 || item.AvailableGreenBuildingCheck != 0)
+									{
+										<div class="tooltip-wrapper list-data__check" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eco-Friendly Spaces click to see details"><i class="fas fa-leaf"></i></div>
+									}
+								}
+								
 								</div>
 
 							</div>
