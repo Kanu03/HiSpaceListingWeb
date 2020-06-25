@@ -30,6 +30,19 @@ function userCheck(check) {
 	}
 }
 $(document).ready(function () {
+	var optionsWeb = {
+		step_size: 1,
+		symbols: {
+			fontawesome_star: {
+				base: '<i class="far fa-star"></i>',
+				hover: '<i class="fas fa-star"></i>',
+				selected: '<i class="fas fa-star text-sec"></i>',
+			},
+		},
+		selected_symbol_type: 'fontawesome_star',
+		cursor: 'pointer',
+	}
+	$(".rate-web").rate(optionsWeb);
 	$('.v2,.v3').addClass('d-none');
 	$("#cartBtn-1, #cartBtn-2, #cartBtn-3").click(function () {
 		var sec = $(this).attr('cart-section');
@@ -526,6 +539,8 @@ $(function () {
 				data + '</div></div>').modal();
 
 		});
+		
+		
 	});
 
 	//model open for the list amenities section
@@ -746,6 +761,55 @@ $(function () {
 
 		});
 
+		setTimeout(function () {
+
+			if ($('.greenBuildingCheck-data').length) {
+				$('.gb-input__status, .gb-input__checklist, .gb-input__authority, .rating, .gb-input__apply').addClass("event-none");
+				if ($('#gb-radio-1').attr('data-radio') == "Yes") {
+					$('#gb-radio-1 input[name="radio_1"][value="Yes"]').prop("checked", true);
+					$('.gb-input__authority, .gb-input__certificate').removeClass('display-none');
+					$('.gb-input__apply, .gb-input__checklist, .gb-data').addClass('display-none');
+					$('.gb-data').removeClass('display-none');
+					var CertifiedBy = $('#CertifiedBy').attr('value');
+					$('#CertifiedBy').val(CertifiedBy).prop('selected', true);
+				} else if ($('#gb-radio-1').attr('data-radio') == "No") {
+					$('#gb-radio-1 input[name="radio_1"][value="No"]').prop("checked", true);
+					$('.gb-input__checklist').removeClass('display-none');
+					$('.gb-data, .gb-input__authority, .gb-data').addClass('display-none');
+					$('input[name="radio_2"][value="Yes"]').prop("checked", true);
+					$('.gb-data, .gb-input__apply').removeClass('display-none');
+					if ($('#gb-radio-3').attr('data-radio') == "Yes") {
+						$('#gb-radio-3 input[name="radio_3"][value="Yes"]').prop("checked", true);
+					} else {
+						$('#gb-radio-3 input[name="radio_3"][value="No"]').prop("checked", true);
+					}
+				}else if ($('#gb-radio-1').attr('data-radio') == "Applied") {
+					$('#gb-radio-1 input[name="radio_1"][value="Applied"]').prop("checked", true);
+					$('.gb-input__authority').removeClass('display-none');
+					$('.gb-input__certificate, .gb-input__apply, .gb-input__checklist, .gb-data').addClass('display-none');
+					$('.gb-data').removeClass('display-none');
+					var CertifiedBy = $('#CertifiedBy').attr('value');
+					$('#CertifiedBy').val(CertifiedBy).prop('selected', true);
+				}
+			}
+			var options = {
+				step_size: 1,
+				symbols: {
+					fontawesome_star: {
+						base: '<i class="far fa-star"></i>',
+						hover: '<i class="fas fa-star"></i>',
+						selected: '<i class="fas fa-star text-pry"></i>',
+					},
+				},
+				selected_symbol_type: 'fontawesome_star',
+				cursor: 'pointer',
+			}
+			$(".rate").rate(options);
+			$(".rate").on("change", function (ev, data) {
+				$(this).siblings('.rate-value').val($(this).rate("getValue"));
+				console.log($(this).siblings('.rate-value').val());
+			});
+		}, 1000)
 		
 	});
 
@@ -1979,3 +2043,191 @@ function EditHealthCheckForm(obj) {
 //--------------------------------------------------------------------------------------------------//
 //**********************************adding Healthcheck section end********************************//
 //--------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------//
+//*****************************adding Green Building data section start***************************//
+//--------------------------------------------------------------------------------------------------//
+$('body').on('click', '.radio_1', function () {
+	var value = $(this).val();
+	//console.log(value);
+	if (value == "Yes") {
+		$('.gb-input__authority, .gb-input__certificate').removeClass('display-none');
+		$('.gb-input__apply, .gb-input__checklist, .gb-data').addClass('display-none');
+	} else if (value == "No") {
+		$('.gb-input__checklist').removeClass('display-none');
+		$('.gb-data, .gb-input__authority, .gb-data').addClass('display-none');
+	} else if (value == "Applied") {
+		$('.gb-input__authority').removeClass('display-none');
+		$('.gb-input__certificate, .gb-input__apply, .gb-input__checklist, .gb-data').addClass('display-none');
+	}
+})
+$('body').on('click', '.radio_2', function () {
+	var value = $(this).val();
+	//console.log(value)
+	if (value == "Yes") {
+		$('.gb-data, .gb-input__apply').removeClass('display-none');
+		$('.rating').removeClass('event-none');
+		$('.rate-value').attr('value', '');
+		$('.rate-base-layer').css('color', '#aaa');
+		$('.rate-base-layer span i').removeClass('fas');
+		$('.rate-base-layer span i').addClass('far');
+		//$('.rating').removeAttr('data-rate-value');
+	} else if (value == "No") {
+		$('.gb-data').addClass('display-none');
+	}
+})
+$('body').on('change', '#CertifiedBy', function () {
+	var value = $(this).val();
+	//console.log(value)
+	if (value != 0) {
+		$('.gb-data').removeClass('display-none');
+		$('.gb-input__apply').addClass('display-none');
+		$('.rating').addClass('event-none');
+		$('.rate-value').attr('value', 5);
+		$('.rate-base-layer').css('color', 'orange');
+		$('.rate-base-layer span i').removeClass('far');
+		$('.rate-base-layer span i').addClass('fas');
+	} else {
+		$('.gb-data').addClass('display-none');
+	}
+})
+
+function AddGreenBuildingForm(obj) {
+	//debugger
+	var listingId = $(obj).attr('data-listingid');
+	//console.log(listingId)
+	var formData = new FormData();
+	var row = $(obj).closest('.modal-body');
+	var CertificationStatus = $("input[name='radio_1']:checked").val();
+	var IntrestedToApply = $("input[name='radio_3']:checked").val();
+	var CertifiedBy = $("#CertifiedBy").val();
+	var CertificationNumber = $("#CertificationNumber").val();
+	var SF_GreenPolicy = $("#SF_GreenPolicy").val();
+	var SF_WasteCD = $("#SF_WasteCD").val();
+	var SF_Commuting = $("#SF_Commuting").val();
+	var SF_Landscaping = $("#SF_Landscaping").val();
+	var SF_NonRoof = $("#SF_NonRoof").val();
+	var SF_Roof = $("#SF_Roof").val();
+	var SF_PollutionReduction = $("#SF_PollutionReduction").val();
+	var SF_BuildingOM = $("#SF_BuildingOM").val();
+	var WE_Fixtures = $("#WE_Fixtures").val();
+	var WE_Harvesting = $("#WE_Harvesting").val();
+	var WE_Treatment = $("#WE_Treatment").val();
+	var WE_Reuse = $("#WE_Reuse").val();
+	var WE_Metering = $("#WE_Metering").val();
+	var WE_TurfArea = $("#WE_TurfArea").val();
+	var EE_Refrigerants = $("#EE_Refrigerants").val();
+	var EE_MinimumEP = $("#EE_MinimumEP").val();
+	var EE_ImprovedEP = $("#EE_ImprovedEP").val();
+	var EE_OnSiteRE = $("#EE_OnSiteRE").val();
+	var EE_OffSiteRE = $("#EE_OffSiteRE").val();
+	var EE_EnergyMetering = $("#EE_EnergyMetering").val();
+	var HC_SmokeControl = $("#HC_SmokeControl").val();
+	var HC_VEntilation = $("#HC_VEntilation").val();
+	var HC_CO2Control = $("#HC_CO2Control").val();
+	var HC_PollutionEquipment = $("#HC_PollutionEquipment").val();
+	var HC_EcoChemicals = $("#HC_EcoChemicals").val();
+	var HC_ThermalComfort = $("#HC_ThermalComfort").val();
+	var HC_AbledPeople = $("#HC_AbledPeople").val();
+	var HC_Facilities = $("#HC_Facilities").val();
+	var IC_Innovation = $("#IC_Innovation").val();
+	var IC_IGBC = $("#IC_IGBC").val();
+	var Status = true;
+	var CreatedDateTime;
+	var GreenBuildingCheckId;
+	if ($('#GreenBuildingAddForm #CreatedDateTime').length) {
+		CreatedDateTime = $('#GreenBuildingAddForm #CreatedDateTime').html();
+	}
+	else {
+		CreatedDateTime = "";
+	}
+	if ($('#GreenBuildingCheckId').length) {
+		GreenBuildingCheckId = $('#GreenBuildingCheckId').html();
+	}
+	else {
+		GreenBuildingCheckId = 0;
+	}
+
+	formData.append("GreenBuildingCheckId", GreenBuildingCheckId);
+	formData.append("CreatedDateTime", CreatedDateTime);
+	formData.append("listingId", listingId);
+	formData.append("CertificationStatus", CertificationStatus);
+	formData.append("CertifiedBy", CertifiedBy);
+	formData.append("IntrestedToApply", IntrestedToApply);
+	formData.append("CertificationNumber", CertificationNumber);
+	formData.append("SF_GreenPolicy", SF_GreenPolicy);
+	formData.append("SF_WasteCD", SF_WasteCD);
+	formData.append("SF_Commuting", SF_Commuting);
+	formData.append("SF_Landscaping", SF_Landscaping);
+	formData.append("SF_NonRoof", SF_NonRoof);
+	formData.append("SF_Roof", SF_Roof);
+	formData.append("SF_PollutionReduction", SF_PollutionReduction);
+	formData.append("SF_BuildingOM", SF_BuildingOM);
+	formData.append("WE_Fixtures", WE_Fixtures);
+	formData.append("WE_Harvesting", WE_Harvesting);
+	formData.append("WE_Treatment", WE_Treatment);
+	formData.append("WE_Reuse", WE_Reuse);
+	formData.append("WE_Metering", WE_Metering);
+	formData.append("WE_TurfArea", WE_TurfArea);
+	formData.append("EE_Refrigerants", EE_Refrigerants);
+	formData.append("EE_MinimumEP", EE_MinimumEP);
+	formData.append("EE_ImprovedEP", EE_ImprovedEP);
+	formData.append("EE_OnSiteRE", EE_OnSiteRE);
+	formData.append("EE_OffSiteRE", EE_OffSiteRE);
+	formData.append("EE_EnergyMetering", EE_EnergyMetering);
+	formData.append("HC_SmokeControl", HC_SmokeControl);
+	formData.append("HC_VEntilation", HC_VEntilation);
+	formData.append("HC_CO2Control", HC_CO2Control);
+	formData.append("HC_PollutionEquipment", HC_PollutionEquipment);
+	formData.append("HC_EcoChemicals", HC_EcoChemicals);
+	formData.append("HC_ThermalComfort", HC_ThermalComfort);
+	formData.append("HC_AbledPeople", HC_AbledPeople);
+	formData.append("HC_Facilities", HC_Facilities);
+	formData.append("IC_Innovation", IC_Innovation);
+	formData.append("IC_IGBC", IC_IGBC);
+	formData.append("Status", Status);
+	//console.log(formData);
+	// Display the key/value pairs
+	for (var pair of formData.entries()) {
+		console.log(pair[0] + ', ' + pair[1]);
+	}
+	$.ajax({
+		type: "POST",
+		url: "/Addons/UploadGreenBuildingData",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			if (response != null) {
+				console.log(response);
+				//$(row).addClass("addons-row");
+				$('#GreenBuildingCheckId').html(response.greenBuildingCheckId);
+				$('#CreatedDateTime').html(response.createdDateTime);
+				$(row).removeClass("addons-row__edit");
+				$('.gb-input__status, .gb-input__checklist, .gb-input__authority, .rating, .gb-input__apply').addClass("event-none");
+
+				$(obj).siblings('.addon-edit').removeClass('display-none');
+				$(obj).siblings('.addon-clear').addClass('display-none');
+				$(obj).addClass('display-none');
+			}
+		},
+		error: function (response) {
+			alert("server not ready please upload afterwards");
+		}
+	});
+}
+
+//edit facility section
+function EditGreenBuildingForm(obj) {
+	var row = $(obj).closest('.modal-body');
+	//$(row).removeClass("addons-row__light");
+	$(row).addClass("addons-row__edit");
+	$('.gb-input__status, .gb-input__checklist, .gb-input__authority, .rating, .gb-input__apply').removeClass("event-none");
+
+	$(obj).siblings('.addon-add, .addon-clear').removeClass('display-none');
+	$(obj).addClass('display-none');
+}
+//--------------------------------------------------------------------------------------------------//
+//*****************************adding Green Building data section end*******************************//
+//--------------------------------------------------------------------------------------------------//
+

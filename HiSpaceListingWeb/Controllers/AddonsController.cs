@@ -1234,7 +1234,205 @@ namespace HiSpaceListingWeb.Controllers
 		{
 			SetSessionVariables();
 			ViewBag.ListingId = id;
-			GreenBuildingCheck greenBuildingCheck = new GreenBuildingCheck();
+			GreenBuildingCheck greenBuildingCheck = null;
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetGreenBuildingCheckByListingId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<GreenBuildingCheck>();
+					readTask.Wait();
+					greenBuildingCheck = readTask.Result;
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "server error, Please contact admin");
+				}
+			}
+			return PartialView("_AddGreenBuildingDataPartialView", greenBuildingCheck);
+		}
+		[HttpPost]
+		public ActionResult UploadGreenBuildingData(GreenBuildingCheck greenBuildingCheck)
+		{
+			GreenBuildingCheck model = new GreenBuildingCheck();
+			SetSessionVariables();
+			if (greenBuildingCheck.GreenBuildingCheckId == 0)
+			{
+				if(greenBuildingCheck.CertificationStatus == "Yes")
+				{
+					model.CertificationStatus = greenBuildingCheck.CertificationStatus;
+					model.CertifiedBy = greenBuildingCheck.CertifiedBy;
+					model.CertificationNumber = greenBuildingCheck.CertificationNumber;
+					model.IntrestedToApply = null;
+				}
+				else if(greenBuildingCheck.CertificationStatus == "No")
+				{
+					model.CertificationStatus = greenBuildingCheck.CertificationStatus;
+					model.CertifiedBy = null;
+					model.CertificationNumber = null;
+					model.IntrestedToApply = greenBuildingCheck.IntrestedToApply;
+				}
+				else if(greenBuildingCheck.CertificationStatus == "Applied")
+				{
+					model.CertificationStatus = greenBuildingCheck.CertificationStatus;
+					model.CertifiedBy = greenBuildingCheck.CertifiedBy;
+					model.CertificationNumber = null;
+					model.IntrestedToApply = null;
+				}
+				model.CreatedDateTime = DateTime.Now;
+				model.EE_EnergyMetering = greenBuildingCheck.EE_EnergyMetering;
+				model.EE_ImprovedEP = greenBuildingCheck.EE_ImprovedEP;
+				model.EE_MinimumEP = greenBuildingCheck.EE_MinimumEP;
+				model.EE_OffSiteRE = greenBuildingCheck.EE_OffSiteRE;
+				model.EE_OnSiteRE = greenBuildingCheck.EE_OnSiteRE;
+				model.EE_Refrigerants = greenBuildingCheck.EE_Refrigerants;
+				model.HC_AbledPeople = greenBuildingCheck.HC_AbledPeople;
+				model.HC_CO2Control = greenBuildingCheck.HC_CO2Control;
+				model.HC_EcoChemicals = greenBuildingCheck.HC_EcoChemicals;
+				model.HC_Facilities = greenBuildingCheck.HC_Facilities;
+				model.HC_PollutionEquipment = greenBuildingCheck.HC_PollutionEquipment;
+				model.HC_SmokeControl = greenBuildingCheck.HC_SmokeControl;
+				model.HC_ThermalComfort = greenBuildingCheck.HC_ThermalComfort;
+				model.HC_VEntilation = greenBuildingCheck.HC_VEntilation;
+				model.IC_IGBC = greenBuildingCheck.IC_IGBC;
+				model.IC_Innovation = greenBuildingCheck.IC_Innovation;
+				model.ListingId = greenBuildingCheck.ListingId;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.SF_BuildingOM = greenBuildingCheck.SF_BuildingOM;
+				model.SF_Commuting = greenBuildingCheck.SF_Commuting;
+				model.SF_GreenPolicy = greenBuildingCheck.SF_GreenPolicy;
+				model.SF_Landscaping = greenBuildingCheck.SF_Landscaping;
+				model.SF_NonRoof = greenBuildingCheck.SF_NonRoof;
+				model.SF_PollutionReduction = greenBuildingCheck.SF_PollutionReduction;
+				model.SF_Roof = greenBuildingCheck.SF_Roof;
+				model.SF_WasteCD = greenBuildingCheck.SF_WasteCD;
+				model.Status = true;
+				model.WE_Fixtures = greenBuildingCheck.WE_Fixtures;
+				model.WE_Harvesting = greenBuildingCheck.WE_Harvesting;
+				model.WE_Metering = greenBuildingCheck.WE_Metering;
+				model.WE_Reuse = greenBuildingCheck.WE_Reuse;
+				model.WE_Treatment = greenBuildingCheck.WE_Treatment;
+				model.WE_TurfArea = greenBuildingCheck.WE_TurfArea;
+		
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					//HTTP POST
+					var postTask = client.PostAsJsonAsync<GreenBuildingCheck>(Common.Instance.ApiAddonsCreateGreenBuildingCheck, model);
+					postTask.Wait();
+					var result = postTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<GreenBuildingCheck>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+				return PartialView("_AddGreenBuildingDataPartialView");
+			}
+			else if (greenBuildingCheck.GreenBuildingCheckId != 0)
+			{
+				if (greenBuildingCheck.CertificationStatus == "Yes")
+				{
+					model.CertificationStatus = greenBuildingCheck.CertificationStatus;
+					model.CertifiedBy = greenBuildingCheck.CertifiedBy;
+					model.CertificationNumber = greenBuildingCheck.CertificationNumber;
+					model.IntrestedToApply = null;
+				}
+				else if (greenBuildingCheck.CertificationStatus == "No")
+				{
+					model.CertificationStatus = greenBuildingCheck.CertificationStatus;
+					model.CertifiedBy = null;
+					model.CertificationNumber = null;
+					model.IntrestedToApply = greenBuildingCheck.IntrestedToApply;
+				}
+				else if (greenBuildingCheck.CertificationStatus == "Applied")
+				{
+					model.CertificationStatus = greenBuildingCheck.CertificationStatus;
+					model.CertifiedBy = greenBuildingCheck.CertifiedBy;
+					model.CertificationNumber = null;
+					model.IntrestedToApply = null;
+				}
+				model.GreenBuildingCheckId = greenBuildingCheck.GreenBuildingCheckId;
+				model.CreatedDateTime = greenBuildingCheck.CreatedDateTime;
+				model.EE_EnergyMetering = greenBuildingCheck.EE_EnergyMetering;
+				model.EE_ImprovedEP = greenBuildingCheck.EE_ImprovedEP;
+				model.EE_MinimumEP = greenBuildingCheck.EE_MinimumEP;
+				model.EE_OffSiteRE = greenBuildingCheck.EE_OffSiteRE;
+				model.EE_OnSiteRE = greenBuildingCheck.EE_OnSiteRE;
+				model.EE_Refrigerants = greenBuildingCheck.EE_Refrigerants;
+				model.HC_AbledPeople = greenBuildingCheck.HC_AbledPeople;
+				model.HC_CO2Control = greenBuildingCheck.HC_CO2Control;
+				model.HC_EcoChemicals = greenBuildingCheck.HC_EcoChemicals;
+				model.HC_Facilities = greenBuildingCheck.HC_Facilities;
+				model.HC_PollutionEquipment = greenBuildingCheck.HC_PollutionEquipment;
+				model.HC_SmokeControl = greenBuildingCheck.HC_SmokeControl;
+				model.HC_ThermalComfort = greenBuildingCheck.HC_ThermalComfort;
+				model.HC_VEntilation = greenBuildingCheck.HC_VEntilation;
+				model.IC_IGBC = greenBuildingCheck.IC_IGBC;
+				model.IC_Innovation = greenBuildingCheck.IC_Innovation;
+				model.ListingId = greenBuildingCheck.ListingId;
+				model.ModifyBy = GetSessionObject().UserId;
+				model.ModifyDateTime = DateTime.Now;
+				model.SF_BuildingOM = greenBuildingCheck.SF_BuildingOM;
+				model.SF_Commuting = greenBuildingCheck.SF_Commuting;
+				model.SF_GreenPolicy = greenBuildingCheck.SF_GreenPolicy;
+				model.SF_Landscaping = greenBuildingCheck.SF_Landscaping;
+				model.SF_NonRoof = greenBuildingCheck.SF_NonRoof;
+				model.SF_PollutionReduction = greenBuildingCheck.SF_PollutionReduction;
+				model.SF_Roof = greenBuildingCheck.SF_Roof;
+				model.SF_WasteCD = greenBuildingCheck.SF_WasteCD;
+				model.Status = true;
+				model.WE_Fixtures = greenBuildingCheck.WE_Fixtures;
+				model.WE_Harvesting = greenBuildingCheck.WE_Harvesting;
+				model.WE_Metering = greenBuildingCheck.WE_Metering;
+				model.WE_Reuse = greenBuildingCheck.WE_Reuse;
+				model.WE_Treatment = greenBuildingCheck.WE_Treatment;
+				model.WE_TurfArea = greenBuildingCheck.WE_TurfArea;
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+					var responseTask = client.PutAsJsonAsync(Common.Instance.ApiAddonsUpdateGreenBuildingCheck + model.GreenBuildingCheckId, model);
+					responseTask.Wait();
+					var result = responseTask.Result;
+					if (result.IsSuccessStatusCode)
+					{
+						var readTask = result.Content.ReadAsAsync<GreenBuildingCheck>();
+						readTask.Wait();
+						model = readTask.Result;
+						return Json(model);
+					}
+				}
+
+				return PartialView("_AddGreenBuildingDataPartialView");
+			}
+			return PartialView("_AddGreenBuildingDataPartialView");
+		}
+		public ActionResult GetGreenBuildingData(int id)
+		{
+			SetSessionVariables();
+			GreenBuildingCheck model = new GreenBuildingCheck();
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(Common.Instance.ApiAddonsControllerName);
+				//HTTP GET
+				var responseTask = client.GetAsync(Common.Instance.ApiAddonsGetGreenBuildingCheckByGreenBuildingCheckId + id.ToString());
+				responseTask.Wait();
+				var result = responseTask.Result;
+				if (result.IsSuccessStatusCode)
+				{
+					var readTask = result.Content.ReadAsAsync<GreenBuildingCheck>();
+					readTask.Wait();
+					model = readTask.Result;
+					return Json(model);
+				}
+			}
 			return PartialView("_AddGreenBuildingDataPartialView");
 		}
 

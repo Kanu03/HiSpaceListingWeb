@@ -45,12 +45,12 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="AQI_Data" value="@Model.AQI_Data">
 											<option value="0">--Please Select--</option>
-											<option value="0-50">0 - 50 (Good)</option>
-											<option value="51-100">51 - 100 (Satisfactory)</option>
-											<option value="101-200">101 - 200 (Moderatey Polluted)</option>
-											<option value="201-300">201 - 300 (Poor)</option>
-											<option value="301-400">301 - 400 (Very Poor)</option>
-											<option value="401-500">401 - 500 (Severe)</option>
+											<option value="0-50">0 - 50</option>
+											<option value="51-100">51 - 100</option>
+											<option value="101-200">101 - 200</option>
+											<option value="201-300">201 - 300</option>
+											<option value="301-400">301 - 400</option>
+											<option value="401-500">401 - 500</option>
 										</select>
 										<label for="select" class="control-label">AQI Value</label>
 										<i class="bar"></i>
@@ -75,10 +75,10 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="Temperature_Data" value="@Model.Temperature_Data">
 											<option value="0">--Please Select--</option>
-											<option value="<95">&#60;95 (Cold - Action Required)</option>
-											<option value="95-99.9">95 - 99.9 (Excellent)</option>
-											<option value="100-104">100 - 104 (Good)</option>
-											<option value=">104">&#62;104 (Hot - Action Required)</option>
+											<option value="<95">&#60;95</option>
+											<option value="95-99.9">95 - 99.9</option>
+											<option value="100-104">100 - 104</option>
+											<option value=">104">&#62;104</option>
 										</select>
 										<label for="select" class="control-label">Temperature Value</label>
 										<i class="bar"></i>
@@ -103,9 +103,9 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="Humidity_Data" value="@Model.Humidity_Data">
 											<option value="0">--Please Select--</option>
-											<option value="<30">&#60;30 (Too Dry)</option>
-											<option value="30-50">30 - 50 (Moderate)</option>
-											<option value=">50">&#62;50 (Too High)</option>
+											<option value="<30">&#60;30</option>
+											<option value="30-50">30 - 50</option>
+											<option value=">50">&#62;50</option>
 										</select>
 										<label for="select" class="control-label">Humidity Value</label>
 										<i class="bar"></i>
@@ -130,12 +130,12 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="CO2_Data" value="@Model.CO2_Data">
 											<option value="0">--Please Select--</option>
-											<option value="<400">&#60;400 (Excellent)</option>
-											<option value="400-599">400 - 599 (Good)</option>
-											<option value="600-999">600 - 999 (Fair)</option>
-											<option value="1000-1499">1000 - 1499 (Moderate)</option>
-											<option value="1500-1999">1500 - 1999 (Unhealthy)</option>
-											<option value=">2000">&#62;2000 (Hazardous)</option>
+											<option value="<400">&#60;400</option>
+											<option value="400-599">400 - 599</option>
+											<option value="600-999">600 - 999</option>
+											<option value="1000-1499">1000 - 1499</option>
+											<option value="1500-1999">1500 - 1999</option>
+											<option value=">2000">&#62;2000</option>
 										</select>
 										<label for="select" class="control-label">Co2 Value</label>
 										<i class="bar"></i>
@@ -160,13 +160,13 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="CO_Data" value="@Model.CO_Data">
 											<option value="0">--Please Select--</option>
-											<option value="<4.4">&#60;4.4 (Good)</option>
-											<option value="4.4-9.4">4.4 - 9.4 (Moderate)</option>
-											<option value="9.5-12.4">9.5 - 12.4 (Unhealthy for Sensitive)</option>
-											<option value="12.5-15.4">12.5 - 15.4 (Unhealthy)</option>
-											<option value="15.5-30.4">15.5 - 30.4 (Very Unhealthy)</option>
-											<option value="30.5-40.4">30.5 - 40.4 (Hazardous)</option>
-											<option value=">40.5">&#62;40.5 (Very Hazardous)</option>
+											<option value="<4.4">&#60;4.4</option>
+											<option value="4.4-9.4">4.4 - 9.4</option>
+											<option value="9.5-12.4">9.5 - 12.4</option>
+											<option value="12.5-15.4">12.5 - 15.4</option>
+											<option value="15.5-30.4">15.5 - 30.4</option>
+											<option value="30.5-40.4">30.5 - 40.4</option>
+											<option value=">40.5">&#62;40.5</option>
 										</select>
 										<label for="select" class="control-label">Co Value</label>
 										<i class="bar"></i>
@@ -191,13 +191,13 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="PM2Point5_Data" value="@Model.PM2Point5_Data">
 											<option value="0">--Please Select--</option>
-											<option value="<15.4">&#60;15.4 (Good)</option>
-											<option value="15.4-40.4">15.4 - 40.4 (Moderate)</option>
-											<option value="40.5-65.4">40.5 - 65.4 (Unhealthy for Sensitive)</option>
-											<option value="65.5.150.4">65.5 - 150.4 (Unhealthy)</option>
-											<option value="150.5-250.4">150.5 - 250.4 (Very Unhealthy)</option>
-											<option value="250.5-350.4">250.5 - 350.4 (Hazardous)</option>
-											<option value=">350.5">&#62;350.5 (Very Hazardous)</option>
+											<option value="<15.4">&#60;15.4</option>
+											<option value="15.4-40.4">15.4 - 40.4</option>
+											<option value="40.5-65.4">40.5 - 65.4</option>
+											<option value="65.5.150.4">65.5 - 150.4</option>
+											<option value="150.5-250.4">150.5 - 250.4</option>
+											<option value="250.5-350.4">250.5 - 350.4</option>
+											<option value=">350.5">&#62;350.5</option>
 										</select>
 										<label for="select" class="control-label">PM2.5 Value</label>
 										<i class="bar"></i>
@@ -222,13 +222,13 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="PM10_Data" value="@Model.PM10_Data">
 											<option value="0">--Please Select--</option>
-											<option value="<=54">&#60;=54 (Good)</option>
-											<option value="55-154">55 - 154 (Moderate)</option>
-											<option value="155-254">155 - 254 (Unhealthy for Sensitive)</option>
-											<option value="255-354">255 - 354 (Unhealthy)</option>
-											<option value="355-424">355 - 424 (Very Unhealthy)</option>
-											<option value="425-504">425 - 504 (Hazardous)</option>
-											<option value=">505">&#62;505 (Very Hazardous)</option>
+											<option value="<=54">&#60;=54</option>
+											<option value="55-154">55 - 154</option>
+											<option value="155-254">155 - 254</option>
+											<option value="255-354">255 - 354</option>
+											<option value="355-424">355 - 424</option>
+											<option value="425-504">425 - 504</option>
+											<option value=">505">&#62;505</option>
 										</select>
 										<label for="select" class="control-label">PM10 Value</label>
 										<i class="bar"></i>
@@ -253,9 +253,9 @@
 									<div class="form-group">
 										<select class="form-control basic-select event-none" id="Moisture_Data" value="@Model.Moisture_Data">
 											<option value="0">--Please Select--</option>
-											<option value="5%-12%">5% - 12% (Green)</option>
-											<option value="13%-17%">13% - 17% (Amber)</option>
-											<option value="<5% or >17%">&#60;5% or &#62;17% (Red)</option>
+											<option value="5%-12%">5% - 12%</option>
+											<option value="13%-17%">13% - 17%</option>
+											<option value="<5% or >17%">&#60;5% or &#62;17%</option>
 										</select>
 										<label for="select" class="control-label">Moisture Value</label>
 										<i class="bar"></i>
@@ -305,12 +305,12 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="AQI_Data">
 									<option value="0">--Please Select--</option>
-									<option value="0-50">0 - 50 (Good)</option>
-									<option value="51-100">51 - 100 (Satisfactory)</option>
-									<option value="101-200">101 - 200 (Moderatey Polluted)</option>
-									<option value="201-300">201 - 300 (Poor)</option>
-									<option value="301-400">301 - 400 (Very Poor)</option>
-									<option value="401-500">401 - 500 (Severe)</option>
+									<option value="0-50">0 - 50</option>
+									<option value="51-100">51 - 100</option>
+									<option value="101-200">101 - 200</option>
+									<option value="201-300">201 - 300</option>
+									<option value="301-400">301 - 400</option>
+									<option value="401-500">401 - 500</option>
 								</select>
 								<label for="select" class="control-label">AQI Value</label>
 								<i class="bar"></i>
@@ -335,10 +335,10 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="Temperature_Data">
 									<option value="0">--Please Select--</option>
-									<option value="<95">&#60;95 (Cold - Action Required)</option>
-									<option value="95-99.9">95 - 99.9 (Excellent)</option>
-									<option value="100-104">100 - 104 (Good)</option>
-									<option value=">104">&#62;104 (Hot - Action Required)</option>
+									<option value="<95">&#60;95</option>
+									<option value="95-99.9">95 - 99.9</option>
+									<option value="100-104">100 - 104</option>
+									<option value=">104">&#62;104</option>
 								</select>
 								<label for="select" class="control-label">Temperature Value</label>
 								<i class="bar"></i>
@@ -363,9 +363,9 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="Humidity_Data">
 									<option value="0">--Please Select--</option>
-									<option value="<30">&#60;30 (Too Dry)</option>
-									<option value="30-50">30 - 50 (Moderate)</option>
-									<option value=">50">&#62;50 (Too High)</option>
+									<option value="<30">&#60;30</option>
+									<option value="30-50">30 - 50</option>
+									<option value=">50">&#62;50</option>
 								</select>
 								<label for="select" class="control-label">Humidity Value</label>
 								<i class="bar"></i>
@@ -390,12 +390,12 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="CO2_Data">
 									<option value="0">--Please Select--</option>
-									<option value="<400">&#60;400 (Excellent)</option>
-									<option value="400-599">400 - 599 (Good)</option>
-									<option value="600-999">600 - 999 (Fair)</option>
-									<option value="1000-1499">1000 - 1499 (Moderate)</option>
-									<option value="1500-1999">1500 - 1999 (Unhealthy)</option>
-									<option value=">2000">&#62;2000 (Hazardous)</option>
+									<option value="<400">&#60;400</option>
+									<option value="400-599">400 - 599</option>
+									<option value="600-999">600 - 999</option>
+									<option value="1000-1499">1000 - 1499</option>
+									<option value="1500-1999">1500 - 1999</option>
+									<option value=">2000">&#62;2000</option>
 								</select>
 								<label for="select" class="control-label">Co2 Value</label>
 								<i class="bar"></i>
@@ -420,13 +420,13 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="CO_Data">
 									<option value="0">--Please Select--</option>
-									<option value="<4.4">&#60;4.4 (Good)</option>
-									<option value="4.4-9.4">4.4 - 9.4 (Moderate)</option>
-									<option value="9.5-12.4">9.5 - 12.4 (Unhealthy for Sensitive)</option>
-									<option value="12.5-15.4">12.5 - 15.4 (Unhealthy)</option>
-									<option value="15.5-30.4">15.5 - 30.4 (Very Unhealthy)</option>
-									<option value="30.5-40.4">30.5 - 40.4 (Hazardous)</option>
-									<option value=">40.5">&#62;40.5 (Very Hazardous)</option>
+									<option value="<4.4">&#60;4.4</option>
+									<option value="4.4-9.4">4.4 - 9.4</option>
+									<option value="9.5-12.4">9.5 - 12.4</option>
+									<option value="12.5-15.4">12.5 - 15.4</option>
+									<option value="15.5-30.4">15.5 - 30.4</option>
+									<option value="30.5-40.4">30.5 - 40.4</option>
+									<option value=">40.5">&#62;40.5</option>
 								</select>
 								<label for="select" class="control-label">Co Value</label>
 								<i class="bar"></i>
@@ -451,13 +451,13 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="PM2Point5_Data">
 									<option value="0">--Please Select--</option>
-									<option value="<15.4">&#60;15.4 (Good)</option>
-									<option value="15.4-40.4">15.4 - 40.4 (Moderate)</option>
-									<option value="40.5-65.4">40.5 - 65.4 (Unhealthy for Sensitive)</option>
-									<option value="65.5.150.4">65.5 - 150.4 (Unhealthy)</option>
-									<option value="150.5-250.4">150.5 - 250.4 (Very Unhealthy)</option>
-									<option value="250.5-350.4">250.5 - 350.4 (Hazardous)</option>
-									<option value=">350.5">&#62;350.5 (Very Hazardous)</option>
+									<option value="<15.4">&#60;15.4</option>
+									<option value="15.4-40.4">15.4 - 40.4</option>
+									<option value="40.5-65.4">40.5 - 65.4</option>
+									<option value="65.5.150.4">65.5 - 150.4</option>
+									<option value="150.5-250.4">150.5 - 250.4</option>
+									<option value="250.5-350.4">250.5 - 350.4</option>
+									<option value=">350.5">&#62;350.5</option>
 								</select>
 								<label for="select" class="control-label">PM2.5 Value</label>
 								<i class="bar"></i>
@@ -482,13 +482,13 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="PM10_Data">
 									<option value="0">--Please Select--</option>
-									<option value="<=54">&#60;=54 (Good)</option>
-									<option value="55-154">55 - 154 (Moderate)</option>
-									<option value="155-254">155 - 254 (Unhealthy for Sensitive)</option>
-									<option value="255-354">255 - 354 (Unhealthy)</option>
-									<option value="355-424">355 - 424 (Very Unhealthy)</option>
-									<option value="425-504">425 - 504 (Hazardous)</option>
-									<option value=">505">&#62;505 (Very Hazardous)</option>
+									<option value="<=54">&#60;=54</option>
+									<option value="55-154">55 - 154</option>
+									<option value="155-254">155 - 254</option>
+									<option value="255-354">255 - 354</option>
+									<option value="355-424">355 - 424</option>
+									<option value="425-504">425 - 504</option>
+									<option value=">505">&#62;505</option>
 								</select>
 								<label for="select" class="control-label">PM10 Value</label>
 								<i class="bar"></i>
@@ -513,9 +513,9 @@
 							<div class="form-group">
 								<select class="form-control basic-select" id="Moisture_Data">
 									<option value="0">--Please Select--</option>
-									<option value="5%-12%">5% - 12% (Green)</option>
-									<option value="13%-17%">13% - 17% (Amber)</option>
-									<option value="<5% or >17%">&#60;5% or &#62;17% (Red)</option>
+									<option value="5%-12%">5% - 12%</option>
+									<option value="13%-17%">13% - 17%</option>
+									<option value="<5% or >17%">&#60;5% or &#62;17%</option>
 								</select>
 								<label for="select" class="control-label">Moisture Value</label>
 								<i class="bar"></i>

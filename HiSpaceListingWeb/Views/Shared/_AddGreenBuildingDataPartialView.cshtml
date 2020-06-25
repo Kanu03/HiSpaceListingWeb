@@ -18,40 +18,1157 @@
 			<div class="tab-pane fade show active" id="greenBuilding" role="tabpanel" aria-labelledby="greenBuilding-tab">
 				<form id="GreenBuildingAddForm" class="mt-4 align-items-center md-form">
 					<div class="greenBuilding-upload">
-						<div class="row greenBuilding-upload__row">
-							<div class="display-none">
-								<div class="form-group">
-									<input type="text" class="form-control imageId event-none" placeholder="id" value="0">
-									<label for="input" class="control-label">Image id</label><i class="bar"></i>
-								</div>
-							</div>
-							<div class=" col-md-4 col-sm-6 align-self-center">
-								<div class="form-group">
-									<input type="text" class="form-control imageName" placeholder="Image Name">
-									<label for="input" class="control-label">Image Name</label><i class="bar"></i>
-								</div>
-							</div>
-							<div class=" col-md-4 col-sm-6 align-self-center">
-								<div class="form-group">
-									<input type="file" class="form-control imageFilePath" accept="image/*">
-									<label for="input" class="control-label">Upload Image</label><i class="bar"></i>
-								</div>
-							</div>
-							@*<div class="col-md-2 col-sm-6 m-b--15 align-self-center">
-									<div class="checkbox m-0">
-										<label>
-											<input type="checkbox" class="imageCheck" />
-											<i class="helper"></i> Active
-										</label>
+						@if (Model != null)
+						{
+							<div class="greenBuilding-upload__row greenBuildingCheck-data">
+								<div class="row gd-form__data">
+									<div class="col-sm-12 gb-input__status">
+										<div class="radio-group">
+											<div class="radio-lable">
+												Are You Certified Green Building?
+											</div>
+											<div class="form-radio radio-items" id="gb-radio-1" data-radio="@Model.CertificationStatus">
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_1" name="radio_1" value="Yes" />
+														<i class="helper"></i>Yes
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_1" name="radio_1" value="No" />
+														<i class="helper"></i>No
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_1" name="radio_1" value="Applied" />
+														<i class="helper"></i>Applied Waiting for certification
+													</label>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>*@
-							<div class="col-md-4 col-sm-6 align-self-center">
-								<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-cloud-upload-alt btn-icon text-sec"></i> Upload</span>
-								<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditImageForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
-								<span class="addon-delete delete-btn tooltip-wrapper text-danger" onclick="deleteImage(this, 0)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to delete the row"><i class="fas fa-trash-alt btn-icon text-danger"></i> Delete</span>
-								@*<span class="addon-clear delete-btn tooltip-wrapper display-none" onclick="clearRowImage(this)" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to clear'><i class="fas fa-times btn-icon text-pry"></i></span>*@
+									<div class="col-sm-12 display-none gb-input__checklist">
+										<div class="radio-group">
+											<div class="radio-lable">
+												Do you want to fill the checklist?
+											</div>
+											<div class="form-radio radio-items">
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_2" name="radio_2" value="Yes" />
+														<i class="helper"></i>Yes
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_2" name="radio_2" value="No" />
+														<i class="helper"></i>No
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-12 display-none gb-input__authority">
+										<div class="row">
+											<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+												<div class="form-group">
+													<select class="form-control basic-select" id="CertifiedBy" value="@Model.CertifiedBy">
+														<option value="0">--Please Select--</option>
+														<option value="GRIHA">GRIHA</option>
+														<option value="ECBC">ECBC</option>
+														<option value="IGBC">IGBC</option>
+														<option value="LEED">LEED India</option>
+													</select>
+													<label for="select" class="control-label">Authorized by</label>
+													<i class="bar"></i>
+												</div>
+											</div>
+											<div class=" col-md-4 col-sm-6 align-self-center gb-input__certificate">
+												<div class="form-group">
+													<input type="text" class="form-control" id="CertificationNumber" placeholder="ABCD12345" value="@Model.CertificationNumber">
+													<label for="input" class="control-label">Certificate No.</label><i class="bar"></i>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="row gb-data display-none">
+									<div class="width-full">
+										@*Site & Facility Management*@
+										<div class="col-sm-12">
+											<div class="gd-head">Site & Facility Management</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 1
+												</div>
+												<div class="col-sm-6">
+													Green Policy
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="SF_GreenPolicy" class="display-none rate-value" type="text" value="@Model.SF_GreenPolicy">
+														<div class="rate" data-rate-value="@Model.SF_GreenPolicy"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 2
+												</div>
+												<div class="col-sm-6">
+													Waste Collection & Disposal
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="SF_WasteCD" class="display-none rate-value" type="text" value="@Model.SF_WasteCD">
+														<div class="rate" data-rate-value="@Model.SF_WasteCD"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 3
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Commuting Practices
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_Commuting" class="display-none rate-value" type="text" value="@Model.SF_Commuting">
+														<div class="rate" data-rate-value="@Model.SF_Commuting"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 4
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Landscaping Practices
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_Landscaping" class="display-none rate-value" type="text" value="@Model.SF_Landscaping">
+														<div class="rate" data-rate-value="@Model.SF_Landscaping"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 5
+												</div>
+												<div class="col-sm-6">
+													Heat Island Reduction, Non-roof
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_NonRoof" class="display-none rate-value" type="text" value="@Model.SF_NonRoof">
+														<div class="rate" data-rate-value="@Model.SF_NonRoof"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 6
+												</div>
+												<div class="col-sm-6">
+													Heat Island Reduction, Roof
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_Roof" class="display-none rate-value" type="text" value="@Model.SF_Roof">
+														<div class="rate" data-rate-value="@Model.SF_Roof"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 7
+												</div>
+												<div class="col-sm-6">
+													Outdoor Light Pollution Reduction
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_PollutionReduction" class="display-none rate-value" type="text" value="@Model.SF_PollutionReduction">
+														<div class="rate" data-rate-value="@Model.SF_PollutionReduction"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 8
+												</div>
+												<div class="col-sm-6">
+													Building Operations & Maintenance
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_BuildingOM" class="display-none rate-value" type="text" value="@Model.SF_BuildingOM">
+														<div class="rate" data-rate-value="@Model.SF_BuildingOM"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Water Efficiency*@
+										<div class="col-sm-12">
+											<div class="gd-head">Water Efficiency</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 1
+												</div>
+												<div class="col-sm-6">
+													Water Efficient Fixtures
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="WE_Fixtures" class="display-none rate-value" type="text" value="@Model.WE_Fixtures">
+														<div class="rate" data-rate-value="@Model.WE_Fixtures"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 2
+												</div>
+												<div class="col-sm-6">
+													Rain Water Harvesting
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="WE_Harvesting" class="display-none rate-value" type="text" value="@Model.WE_Harvesting">
+														<div class="rate" data-rate-value="@Model.WE_Harvesting"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 3
+												</div>
+												<div class="col-sm-6">
+													Waste Water Treatment
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_Treatment" class="display-none rate-value" type="text" value="@Model.WE_Treatment">
+														<div class="rate" data-rate-value="@Model.WE_Treatment"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 4
+												</div>
+												<div class="col-sm-6">
+													Waste Water Reuse
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_Reuse" class="display-none rate-value" type="text" value="@Model.WE_Reuse">
+														<div class="rate" data-rate-value="@Model.WE_Reuse"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 5
+												</div>
+												<div class="col-sm-6">
+													Water Metering
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_Metering" class="display-none rate-value" type="text" value="@Model.WE_Metering">
+														<div class="rate" data-rate-value="@Model.WE_Metering"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 6
+												</div>
+												<div class="col-sm-6">
+													Turf Area
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_TurfArea" class="display-none rate-value" type="text" value="@Model.WE_TurfArea">
+														<div class="rate" data-rate-value="@Model.WE_TurfArea"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Energy Efficiency*@
+										<div class="col-sm-12">
+											<div class="gd-head">Energy Efficiency</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 1
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Refrigerants & Halons
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="EE_Refrigerants" class="display-none rate-value" type="text" value="@Model.EE_Refrigerants">
+														<div class="rate" data-rate-value="@Model.EE_Refrigerants"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 2
+												</div>
+												<div class="col-sm-6">
+													Minimum Energy Performance
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="EE_MinimumEP" class="display-none rate-value" type="text" value="@Model.EE_MinimumEP">
+														<div class="rate" data-rate-value="@Model.EE_MinimumEP"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 3
+												</div>
+												<div class="col-sm-6">
+													Improved Energy Performance
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_ImprovedEP" class="display-none rate-value" type="text" value="@Model.EE_ImprovedEP">
+														<div class="rate" data-rate-value="@Model.EE_ImprovedEP"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 4
+												</div>
+												<div class="col-sm-6">
+													On site Renewable Energy
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_OnSiteRE" class="display-none rate-value" type="text" value="@Model.EE_OnSiteRE">
+														<div class="rate" data-rate-value="@Model.EE_OnSiteRE"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 5
+												</div>
+												<div class="col-sm-6">
+													Off Site Renewable Energy
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_OffSiteRE" class="display-none rate-value" type="text" value="@Model.EE_OffSiteRE">
+														<div class="rate" data-rate-value="@Model.EE_OffSiteRE"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 6
+												</div>
+												<div class="col-sm-6">
+													Energy Metering
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_EnergyMetering" class="display-none rate-value" type="text" value="@Model.EE_EnergyMetering">
+														<div class="rate" data-rate-value="@Model.EE_EnergyMetering"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Health & Comfort*@
+										<div class="col-sm-12">
+											<div class="gd-head">Health & Comfort</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 1
+												</div>
+												<div class="col-sm-6">
+													Tobacco Smoke Control
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="HC_SmokeControl" class="display-none rate-value" type="text" value="@Model.HC_SmokeControl">
+														<div class="rate" data-rate-value="@Model.HC_SmokeControl"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 2
+												</div>
+												<div class="col-sm-6">
+													Fresh Air Ventilation
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="HC_VEntilation" class="display-none rate-value" type="text" value="@Model.HC_VEntilation">
+														<div class="rate" data-rate-value="@Model.HC_VEntilation"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 3
+												</div>
+												<div class="col-sm-6">
+													Carbon dioxide Monitoring & Control
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_CO2Control" class="display-none rate-value" type="text" value="@Model.HC_CO2Control">
+														<div class="rate" data-rate-value="@Model.HC_CO2Control"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 4
+												</div>
+												<div class="col-sm-6">
+													Isolation of Polluting Equipment & Systems
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_PollutionEquipment" class="display-none rate-value" type="text" value="@Model.HC_PollutionEquipment">
+														<div class="rate" data-rate-value="@Model.HC_PollutionEquipment"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 5
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Housekeeping Chemicals
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_EcoChemicals" class="display-none rate-value" type="text" value="@Model.HC_EcoChemicals">
+														<div class="rate" data-rate-value="@Model.HC_EcoChemicals"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 6
+												</div>
+												<div class="col-sm-6">
+													Thermal Comfort, Indoor Temperature & RH
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_ThermalComfort" class="display-none rate-value" type="text" value="@Model.HC_ThermalComfort">
+														<div class="rate" data-rate-value="@Model.HC_ThermalComfort"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 7
+												</div>
+												<div class="col-sm-6">
+													Facilities for Differently Abled People
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_AbledPeople" class="display-none rate-value" type="text" value="@Model.HC_AbledPeople">
+														<div class="rate" data-rate-value="@Model.HC_AbledPeople"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 8
+												</div>
+												<div class="col-sm-6">
+													Occupant Well-being Facilities
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_Facilities" class="display-none rate-value" type="text" value="@Model.HC_Facilities">
+														<div class="rate" data-rate-value="@Model.HC_Facilities"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Innovation Category*@
+										<div class="col-sm-12">
+											<div class="gd-head">Innovation Category</div>
+											<div class="row">
+												<div class="col-sm-3">
+													INN Credit 1
+												</div>
+												<div class="col-sm-6">
+													Innovation Credits
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="IC_Innovation" class="display-none rate-value" type="text" value="@Model.IC_Innovation">
+														<div class="rate" data-rate-value="@Model.IC_Innovation"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													INN Credit 2
+												</div>
+												<div class="col-sm-6">
+													IGBC AP
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="IC_IGBC" class="display-none rate-value" type="text" value="@Model.IC_IGBC">
+														<div class="rate" data-rate-value="@Model.IC_IGBC"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Apply certificate*@
+										<div class="col-sm-12 display-none gb-input__apply">
+											<div class="radio-group">
+												<div class="radio-lable">
+													Do you want to apply for the Green Building Certificate?
+												</div>
+												<div class="form-radio radio-items"  id="gb-radio-3" data-radio="@Model.IntrestedToApply">
+													<div class="radio">
+														<label>
+															<input type="radio" class="radio_3" name="radio_3" value="Yes" />
+															<i class="helper"></i>Yes
+														</label>
+													</div>
+													<div class="radio">
+														<label>
+															<input type="radio" class="radio_3" name="radio_3" value="No" />
+															<i class="helper"></i>No
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="display-none" id="GreenBuildingCheckId">@Model.GreenBuildingCheckId</div>
+								<div class="display-none" id="CreatedDateTime">@Model.CreatedDateTime</div>
+								<div class="row popup-btn__action text-center">
+									<div class="col-md-12 col-sm-12 align-self-center justify-content-center">
+										<span class="addon-add delete-btn tooltip-wrapper display-none text-sec" onclick="AddGreenBuildingForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+										<span class="addon-edit delete-btn tooltip-wrapper text-info" onclick="EditGreenBuildingForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+										<span class="addon-clear delete-btn tooltip-wrapper display-none" data-dismiss="modal" aria-label="Close" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to Close the Health Check'><i class="fas fa-times btn-icon text-pry"></i> Close</span>
+									</div>
+								</div>
 							</div>
-						</div>
+						}
+						else
+						{
+							<div class="greenBuilding-upload__row healthCheck-data">
+								<div class="row gd-form__data">
+									<div class="col-sm-12 gb-input__status">
+										<div class="radio-group">
+											<div class="radio-lable">
+												Are You Certified Green Building?
+											</div>
+											<div class="form-radio radio-items">
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_1" name="radio_1" value="Yes" />
+														<i class="helper"></i>Yes
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_1" name="radio_1" value="No" />
+														<i class="helper"></i>No
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_1" name="radio_1" value="Applied" />
+														<i class="helper"></i>Applied Waiting for certification
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 display-none gb-input__checklist">
+										<div class="radio-group">
+											<div class="radio-lable">
+												Do you want to fill the checklist?
+											</div>
+											<div class="form-radio radio-items">
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_2" name="radio_2" value="Yes" />
+														<i class="helper"></i>Yes
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" class="radio_2" name="radio_2" value="No" />
+														<i class="helper"></i>No
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-12 display-none gb-input__authority">
+										<div class="row">
+											<div class=" col-md-4 col-sm-6 align-self-center mt-2">
+												<div class="form-group">
+													<select class="form-control basic-select" id="CertifiedBy">
+														<option value="0">--Please Select--</option>
+														<option value="GRIHA">GRIHA</option>
+														<option value="ECBC">ECBC</option>
+														<option value="IGBC">IGBC</option>
+														<option value="LEED">LEED India</option>
+													</select>
+													<label for="select" class="control-label">Authorized by</label>
+													<i class="bar"></i>
+												</div>
+											</div>
+											<div class=" col-md-4 col-sm-6 align-self-center gb-input__certificate">
+												<div class="form-group">
+													<input type="text" class="form-control" id="CertificationNumber" placeholder="ABCD12345">
+													<label for="input" class="control-label">Certificate No.</label><i class="bar"></i>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="row gb-data display-none">
+									<div class="width-full">
+										@*Site & Facility Management*@
+										<div class="col-sm-12">
+											<div class="gd-head">Site & Facility Management</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 1
+												</div>
+												<div class="col-sm-6">
+													Green Policy
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="SF_GreenPolicy" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 2
+												</div>
+												<div class="col-sm-6">
+													Waste Collection & Disposal
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="SF_WasteCD" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 3
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Commuting Practices
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_Commuting" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 4
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Landscaping Practices
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_Landscaping" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 5
+												</div>
+												<div class="col-sm-6">
+													Heat Island Reduction, Non-roof
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_NonRoof" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 6
+												</div>
+												<div class="col-sm-6">
+													Heat Island Reduction, Roof
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_Roof" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 7
+												</div>
+												<div class="col-sm-6">
+													Outdoor Light Pollution Reduction
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_PollutionReduction" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													SF Credit 8
+												</div>
+												<div class="col-sm-6">
+													Building Operations & Maintenance
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="SF_BuildingOM" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Water Efficiency*@
+										<div class="col-sm-12">
+											<div class="gd-head">Water Efficiency</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 1
+												</div>
+												<div class="col-sm-6">
+													Water Efficient Fixtures
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="WE_Fixtures" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 2
+												</div>
+												<div class="col-sm-6">
+													Rain Water Harvesting
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="WE_Harvesting" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 3
+												</div>
+												<div class="col-sm-6">
+													Waste Water Treatment
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_Treatment" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 4
+												</div>
+												<div class="col-sm-6">
+													Waste Water Reuse
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_Reuse" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 5
+												</div>
+												<div class="col-sm-6">
+													Water Metering
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_Metering" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													WE Credit 6
+												</div>
+												<div class="col-sm-6">
+													Turf Area
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="WE_TurfArea" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Energy Efficiency*@
+										<div class="col-sm-12">
+											<div class="gd-head">Energy Efficiency</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 1
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Refrigerants & Halons
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="EE_Refrigerants" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 2
+												</div>
+												<div class="col-sm-6">
+													Minimum Energy Performance
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="EE_MinimumEP" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 3
+												</div>
+												<div class="col-sm-6">
+													Improved Energy Performance
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_ImprovedEP" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 4
+												</div>
+												<div class="col-sm-6">
+													On site Renewable Energy
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_OnSiteRE" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 5
+												</div>
+												<div class="col-sm-6">
+													Off Site Renewable Energy
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_OffSiteRE" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													EE Credit 6
+												</div>
+												<div class="col-sm-6">
+													Energy Metering
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="EE_EnergyMetering" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Health & Comfort*@
+										<div class="col-sm-12">
+											<div class="gd-head">Health & Comfort</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 1
+												</div>
+												<div class="col-sm-6">
+													Tobacco Smoke Control
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="HC_SmokeControl" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 2
+												</div>
+												<div class="col-sm-6">
+													Fresh Air Ventilation
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="HC_VEntilation" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 3
+												</div>
+												<div class="col-sm-6">
+													Carbon dioxide Monitoring & Control
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_CO2Control" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 4
+												</div>
+												<div class="col-sm-6">
+													Isolation of Polluting Equipment & Systems
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_PollutionEquipment" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 5
+												</div>
+												<div class="col-sm-6">
+													Eco-friendly Housekeeping Chemicals
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_EcoChemicals" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 6
+												</div>
+												<div class="col-sm-6">
+													Thermal Comfort, Indoor Temperature & RH
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_ThermalComfort" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 7
+												</div>
+												<div class="col-sm-6">
+													Facilities for Differently Abled People
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_AbledPeople" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													HC Credit 8
+												</div>
+												<div class="col-sm-6">
+													Occupant Well-being Facilities
+												</div>
+												<div class="col-sm-3">
+
+													<div class="rating">
+														<input id="HC_Facilities" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Innovation Category*@
+										<div class="col-sm-12">
+											<div class="gd-head">Innovation Category</div>
+											<div class="row">
+												<div class="col-sm-3">
+													INN Credit 1
+												</div>
+												<div class="col-sm-6">
+													Innovation Credits
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="IC_Innovation" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													INN Credit 2
+												</div>
+												<div class="col-sm-6">
+													IGBC AP
+												</div>
+												<div class="col-sm-3">
+													<div class="rating">
+														<input id="IC_IGBC" class="display-none rate-value" type="text" value="">
+														<div class="rate"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										@*Apply certificate*@
+										<div class="col-sm-12 display-none gb-input__apply">
+											<div class="radio-group">
+												<div class="radio-lable">
+													Do you want to apply for the Green Building Certificate?
+												</div>
+												<div class="form-radio radio-items" id="IntrestedToApply">
+													<div class="radio">
+														<label>
+															<input type="radio" class="radio_3" name="radio_3" value="Yes" />
+															<i class="helper"></i>Yes
+														</label>
+													</div>
+													<div class="radio">
+														<label>
+															<input type="radio" class="radio_3" name="radio_3" value="No" />
+															<i class="helper"></i>No
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="display-none" id="GreenBuildingCheckId"></div>
+								<div class="display-none" id="CreatedDateTime"></div>
+								<div class="row popup-btn__action text-center">
+									<div class="col-md-12 col-sm-12 align-self-center justify-content-center">
+										<span class="addon-add delete-btn tooltip-wrapper text-sec" onclick="AddGreenBuildingForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="submit and upload the file"><i class="fas fa-save btn-icon text-sec"></i> Save</span>
+										<span class="addon-edit delete-btn tooltip-wrapper display-none text-info" onclick="EditGreenBuildingForm(this);" data-listingid="@ViewBag.ListingId" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit the file"><i class="fas fa-edit btn-icon text-info"></i> Edit</span>
+										<span class="addon-clear delete-btn tooltip-wrapper display-none" data-dismiss="modal" aria-label="Close" data-toggle='tooltip' data-placement='top' title='' data-original-title='Click to Close the Health Check'><i class="fas fa-times btn-icon text-pry"></i> Close</span>
+									</div>
+								</div>
+							</div>
+						}
+
 					</div>
 				</form>
 			</div>

@@ -24,5 +24,6 @@ namespace HiSpaceListingWeb.ViewModel
 		public IFormFile RCCopy { set; get; }
 		public IFormFile PANCopy { set; get; }
 		public IFormFile Logo { set; get; }
+		
 	}
 }

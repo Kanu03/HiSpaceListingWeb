@@ -204,8 +204,8 @@ namespace HiSpaceListingWeb.Utilities
 
 		public string ApiFilterGetListingByLocation = "GetListingByLocation";
 		public string ApiFilterGetListingByType = "GetListingByType";
-		public string ApiFilterGetListingByLevel = "GetListingByLevel";
-		public string ApiFilterGetListingByAdvanceFilter = "GetListingByAdvanceFilter";
+		public string ApiFilterGetListingByUser = "GetListingByUser";
+		public string ApiFilterGetListingByTypeAndLocation = "GetListingByTypeAndLocation";
 
 		#endregion Filter Controller
 
