@@ -8,12 +8,12 @@ $(document).ready(function () {
 		var placeSearch, autocomplete;
 
 		var componentForm = {
-			street_number: 'short_name',
+			street_number: 'long_name',
 			route: 'long_name',
 			locality: 'long_name',
-			administrative_area_level_1: 'short_name',
+			administrative_area_level_1: 'long_name',
 			country: 'long_name',
-			postal_code: 'short_name'
+			postal_code: 'long_name'
 		};
 		var map = new google.maps.Map(document.getElementById('map'), {
 			center: { lat: -33.8688, lng: 151.2195 },
@@ -160,9 +160,7 @@ $(document).ready(function () {
 			}
 		}
 	}
-	initMap();
-
-	
+	initMap();	
 	//};
 });
 $(document).on('change', '#pac-input', function () {
